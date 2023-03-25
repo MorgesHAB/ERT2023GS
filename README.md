@@ -1,3 +1,6 @@
+# REQUIRED UPDATE ! DEPRECATED
+
+
 [<img src="doc/img/bellalui.png" width=180 align="right" >](https://epflrocketteam.ch/fr/)
 
 # EPFL Rocket Team - <em>Bella Lui Project 2020</em>
