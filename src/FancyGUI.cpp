@@ -26,7 +26,7 @@
 
 int main(int argc, char **argv) {
     //set up everything
-    // Test Test
+    // Test Test Ok it is a test1
     std::shared_ptr<Connector> connector(std::make_shared<Connector>());
 
     QApplication app(argc, argv);
