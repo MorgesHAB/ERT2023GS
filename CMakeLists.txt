@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.6.2)
-project(ERT2020GS)
+project(ERT2023GS)
 
 ###############################################################
 # Set the build varialble to ON or OFF on your need
