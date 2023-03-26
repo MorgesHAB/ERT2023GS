@@ -1,9 +1,23 @@
-# REQUIRED UPDATE ! DEPRECATED
+### How to use git submodule on CLion ?
+Once your main git project is open in CLion, 
+- Go to **File > Settings**
+- Go to **Version Control > GitHub**, and click the :heavy_plus_sign: to bind your account to CLion IDE. 
 
+Note that in March 2023, it was required to be connected via a Github Token to be able to work with the submodule git (see how to get a Token [here](https://github.com/EPFLRocketTeam/ERT_RF_Protocol_Interface)).
+Once you run `git add submodule ...` from your terminal, see this [tuto](https://github.com/EPFLRocketTeam/ERT_RF_Protocol_Interface)
+- Go to **Version Control > Directiory Mappings**, click  the :heavy_plus_sign: and add *ERT_RF_Protocol_Interface* directory
+
+You should get something as below:
+
+![image](https://user-images.githubusercontent.com/28660469/227798500-673ce969-fc9a-4962-9ea2-50d710140ebd.png)
+
+Now you can push some code to both git repository and pull all at the same time ! :rocket:
+
+# REQUIRED UPDATE ! DEPRECATED
 
 [<img src="doc/img/bellalui.png" width=180 align="right" >](https://epflrocketteam.ch/fr/)
 
-# EPFL Rocket Team - <em>Bella Lui Project 2020</em>
+# EPFL Rocket Team - <em>Nordend Project 2023</em>
 
 -----------------------------------------------------------------
 ## Table of Contents
