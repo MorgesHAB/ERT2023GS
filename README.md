@@ -12,7 +12,8 @@ You should get something as below:
 ![image](https://user-images.githubusercontent.com/28660469/227798500-673ce969-fc9a-4962-9ea2-50d710140ebd.png)
 
 Now you can push some code to both git repository and pull all at the same time ! :rocket:
-
+Need to download this Xserver manager https://sourceforge.net/projects/xming/
+don't forget to use the command : wsl --update, to make sure your xserver listens to the right Display and IP address
 # REQUIRED UPDATE ! DEPRECATED
 
 [<img src="doc/img/bellalui.png" width=180 align="right" >](https://epflrocketteam.ch/fr/)
