@@ -59,5 +59,8 @@
         <file>assets/nuclear_alarm.mp3</file>
         <file>assets/launch.mp3</file>
         <file>assets/hymne.mp3</file>
+
+        <file>assets/krtek.png</file>
+        <file>assets/test.svg</file>
     </qresource>
 </RCC>

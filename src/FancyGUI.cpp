@@ -29,7 +29,7 @@ int main(int argc, char **argv) {
     // Test Test Ok it is a test1
     std::shared_ptr<Connector> connector(std::make_shared<Connector>());
 
-    QApplication app(argc, argv);
+    QApplication app(argc, argv); // QWidget: Must construct a QApplication before a QWidget
 
     SecondWindow secWindow(connector);
 
