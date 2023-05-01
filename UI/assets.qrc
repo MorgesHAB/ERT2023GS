@@ -60,7 +60,17 @@
         <file>assets/launch.mp3</file>
         <file>assets/hymne.mp3</file>
 
-        <file>assets/krtek.png</file>
-        <file>assets/test.svg</file>
+        <file>assets/valveIconeH.png</file>
+        <file>assets/valveIconeV.png</file>
+        <file>assets/PropImg.png</file>
+
+        <file>assets/Green_Light_Icon.svg.png</file>
+        <file>assets/Red_Light_Icon.svg.png</file>
+
+
+
+
+
+
     </qresource>
 </RCC>
