@@ -62,5 +62,6 @@
 
         <file>assets/krtek.png</file>
         <file>assets/test.svg</file>
+        <file>assets/setting.png</file>
     </qresource>
 </RCC>

@@ -21,6 +21,20 @@
 
 #define PACKET_RATE_MAX_UI      30
 
+enum PACKET_ID {
+    MIAOU1 = 0x22,
+    MIAOU2 = 0x22,
+    MIAOU3 = 0x72
+};
+
+#define SET_RF_PARAM_ID     0x91
+struct __attribute__((__packed__)) RFsettingsPacket {
+    uint8_t SF;
+    uint8_t BW;
+    uint8_t CR;
+};
+const uint32_t RFsettingsPacket_size = sizeof(RFsettingsPacket);
+
 
 XstratoWindow::XstratoWindow(int* myvar) :
         myvar(myvar),
@@ -42,6 +56,11 @@ XstratoWindow::XstratoWindow(int* myvar) :
     connect(serial, &QSerialPort::errorOccurred, this, &XstratoWindow::serialError);
 
     connect(qtimer, SIGNAL(timeout()), this, SLOT(qtimer_callback()));
+
+    // LoRa RF param
+//    connect(ui->LoRa_SF_slider, SIGNAL(valueChanged(int)), this, SLOT(LoRa_RF_param_changed(int)));
+//    connect(ui->LoRa_BW_slider, SIGNAL(valueChanged(int)), this, SLOT(LoRa_RF_param_changed(int)));
+//    connect(ui->LoRa_CR_slider, SIGNAL(valueChanged(int)), this, SLOT(LoRa_RF_param_changed(int)));
 
     std::cout << "XstratoWindow inited" << std::endl;
 
@@ -129,20 +148,6 @@ void XstratoWindow::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint
         default:
             break;
     }
-}
-
-void XstratoWindow::sendRandomPacket() {
-    uint8_t packetData[4];
-    uint8_t packetId = 0x01;
-    uint32_t len = 4;
-
-    for (int i = 0; i < 4; i++) {
-        packetData[i] = i;
-    }
-
-    uint8_t* packetToSend = capsule.encode(packetId,packetData,len);
-    serial->write((char*) packetToSend, capsule.getCodedLen(len));
-    delete[] packetToSend;
 }
 
 void XstratoWindow::on_close_serial_pressed() {
@@ -240,4 +245,39 @@ void XstratoWindow::on_open_serial_pressed() {
             ui->serial_port_detected_name->setStyleSheet("color : red;");
         }
     }
+}
+
+void XstratoWindow::on_lock_RF_param_pressed() {
+    static bool locked = true;
+    locked = !locked;
+    ui->lock_RF_param->setStyleSheet((locked) ? "QPushButton{\n"
+                                                "qproperty-icon: url(:/assets/keyOFF.png);\n"
+                                                "qproperty-iconSize: 50px;\n"
+                                                "border-radius: 25px;\n"
+                                                "}"
+                                              : "QPushButton{\n"
+                                                "qproperty-icon: url(:/assets/keyON.png);\n"
+                                                "qproperty-iconSize: 50px;\n"
+                                                "border-radius: 25px;\n"
+                                                "}");
+    ui->LoRa_SF_slider->setDisabled(locked);
+    ui->LoRa_BW_slider->setDisabled(locked);
+    ui->LoRa_CR_slider->setDisabled(locked);
+}
+
+void XstratoWindow::LoRa_RF_param_changed(int value) {
+    std::cout << "miaou: " << value << std::endl;
+    //ui->LoRa_SF_slider->value()
+}
+
+void XstratoWindow::on_set_RF_param_pressed() {
+    RFsettingsPacket packet = {};
+    packet.SF = ui->LoRa_SF_slider->value();
+    packet.BW = ui->LoRa_BW_slider->value();
+    packet.CR = ui->LoRa_CR_slider->value();
+    std::cout << "SF: " << + packet.SF << " BW: " << + packet.BW << " CR: " << + packet.CR << " Psize: " << RFsettingsPacket_size << std::endl;
+
+    uint8_t* packetToSend = capsule.encode(PACKET_ID::MIAOU1, (uint8_t*) &packet, RFsettingsPacket_size);
+    serial->write((char*) packetToSend, capsule.getCodedLen(RFsettingsPacket_size));
+    delete[] packetToSend;
 }
