@@ -15,7 +15,7 @@
 #include <array>
 #include <string>
 #include "ProtocolDefine.h"
-#include "../ERT_RF_Protocol_Interface/PacketDefinition.h"
+//#include "../ERT_RF_Protocol_Interface/PacketDefinition.h"
 //#include "../ERT_RF_Protocol_Interface/PacketDefinition.h"
 
 
@@ -43,7 +43,7 @@ public:
 private:
     std::array<std::atomic<std::uint64_t>, ui_interface::ARRAY_SIZE> dataCollection;
     std::string imgPLfilename;
-    std::atomic<PacketAV_downlink> x; // test if possible ?
+    //std::atomic<PacketAV_downlink> x; // test if possible ?
 };
 
 
