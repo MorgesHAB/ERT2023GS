@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.6.2)
-project(PropGS)
+project(ERT2023GS)
 
 ###############################################################
 # Set the build varialble to ON or OFF on your need
@@ -22,7 +22,7 @@ add_subdirectory(Telecom)
 add_subdirectory(RF-UI-Interface)
 
 # Capsule git submodule library
-#add_library(CapsuleLib Capsule/src/capsule.cpp)
+add_library(CapsuleLib Capsule/src/capsule.cpp)
 
 if (USE_XBEE)
     include_directories(Telecom/RFmodem/lib/serial/include/)
@@ -30,7 +30,7 @@ if (USE_XBEE)
     add_executable(AVsimulator src/AVsimulator.cpp)
     add_executable(GSE_PLsimu src/GSE_PLsimu.cpp)
     add_executable(TestPacket src/PacketXTest.cpp)
-    #add_executable(TEST src/test.cpp)
+    add_executable(TEST src/test.cpp)
 
     if (USE_GUI)
         #find_package(Qt5Widgets)
@@ -42,7 +42,7 @@ if (USE_XBEE)
                 REQUIRED)
         qt5_add_resources(RCC_SOURCES UI/assets.qrc)      # add resources to Gui
         add_subdirectory(UI)
-        #add_executable(${PROJECT_NAME} ${RCC_SOURCES} src/ERT2020GS.cpp ERT_RF_Protocol_Interface/PacketDefinition.h) # tmp debug !
+        add_executable(${PROJECT_NAME} ${RCC_SOURCES} src/ERT2020GS.cpp ERT_RF_Protocol_Interface/PacketDefinition.h) # tmp debug !
         #set(CMAKE_AUTOUIC ON) # tmp
         add_executable(FancyGUI ${RCC_SOURCES} src/FancyGUI.cpp )#LioTest.ui)
         add_executable(PropGS ${RCC_SOURCES} src/MainProp.cpp)
@@ -68,15 +68,15 @@ if (USE_XBEE)
         target_link_libraries(FancyGUI GUI)
         target_link_libraries(PropGS GUI)
         target_link_libraries(PropGS Qt5SerialPort)
-        #target_link_libraries(XSTRATO GUI)
-        #target_link_libraries(XSTRATO Qt5SerialPort)
-        #target_link_libraries(XSTRATO CapsuleLib)
+        target_link_libraries(XSTRATO GUI)
+        target_link_libraries(XSTRATO Qt5SerialPort)
+        target_link_libraries(XSTRATO CapsuleLib)
 
         target_include_directories(${PROJECT_NAME} PUBLIC UI)
         target_include_directories(FancyGUI PUBLIC UI)
         target_include_directories(PropGS PUBLIC UI)
-        #target_include_directories(XSTRATO PUBLIC UI)
-        #target_include_directories(XSTRATO PUBLIC Capsule/src/)
+        target_include_directories(XSTRATO PUBLIC UI)
+        target_include_directories(XSTRATO PUBLIC Capsule/src/)
     endif (USE_GUI)
 
 endif (USE_XBEE)

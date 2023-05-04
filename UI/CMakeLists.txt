@@ -19,9 +19,9 @@ find_package(Qt5 COMPONENTS SerialPort REQUIRED)
 file(GLOB SOURCES "*.cpp")
 
 #add_library(${PROJECT_NAME} ${SOURCES} LioTest.ui)
-#add_library(${PROJECT_NAME} SecondWindow.cpp LioTest.ui XstratoWindow.cpp Xstrato.ui)
+add_library(${PROJECT_NAME} SecondWindow.cpp LioTest.ui XstratoWindow.cpp Xstrato.ui)
 #add_library(${PROJECT_NAME} XstratoWindow.cpp Xstrato.ui)
-add_library(${PROJECT_NAME} SecondWindow.cpp LioTest.ui propgsgui.cpp propgsgui.h propgsgui.ui)
+#add_library(${PROJECT_NAME} SecondWindow.cpp LioTest.ui propgsgui.cpp propgsgui.h propgsgui.ui)
 
 
 target_link_libraries(${PROJECT_NAME}
@@ -34,7 +34,7 @@ if (USE_SOUND)
     target_link_libraries(${PROJECT_NAME} Qt5::Multimedia)
 endif (USE_SOUND)
 target_link_libraries(${PROJECT_NAME} Telecom)
-#target_link_libraries(${PROJECT_NAME} CapsuleLib)
+target_link_libraries(${PROJECT_NAME} CapsuleLib)
 
 if (RUNNING_ON_RPI)
     target_link_libraries(${PROJECT_NAME} wiringPi) # control GPIO of RPi
