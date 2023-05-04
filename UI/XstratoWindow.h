@@ -63,9 +63,4 @@ private:
     uint32_t packet_ctr; // for packet rate
 };
 
-struct Xstrato_img_info {
-    uint16_t  nbr_rx_packet;
-    uint16_t  nbr_tot_packet;
-};
-
 #endif //XstratoWindow_H

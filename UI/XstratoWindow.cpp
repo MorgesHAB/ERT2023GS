@@ -13,27 +13,12 @@
 #include <QTimer>
 #include <QGraphicsColorizeEffect>
 
-#define IMAGE_START     0x42
-#define IMAGE_MIDDLE    0x53
-#define IMAGE_END       0x64
+// RF protocol XSTRATO
+#include "../XRF_interface/PacketDefinition.h"
 
 #define REFRESH_PERIOD_ms       1000   // refresh every second
 
 #define PACKET_RATE_MAX_UI      30
-
-enum PACKET_ID {
-    MIAOU1 = 0x22,
-    MIAOU2 = 0x22,
-    MIAOU3 = 0x72
-};
-
-#define SET_RF_PARAM_ID     0x91
-struct __attribute__((__packed__)) RFsettingsPacket {
-    uint8_t SF;
-    uint8_t BW;
-    uint8_t CR;
-};
-const uint32_t RFsettingsPacket_size = sizeof(RFsettingsPacket);
 
 
 XstratoWindow::XstratoWindow(int* myvar) :
@@ -109,14 +94,10 @@ void XstratoWindow::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint
             std::cout << "Packet with ID 00 received : " << std::endl;
             //Serial.write(dataIn,len);
             break;
-        case 0x01:
-            std::cout << "Packet with ID 01 received : " << std::endl;
-            //Serial.write(dataIn,len);
-            break;
-        case 0x12: {
+        case CAPSULE_ID::IMAGE_DATA: {
             Xstrato_img_info p{};
-            if (len != 4) std::cout << "Size problem !!" << std::endl;
-            memcpy(&p, dataIn, 4);
+            if (len != Xstrato_img_info_size) std::cout << "Size problem !!" << std::endl;
+            memcpy(&p, dataIn, Xstrato_img_info_size);
             //std::cout << "Infoimg: " << p.nbr_rx_packet << "/" << p.nbr_tot_packet << std::endl;
             ui->nbr_rx_packet->setText(QString::number(p.nbr_rx_packet));
             ui->nbr_tot_packet->setText(QString::number(p.nbr_tot_packet));
@@ -124,7 +105,7 @@ void XstratoWindow::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint
             ui->file_transmission_progress_bar->setValue((p.nbr_rx_packet));
             break;
         }
-        case IMAGE_START:
+        case CAPSULE_ID::IMAGE_START:
             std::cout << "IMAGE START received" << std::endl;
             fileOutImg = std::ofstream(filename, std::ios::trunc | std::ios::binary);
             fileOutImg.write((char*) dataIn, len);
@@ -132,11 +113,11 @@ void XstratoWindow::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint
                 std::cout << +dataIn[i];
             }*/
             break;
-        case IMAGE_MIDDLE:
+        case CAPSULE_ID::IMAGE_MIDDLE:
             // put in file
             fileOutImg.write((char*) dataIn, len);
             break;
-        case IMAGE_END: {
+        case CAPSULE_ID::IMAGE_END: {
             fileOutImg.write((char*) dataIn, len);
             fileOutImg.close();
             std::cout << "IMAGE STOP received" << std::endl;
@@ -164,10 +145,9 @@ void XstratoWindow::on_send_color_cmd_pressed() {
     uint32_t color = rand() >> 8; // 0 RGB
     std::cout << "Send color" << std::endl;
     uint8_t packetData[4];
-    uint8_t packetId = 0x99;
     uint32_t len = sizeof(packetData);
     memcpy(packetData, &color, len);
-    uint8_t* packetToSend = capsule.encode(packetId,packetData,len);
+    uint8_t* packetToSend = capsule.encode(CAPSULE_ID::LED,packetData,len);
     serial->write((char*) packetToSend, capsule.getCodedLen(len));
     delete[] packetToSend;
 }
@@ -277,7 +257,7 @@ void XstratoWindow::on_set_RF_param_pressed() {
     packet.CR = ui->LoRa_CR_slider->value();
     std::cout << "SF: " << + packet.SF << " BW: " << + packet.BW << " CR: " << + packet.CR << " Psize: " << RFsettingsPacket_size << std::endl;
 
-    uint8_t* packetToSend = capsule.encode(PACKET_ID::MIAOU1, (uint8_t*) &packet, RFsettingsPacket_size);
+    uint8_t* packetToSend = capsule.encode(CAPSULE_ID::RF_PARAM, (uint8_t*) &packet, RFsettingsPacket_size);
     serial->write((char*) packetToSend, capsule.getCodedLen(RFsettingsPacket_size));
     delete[] packetToSend;
 }
