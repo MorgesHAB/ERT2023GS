@@ -256,15 +256,15 @@ uint32_t XstratoWindow::getBandwidthHz(int index) {
 
 void XstratoWindow::on_set_CAM_param_pressed() {
     CameraSettingsPacket packet = {};
-    packet.frameSize = FRAMESIZE_96X96;
-    packet.quality = 1;
-    packet.whiteBalanceEnable = true;
-    packet.awbGainEnable = true;
-    packet.wbMode = 1;
-    packet.exposureEnable = false;
-    packet.exposureValue = 1;
-    packet.aec2Enable = false;
-    packet.rawGmaEnable = false;
+    packet.framesize = (uint8_t) ui->cam_framsize_selector->currentIndex();
+    packet.quality = 24;
+    packet.whiteBalanceEnable = ui->whiteBalanceEnable->isEnabled();
+    packet.awbGainEnable = ui->awbGainEnable->isEnabled();
+    packet.wbMode = 0;
+    packet.exposureEnable = ui->exposureEnable->isEnabled();
+    packet.exposureValue = 600;
+    packet.aec2Enable = ui->aec2Enable->isEnabled();
+    packet.rawGmaEnable = ui->rawGmaEnable->isEnabled();
 
     uint8_t* packetToSend = capsule.encode(CAPSULE_ID::CAM_PARAM, (uint8_t*) &packet, CameraSettingsPacketSize);
     serial->write((char*) packetToSend, capsule.getCodedLen(CameraSettingsPacketSize));
