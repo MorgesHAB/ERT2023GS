@@ -18,7 +18,7 @@
 
 #define REFRESH_PERIOD_ms       1000   // refresh every second
 
-#define PACKET_RATE_MAX_UI      30
+#define PACKET_RATE_MAX_UI      30  // slider
 
 
 XstratoWindow::XstratoWindow(int* myvar) :
@@ -182,26 +182,8 @@ void XstratoWindow::qtimer_callback() {
 
 
 void XstratoWindow::on_test_button_pressed() {
-    /*serial->close();
-    if (serial->open(QIODevice::ReadWrite)) {
-        std::cout << "Serial port open" << std::endl;
-    } else {
-        std::cout << "Serial port error" << std::endl;
-    }*/
     std::cout << "Counter " << ctr << std::endl;
     ctr = 0;
-    /*
-    *myvar = (*myvar)+1;
-    std::cout << "button clicked! val: " << *myvar << std::endl;
-
-    if(serial->isOpen()) {
-        serial->write("Miaou: ");
-        sendRandomPacket();
-        //serial->waitForBytesWritten();
-    }
-    else
-        std::cout << "Write error" << std::endl;
-        */
 }
 
 void XstratoWindow::on_open_serial_pressed() {
@@ -253,11 +235,38 @@ void XstratoWindow::LoRa_RF_param_changed(int value) {
 void XstratoWindow::on_set_RF_param_pressed() {
     RFsettingsPacket packet = {};
     packet.SF = ui->LoRa_SF_slider->value();
-    packet.BW = ui->LoRa_BW_slider->value();
+    packet.BW = getBandwidthHz(ui->LoRa_BW_slider->value());
     packet.CR = ui->LoRa_CR_slider->value();
     std::cout << "SF: " << + packet.SF << " BW: " << + packet.BW << " CR: " << + packet.CR << " Psize: " << RFsettingsPacket_size << std::endl;
 
     uint8_t* packetToSend = capsule.encode(CAPSULE_ID::RF_PARAM, (uint8_t*) &packet, RFsettingsPacket_size);
     serial->write((char*) packetToSend, capsule.getCodedLen(RFsettingsPacket_size));
+    delete[] packetToSend;
+}
+
+uint32_t XstratoWindow::getBandwidthHz(int index) {
+    switch (index) {
+        case 1: return 7.8E3;
+        case 2: return 125E3;
+        case 3: return 250E3;
+        case 4: return 500E3;
+        default: return 125E3;
+    }
+}
+
+void XstratoWindow::on_set_CAM_param_pressed() {
+    CameraSettingsPacket packet = {};
+    packet.frameSize = FRAMESIZE_96X96;
+    packet.quality = 1;
+    packet.whiteBalanceEnable = true;
+    packet.awbGainEnable = true;
+    packet.wbMode = 1;
+    packet.exposureEnable = false;
+    packet.exposureValue = 1;
+    packet.aec2Enable = false;
+    packet.rawGmaEnable = false;
+
+    uint8_t* packetToSend = capsule.encode(CAPSULE_ID::CAM_PARAM, (uint8_t*) &packet, CameraSettingsPacketSize);
+    serial->write((char*) packetToSend, capsule.getCodedLen(CameraSettingsPacketSize));
     delete[] packetToSend;
 }

@@ -37,6 +37,8 @@ public slots:
     void on_test_button_pressed();
     void on_lock_RF_param_pressed();
     void on_set_RF_param_pressed();
+    void on_set_CAM_param_pressed();
+
     void serialError();
     void qtimer_callback();
     void LoRa_RF_param_changed(int value);
@@ -44,6 +46,9 @@ public slots:
 public:
     void handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_t len);
     void sendRandomPacket();
+private:
+    uint32_t getBandwidthHz(int index);
+    uint32_t getCamFrameSize(int index);
 
 private:
     Ui::xstrato_ui *ui;
