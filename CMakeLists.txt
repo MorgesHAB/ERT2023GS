@@ -5,6 +5,7 @@ project(ERT2023GS)
 # Set the build varialble to ON or OFF on your need
 set(USE_GUI ON)
 set(USE_XBEE ON)
+set(USE_INFLUXDB ON)  # use for logging and Grafana
 set(RUNNING_ON_RPI OFF) # <-- if not ON, the Ignition hardware won't wrork
 set(USE_SOUND OFF)
 ####
@@ -80,3 +81,9 @@ if (USE_XBEE)
     endif (USE_GUI)
 
 endif (USE_XBEE)
+
+if (USE_INFLUXDB)
+    find_package(InfluxDB)
+    add_executable(influxDBexe src/influxdb.cpp)
+    target_link_libraries(influxDBexe PRIVATE InfluxData::InfluxDB)
+endif (USE_INFLUXDB)

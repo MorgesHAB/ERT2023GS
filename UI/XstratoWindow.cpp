@@ -126,6 +126,12 @@ void XstratoWindow::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint
             ui->image_display->setPixmap(img);
             break;
         }
+        case CAPSULE_ID::TELEMETRY: {
+            PositionPacket packet{};
+            memcpy(&packet, dataIn, Xstrato_img_info_size);
+            std::cout << "GNSS: alt: " << packet.alt << " |lat: " << packet.lat << "|lon: " << packet.lon << std::endl;
+        }
+        break;
         default:
             break;
     }
