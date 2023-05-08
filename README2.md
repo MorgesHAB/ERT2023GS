@@ -32,6 +32,7 @@ sudo dockerd &
 wget https://dl.influxdata.com/influxdb/releases/influxdb2-2.7.1-amd64.deb
 sudo dpkg -i influxdb2-2.7.1-amd64.deb
 ```
+Do *not* run: sudo apt-get install influxdb
 
 
 On WSL Ubuntu, you can manually run the InfluxDB daemon with:
@@ -41,7 +42,7 @@ The ampersand at the end makes the daemon run in the background, so you can stil
 Note: you can accidently run multiple instances of the InfluxDB with this method; you can check that none is running with:
 ps -A | grep influxd
 ```
-influxd &
+sudo influxd &
 ```
 Go to localhost:8086
 
@@ -68,3 +69,36 @@ The default username and password for Grafana is admin / admin . The first time 
 netsh interface portproxy add v4tov4 listenport=3000 listenaddress=0.0.0.0 connectport=3000 connectaddress=172.31.112.228
 New-NetFirewallRule -DisplayName "WSL2 Port Bridge" -Direction Inbound -Action Allow -Protocol TCP -LocalPort 3000
 ```
+
+## InfluxDB-CXX-
+
+If before you need to update your cmake version like me:
+```
+wget https://github.com/Kitware/CMake/releases/download/v3.26.3/cmake-3.26.3.tar.gz
+tar -xvf cmake-3.26.3.tar.gz
+cd cmake-3.26.3/
+./configure
+make
+sudo make install
+```
+ 
+before again install cpr (-DCPR_USE_SYSTEM_CURL=ON is important!)
+https://github.com/libcpr/cpr
+```shell
+git clone https://github.com/libcpr/cpr.git
+cd cpr && mkdir build && cd build
+cmake .. -DCPR_USE_SYSTEM_CURL=ON
+cmake --build .
+sudo cmake --install .
+```
+
+InfluxDB (Catch2 lib is for TEST)
+cmake -D cpr_DIR=/usr/local/lib/cmake/cpr -D INFLUXCXX_TESTING:BOOL=OFF -D INFLUXCXX_WITH_BOOST=OFF ..
+cmake -D INFLUXCXX_TESTING:BOOL=OFF ..
+
+https://github.com/offa/influxdb-cxx
+try using TCP and not HTTP!
+TCP	boost	tcp	tcp://localhost:8094
+
+
+wget https://launchpad.net/ubuntu/+archive/primary/+files/libboost-dev_1.71.0.0ubuntu2_amd64.deb

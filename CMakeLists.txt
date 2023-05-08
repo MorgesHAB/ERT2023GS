@@ -23,7 +23,9 @@ add_subdirectory(Telecom)
 add_subdirectory(RF-UI-Interface)
 
 # Capsule git submodule library
-add_library(CapsuleLib Capsule/src/capsule.cpp)
+add_library(CapsuleLib Capsule/src/capsule.h)
+# Specify the language for the source files
+set_target_properties(CapsuleLib PROPERTIES LINKER_LANGUAGE CXX)
 
 if (USE_XBEE)
     include_directories(Telecom/RFmodem/lib/serial/include/)
@@ -84,6 +86,8 @@ endif (USE_XBEE)
 
 if (USE_INFLUXDB)
     find_package(InfluxDB)
+#    find_package(cpr)
     add_executable(influxDBexe src/influxdb.cpp)
+#    target_link_libraries(influxDBexe PRIVATE cpr::cpr PUBLIC CURL::libcurl)
     target_link_libraries(influxDBexe PRIVATE InfluxData::InfluxDB)
 endif (USE_INFLUXDB)
