@@ -11,7 +11,7 @@ sudo apt update
 sudo apt full-upgrade
 ```
 
-
+on PowerShell
 ```
 wsl -install
 wsl --set-version Ubuntu 2

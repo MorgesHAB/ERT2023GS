@@ -20,14 +20,16 @@
 
 #define PACKET_RATE_MAX_UI      30  // slider
 
+#define RX_IMAGES_PATH          "../ImagesRx/ImageRx.jpg"
 
-XstratoWindow::XstratoWindow(int* myvar) :
+
+XstratoWindow::XstratoWindow(int *myvar) :
         myvar(myvar),
         ui(new Ui::xstrato_ui),
         serial(new QSerialPort(this)),
         capsule(&XstratoWindow::handleSerialRxPacket, this),
         ctr(0),
-        filename("output.jpg"),
+        filename(RX_IMAGES_PATH),
         qtimer(new QTimer(this)),
         lastRxTime(std::time(nullptr)),
         packet_ctr(0)
@@ -49,27 +51,21 @@ XstratoWindow::XstratoWindow(int* myvar) :
 
     std::cout << "XstratoWindow inited" << std::endl;
 
-    int i =0;
-    /*while(true) {
-        std::cout << "thread running val: " << i++ << std::endl;
-        //std::this_thread::sleep_for(std::chrono::milliseconds (1))
-    }*/
-
     serial->setPortName("ttyS26");
     serial->setBaudRate(9600); // Don't care if USB
     serial->setDataBits(QSerialPort::DataBits::Data8);
- /*   //We will chose the parity bits
-    serial->setParity(QSerialPort::Parity);
-    //We will chose the stop bits
-    serial->setStopBits(QSerialPort::StopBits);
-    //We will chose the Flow controls
-    serial->setFlowControl(QSerialPort::FlowControl);*/
+    /*   //We will chose the parity bits
+       serial->setParity(QSerialPort::Parity);
+       //We will chose the stop bits
+       serial->setStopBits(QSerialPort::StopBits);
+       //We will chose the Flow controls
+       serial->setFlowControl(QSerialPort::FlowControl);*/
 
 }
 
 void XstratoWindow::readSerialData() {
     QByteArray data = serial->readAll();
-    for (auto && item : data) {
+    for (auto &&item: data) {
         capsule.decode(item);
     }
     //std::cout << "Received data " << data.size() << std::endl;
@@ -86,7 +82,9 @@ XstratoWindow::~XstratoWindow() {
     std::cout << "XstratoWindow deleted" << std::endl;
 }
 
-void XstratoWindow::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_t len) {
+void
+XstratoWindow::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_t len) {
+    static std::string filename_time = filename;
     packet_ctr++;
     lastRxTime = std::time(nullptr); // for now
     switch (packetId) {
@@ -96,7 +94,8 @@ void XstratoWindow::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint
             break;
         case CAPSULE_ID::IMAGE_DATA: {
             Xstrato_img_info p{};
-            if (len != Xstrato_img_info_size) std::cout << "Size problem !!" << std::endl;
+            if (len != Xstrato_img_info_size)
+                std::cout << "Size problem !!" << std::endl;
             memcpy(&p, dataIn, Xstrato_img_info_size);
             //std::cout << "Infoimg: " << p.nbr_rx_packet << "/" << p.nbr_tot_packet << std::endl;
             ui->nbr_rx_packet->setText(QString::number(p.nbr_rx_packet));
@@ -105,36 +104,42 @@ void XstratoWindow::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint
             ui->file_transmission_progress_bar->setValue((p.nbr_rx_packet));
             break;
         }
-        case CAPSULE_ID::IMAGE_START:
+        case CAPSULE_ID::IMAGE_START: {
             std::cout << "IMAGE START received" << std::endl;
-            fileOutImg = std::ofstream(filename, std::ios::trunc | std::ios::binary);
-            fileOutImg.write((char*) dataIn, len);
-            /*for (int i(0); i < len; i++) {
-                std::cout << +dataIn[i];
-            }*/
+            filename_time = insert_time(filename);
+            fileOutImg = std::ofstream(filename_time, std::ios::trunc | std::ios::binary);
+            fileOutImg.write((char *) dataIn, len);
             break;
+        }
         case CAPSULE_ID::IMAGE_MIDDLE:
             // put in file
-            fileOutImg.write((char*) dataIn, len);
+            fileOutImg.write((char *) dataIn, len);
             break;
         case CAPSULE_ID::IMAGE_END: {
-            fileOutImg.write((char*) dataIn, len);
+            fileOutImg.write((char *) dataIn, len);
             fileOutImg.close();
             std::cout << "IMAGE STOP received" << std::endl;
             ui->image_display->setAlignment(Qt::AlignHCenter | Qt::AlignVCenter);
-            QPixmap img(QString::fromStdString(filename));
+            QPixmap img(QString::fromStdString(filename_time));
             ui->image_display->setPixmap(img);
             break;
         }
         case CAPSULE_ID::TELEMETRY: {
             PositionPacket packet{};
             memcpy(&packet, dataIn, Xstrato_img_info_size);
-            std::cout << "GNSS: alt: " << packet.alt << " |lat: " << packet.lat << "|lon: " << packet.lon << std::endl;
+            std::cout << "GNSS: alt: " << packet.alt << " |lat: " << packet.lat
+                      << "|lon: " << packet.lon << std::endl;
         }
-        break;
+            break;
         default:
             break;
     }
+}
+
+void XstratoWindow::sendSerialPacket(uint8_t packetId, uint8_t *packet, uint32_t size) {
+    uint8_t *packetToSend = capsule.encode(packetId, packet, size);
+    serial->write((char *) packetToSend,capsule.getCodedLen(size));
+    delete[] packetToSend;
 }
 
 void XstratoWindow::on_close_serial_pressed() {
@@ -144,7 +149,8 @@ void XstratoWindow::on_close_serial_pressed() {
     } else {
         std::cout << "Serial port already closed" << std::endl;
     }
-    ui->serialport_status->setStyleSheet("QLabel {image: url(:/assets/refresh.png);}");
+    ui->serialport_status->setStyleSheet(
+            "QLabel {image: url(:/assets/refresh.png);}");
 }
 
 void XstratoWindow::on_send_color_cmd_pressed() {
@@ -153,14 +159,13 @@ void XstratoWindow::on_send_color_cmd_pressed() {
     uint8_t packetData[4];
     uint32_t len = sizeof(packetData);
     memcpy(packetData, &color, len);
-    uint8_t* packetToSend = capsule.encode(CAPSULE_ID::LED,packetData,len);
-    serial->write((char*) packetToSend, capsule.getCodedLen(len));
-    delete[] packetToSend;
+    sendSerialPacket(CAPSULE_ID::LED, packetData, len);
 }
 
 void XstratoWindow::serialError() {
     //std::cout << "Serial port interrupt error" << std::endl;
-    ui->serialport_status->setStyleSheet("QLabel {image: url(:/assets/redCross.png);}");
+    ui->serialport_status->setStyleSheet(
+            "QLabel {image: url(:/assets/redCross.png);}");
     if (serial->isOpen()) serial->close();
     ui->serial_port_detected_name->setText("-");
     ui->serial_port_detected_name->setStyleSheet(""); // no color
@@ -171,13 +176,14 @@ void XstratoWindow::on_clear_image_pressed() {
 }
 
 void XstratoWindow::qtimer_callback() {
-    ui->packet_rate_bar->setMaximum((packet_ctr > PACKET_RATE_MAX_UI) ? packet_ctr : PACKET_RATE_MAX_UI);
+    ui->packet_rate_bar->setMaximum(
+            (packet_ctr > PACKET_RATE_MAX_UI) ? packet_ctr : PACKET_RATE_MAX_UI);
     ui->packet_rate_bar->setValue(packet_ctr);
     packet_ctr = 0;
 
     // Time since last received packet
     time_t t = difftime(std::time(nullptr), lastRxTime);
-    struct tm* tt = gmtime(&t);
+    struct tm *tt = gmtime(&t);
     char buf[32];
     std::strftime(buf, 32, "%T", tt);
     ui->time_since_last_Rx->setText(buf);
@@ -188,8 +194,11 @@ void XstratoWindow::qtimer_callback() {
 
 
 void XstratoWindow::on_test_button_pressed() {
+    std::string filename_time = filename;
     std::cout << "Counter " << ctr << std::endl;
     ctr = 0;
+    filename_time = insert_time(filename);
+    std::cout << filename_time << std::endl;
 }
 
 void XstratoWindow::on_open_serial_pressed() {
@@ -202,13 +211,15 @@ void XstratoWindow::on_open_serial_pressed() {
         } while (!serial->open(QIODevice::ReadWrite) && ctr <= 30);
         if (serial->isOpen()) {
             std::cout << "Serial port open" << std::endl;
-            ui->serialport_status->setStyleSheet("QLabel {image: url(:/assets/correct.png);}");
+            ui->serialport_status->setStyleSheet(
+                    "QLabel {image: url(:/assets/correct.png);}");
             ui->serial_port_detected_name->setText(serial_port_name);
             ui->serial_port_detected_name->textFormat();
             ui->serial_port_detected_name->setStyleSheet("color : green;");
         } else {
             std::cout << "Impossible to find valid serial port" << std::endl;
-            ui->serialport_status->setStyleSheet("QLabel {image: url(:/assets/redCross.png);}");
+            ui->serialport_status->setStyleSheet(
+                    "QLabel {image: url(:/assets/redCross.png);}");
             ui->serial_port_detected_name->setText("None!");
             ui->serial_port_detected_name->setStyleSheet("color : red;");
         }
@@ -243,20 +254,24 @@ void XstratoWindow::on_set_RF_param_pressed() {
     packet.SF = ui->LoRa_SF_slider->value();
     packet.BW = getBandwidthHz(ui->LoRa_BW_slider->value());
     packet.CR = ui->LoRa_CR_slider->value();
-    std::cout << "SF: " << + packet.SF << " BW: " << + packet.BW << " CR: " << + packet.CR << " Psize: " << RFsettingsPacket_size << std::endl;
+    std::cout << "SF: " << +packet.SF << " BW: " << +packet.BW << " CR: "
+              << +packet.CR << " Psize: " << RFsettingsPacket_size << std::endl;
 
-    uint8_t* packetToSend = capsule.encode(CAPSULE_ID::RF_PARAM, (uint8_t*) &packet, RFsettingsPacket_size);
-    serial->write((char*) packetToSend, capsule.getCodedLen(RFsettingsPacket_size));
-    delete[] packetToSend;
+    sendSerialPacket(CAPSULE_ID::RF_PARAM, (uint8_t *) &packet, RFsettingsPacket_size);
 }
 
 uint32_t XstratoWindow::getBandwidthHz(int index) {
     switch (index) {
-        case 1: return 7.8E3;
-        case 2: return 125E3;
-        case 3: return 250E3;
-        case 4: return 500E3;
-        default: return 125E3;
+        case 1:
+            return 7.8E3;
+        case 2:
+            return 125E3;
+        case 3:
+            return 250E3;
+        case 4:
+            return 500E3;
+        default:
+            return 125E3;
     }
 }
 
@@ -272,7 +287,23 @@ void XstratoWindow::on_set_CAM_param_pressed() {
     packet.aec2Enable = ui->aec2Enable->isEnabled();
     packet.rawGmaEnable = ui->rawGmaEnable->isEnabled();
 
-    uint8_t* packetToSend = capsule.encode(CAPSULE_ID::CAM_PARAM, (uint8_t*) &packet, CameraSettingsPacketSize);
-    serial->write((char*) packetToSend, capsule.getCodedLen(CameraSettingsPacketSize));
-    delete[] packetToSend;
+    sendSerialPacket(CAPSULE_ID::CAM_PARAM, (uint8_t *) &packet, CameraSettingsPacketSize);
+}
+
+
+std::string XstratoWindow::insert_time(std::string s) {
+    std::time_t now = std::time(0);
+    std::tm *now_tm = std::gmtime(&now);
+    char buf[50];
+    std::strftime(buf, 50, "_%Y-%m-%d_%H-%M-%S", now_tm);
+    return s.replace(0, s.rfind('.'), s.substr(0, s.rfind('.')) + buf);
+}
+
+void XstratoWindow::on_send_transmission_settings_pressed() {
+    TransmissionSettingsPacket packet = {};
+    packet.transmissionEnable = ui->tx_image_checkbox->isEnabled();
+    packet.marginRate = ui->margin_rate_edit->text().toFloat();
+    packet.silenceTime = ui->silence_time_edit->text().toInt();
+
+    sendSerialPacket(CAPSULE_ID::TRANSMISSION_PARAM, (uint8_t *) &packet, TransmissionSettingsPacketSize);
 }

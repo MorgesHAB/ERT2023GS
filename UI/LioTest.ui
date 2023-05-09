@@ -1031,6 +1031,76 @@ border-color: rgb(92, 242, 135);
       <string>Serial port status</string>
      </property>
     </widget>
+    <widget class="QProgressBar" name="tank_N2O">
+     <property name="geometry">
+      <rect>
+       <x>800</x>
+       <y>140</y>
+       <width>101</width>
+       <height>201</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QProgressBar {
+	color: white;
+	font: 16pt &quot;Times New Roman&quot;;
+	height: 30px;
+}
+QProgressBar {
+	border: 3px solid gray;
+	border-radius: 50px;
+	background: black;
+	padding: 2px;
+    text-align: center;
+}
+QProgressBar::chunk {
+	background: qlineargradient(x1: 0, y1: 0.5, x2: 1, y2: 0.5, stop: 0 rgb(39, 68, 255), stop: 1 rgb(255, 38, 114));
+    border-bottom-right-radius: 44px;
+    border-bottom-left-radius: 44px;
+    background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(43, 76, 199, 255), stop:1 rgba(193, 0, 255, 255));
+background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                   stop: 0 rgba(240, 248, 255, 255),
+                                   stop: 0.4 rgba(19, 170, 249, 255),
+                                   stop: 0.7 rgba(8, 104, 208, 255),
+                                   stop: 1 rgba(28, 32, 127, 255));
+
+    /*height: 10px;
+    margin: 1px;*/
+}</string>
+     </property>
+     <property name="value">
+      <number>76</number>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="format">
+      <string>%v%</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_7">
+     <property name="geometry">
+      <rect>
+       <x>790</x>
+       <y>90</y>
+       <width>111</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">	color: white;
+	font: 16pt &quot;Calibri Light&quot;;</string>
+     </property>
+     <property name="text">
+      <string>N2O Tank</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="tab_2">
     <attribute name="title">

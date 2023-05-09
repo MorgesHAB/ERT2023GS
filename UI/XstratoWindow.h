@@ -38,6 +38,7 @@ public slots:
     void on_lock_RF_param_pressed();
     void on_set_RF_param_pressed();
     void on_set_CAM_param_pressed();
+    void on_send_transmission_settings_pressed();
 
     void serialError();
     void qtimer_callback();
@@ -49,6 +50,8 @@ public:
 private:
     uint32_t getBandwidthHz(int index);
     uint32_t getCamFrameSize(int index);
+    std::string insert_time(std::string s);
+    void sendSerialPacket(uint8_t packetId, uint8_t *packet, uint32_t size);
 
 private:
     Ui::xstrato_ui *ui;
