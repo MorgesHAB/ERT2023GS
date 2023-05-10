@@ -39,9 +39,11 @@ public slots:
     void on_set_RF_param_pressed();
     void on_set_CAM_param_pressed();
     void on_send_transmission_settings_pressed();
+    void on_ping_cmd_pressed();
 
     void serialError();
     void qtimer_callback();
+    void qtimer_rximg_callback();
     void LoRa_RF_param_changed(int value);
 
 public:
@@ -67,6 +69,7 @@ private:
     std::string filename;
 
     QTimer * qtimer; // for time since last rx packet
+    QTimer * qtimer_rximg; // for time since last rx packet
     time_t lastRxTime;
     uint32_t packet_ctr; // for packet rate
 };

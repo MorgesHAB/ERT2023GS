@@ -17,6 +17,7 @@
 #include "../XRF_interface/PacketDefinition.h"
 
 #define REFRESH_PERIOD_ms       1000   // refresh every second
+#define TIME_TO_SEND_CMD_ms     1000   // refresh every second
 
 #define PACKET_RATE_MAX_UI      30  // slider
 
@@ -31,6 +32,7 @@ XstratoWindow::XstratoWindow(int *myvar) :
         ctr(0),
         filename(RX_IMAGES_PATH),
         qtimer(new QTimer(this)),
+        qtimer_rximg(new QTimer(this)),
         lastRxTime(std::time(nullptr)),
         packet_ctr(0)
         {
@@ -43,6 +45,7 @@ XstratoWindow::XstratoWindow(int *myvar) :
     connect(serial, &QSerialPort::errorOccurred, this, &XstratoWindow::serialError);
 
     connect(qtimer, SIGNAL(timeout()), this, SLOT(qtimer_callback()));
+    connect(qtimer_rximg, SIGNAL(timeout()), this, SLOT(qtimer_rximg_callback()));
 
     // LoRa RF param
 //    connect(ui->LoRa_SF_slider, SIGNAL(valueChanged(int)), this, SLOT(LoRa_RF_param_changed(int)));
@@ -85,6 +88,7 @@ XstratoWindow::~XstratoWindow() {
 void
 XstratoWindow::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_t len) {
     static std::string filename_time = filename;
+    ui->send_cmd_available->setStyleSheet("image: url(:/assets/Red_Light_Icon.svg.png);");
     packet_ctr++;
     lastRxTime = std::time(nullptr); // for now
     switch (packetId) {
@@ -100,6 +104,7 @@ XstratoWindow::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_t 
             //std::cout << "Infoimg: " << p.nbr_rx_packet << "/" << p.nbr_tot_packet << std::endl;
             ui->nbr_rx_packet->setText(QString::number(p.nbr_rx_packet));
             ui->nbr_tot_packet->setText(QString::number(p.nbr_tot_packet));
+            ui->rxtx_ratio->setText(QString::number((100.0* p.nbr_rx_packet) / (p.nbr_tx_packet+1)));
             ui->file_transmission_progress_bar->setMaximum((p.nbr_tot_packet));
             ui->file_transmission_progress_bar->setValue((p.nbr_rx_packet));
             break;
@@ -125,15 +130,22 @@ XstratoWindow::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_t 
             break;
         }
         case CAPSULE_ID::TELEMETRY: {
-            PositionPacket packet{};
+            SerialTelemetryPacket packet;
             memcpy(&packet, dataIn, Xstrato_img_info_size);
-            std::cout << "GNSS: alt: " << packet.alt << " |lat: " << packet.lat
-                      << "|lon: " << packet.lon << std::endl;
+            std::cout << "GNSS: alt: " << packet.telemetry.position.alt << " |lat: " << packet.telemetry.position.lat
+                      << "|lon: " << packet.telemetry.position.lon << " || rssiGS: " << packet.rssiGS << std::endl;
+        }
+            break;
+        case CAPSULE_ID::ACK: {
+            std::cout << "ACK received! " << std::endl;
         }
             break;
         default:
             break;
     }
+    // set callback for sending cmd available
+    qtimer_rximg->start(TIME_TO_SEND_CMD_ms);
+    qtimer_rximg->setSingleShot(true);
 }
 
 void XstratoWindow::sendSerialPacket(uint8_t packetId, uint8_t *packet, uint32_t size) {
@@ -306,4 +318,14 @@ void XstratoWindow::on_send_transmission_settings_pressed() {
     packet.silenceTime = ui->silence_time_edit->text().toInt();
 
     sendSerialPacket(CAPSULE_ID::TRANSMISSION_PARAM, (uint8_t *) &packet, TransmissionSettingsPacketSize);
+}
+
+void XstratoWindow::qtimer_rximg_callback() {
+    ui->send_cmd_available->setStyleSheet("image: url(:/assets/Green_Light_Icon.svg.png);");
+}
+
+void XstratoWindow::on_ping_cmd_pressed() {
+    uint8_t tmp = 0; // don't care
+    sendSerialPacket(CAPSULE_ID::PING, &tmp, 1);
+    std::cout << "ping" << std::endl;
 }
