@@ -1,442 +1,642 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>PropGSGUI_ui</class>
- <widget class="QWidget" name="PropGSGUI_ui">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>604</width>
-    <height>406</height>
-   </rect>
-  </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-    <horstretch>1</horstretch>
-    <verstretch>1</verstretch>
-   </sizepolicy>
-  </property>
-  <property name="mouseTracking">
-   <bool>false</bool>
-  </property>
-  <property name="windowTitle">
-   <string>PropGSGUI</string>
-  </property>
-  <property name="styleSheet">
-   <string notr="true">QWidget#PropGSGUI_ui{
-image: url(:/assets/PropImg.png);
-}
-</string>
-  </property>
-  <widget class="QGroupBox" name="groupBox">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>-10</y>
-     <width>651</width>
-     <height>461</height>
-    </rect>
-   </property>
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-     <horstretch>1</horstretch>
-     <verstretch>1</verstretch>
-    </sizepolicy>
-   </property>
-   <property name="title">
-    <string>GroupBox</string>
-   </property>
-   <property name="checkable">
-    <bool>false</bool>
-   </property>
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>250</x>
-      <y>50</y>
-      <width>56</width>
-      <height>17</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>PushButton</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="checkBox">
-    <property name="geometry">
-     <rect>
-      <x>180</x>
-      <y>120</y>
-      <width>31</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">
+    <class>PropGSGUI_ui</class>
+    <widget class="QWidget" name="PropGSGUI_ui">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>604</width>
+                <height>406</height>
+            </rect>
+        </property>
+        <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>1</horstretch>
+                <verstretch>1</verstretch>
+            </sizepolicy>
+        </property>
+        <property name="mouseTracking">
+            <bool>false</bool>
+        </property>
+        <property name="windowTitle">
+            <string>PropGSGUI</string>
+        </property>
+        <property name="styleSheet">
+            <string notr="true">QWidget#PropGSGUI_ui{
+                image: url(:/assets/PropImg.png);
+                }
+            </string>
+        </property>
+        <widget class="QGroupBox" name="groupBox">
+            <property name="geometry">
+                <rect>
+                    <x>0</x>
+                    <y>-20</y>
+                    <width>651</width>
+                    <height>461</height>
+                </rect>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="sizeIncrement">
+                <size>
+                    <width>1</width>
+                    <height>1</height>
+                </size>
+            </property>
+            <property name="baseSize">
+                <size>
+                    <width>1</width>
+                    <height>1</height>
+                </size>
+            </property>
+            <property name="title">
+                <string>GroupBox</string>
+            </property>
+            <property name="checkable">
+                <bool>false</bool>
+            </property>
+            <widget class="QPushButton" name="pushButton">
+                <property name="geometry">
+                    <rect>
+                        <x>135</x>
+                        <y>330</y>
+                        <width>71</width>
+                        <height>41</height>
+                    </rect>
+                </property>
+                <property name="styleSheet">
+                    <string notr="true">QPushButton {
+
+                        background-color: rgb(255, 0, 0);
+                        color: #fff;
+                        border: 1px solid rgb(0, 0, 0);
 
 
-QCheckBox::indicator {
-     width: 20px; 
-     height: 20px; 
-     margin-left: 9px; 
-     margin-right: 0px; 
-     margin-top: 0px; 
-     margin-bottom: 0px; 
-	
-	
-	
+                        border-radius: 1px;
+                        padding: 5px 10px;
+                        }
 
-}
+                        QPushButton:hover {
+                        background-color: #27ae60;
+                        border-color: #1f8b4c;
+                        }
 
-
-QCheckBox::indicator:checked {
-    
-	
-	image: url(:/assets/valveIconeV.png);
-
-}
-
-QCheckBox::indicator:unchecked {
-    
-image: url(:/assets/valveIconeH.png);
-}
-
-
-</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="checked">
-     <bool>false</bool>
-    </property>
-    <property name="tristate">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="checkBox_2">
-    <property name="geometry">
-     <rect>
-      <x>260</x>
-      <y>100</y>
-      <width>31</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">
+                        QPushButton:pressed {
+                        background-color: #1f8b4c;
+                        border-color: #145b32;
+                        }
+                    </string>
+                </property>
+                <property name="text">
+                    <string>ABORT</string>
+                </property>
+                <property name="checkable">
+                    <bool>false</bool>
+                </property>
+                <property name="checked">
+                    <bool>false</bool>
+                </property>
+                <property name="default">
+                    <bool>false</bool>
+                </property>
+                <property name="flat">
+                    <bool>false</bool>
+                </property>
+            </widget>
+            <widget class="QCheckBox" name="checkBox">
+                <property name="geometry">
+                    <rect>
+                        <x>180</x>
+                        <y>120</y>
+                        <width>31</width>
+                        <height>31</height>
+                    </rect>
+                </property>
+                <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                    </sizepolicy>
+                </property>
+                <property name="styleSheet">
+                    <string notr="true">
 
 
-QCheckBox::indicator {
-     width: 20px; 
-     height: 20px; 
-     margin-left: 9px; 
-     margin-right: 0px; 
-     margin-top: 0px; 
-     margin-bottom: 0px; 
-	
-	
-	
-
-}
+                        QCheckBox::indicator {
+                        width: 20px;
+                        height: 20px;
+                        margin-left: 9px;
+                        margin-right: 0px;
+                        margin-top: 0px;
+                        margin-bottom: 0px;
 
 
-QCheckBox::indicator:checked {
-    
-	
-	image: url(:/assets/valveIconeV.png);
-
-}
-
-QCheckBox::indicator:unchecked {
-    
-	image: url(:/assets/valveIconeH.png);
-
-}
+                        }
 
 
-</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="checked">
-     <bool>false</bool>
-    </property>
-    <property name="tristate">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="checkBox_4">
-    <property name="geometry">
-     <rect>
-      <x>250</x>
-      <y>280</y>
-      <width>31</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">
+                        QCheckBox::indicator:checked {
 
 
-QCheckBox::indicator {
-     width: 20px; 
-     height: 20px; 
-     margin-left: 5px; 
-     margin-right: 0px; 
-     margin-top: 0px; 
-     margin-bottom: 0px; 
-	
-	
-	
+                        image: url(:/assets/valveIconeV.png);
 
-}
+                        }
+
+                        QCheckBox::indicator:unchecked {
+
+                        image: url(:/assets/valveIconeH.png);
+                        }
 
 
-
-QCheckBox::indicator:checked {
-    
-	
-	image: url(:/assets/valveIconeV.png);
-
-}
-
-QCheckBox::indicator:unchecked {
-    
-	image: url(:/assets/valveIconeH.png);
-
-}
-
-
-
-</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="checked">
-     <bool>false</bool>
-    </property>
-    <property name="tristate">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="checkBox_3">
-    <property name="geometry">
-     <rect>
-      <x>260</x>
-      <y>280</y>
-      <width>31</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">
+                    </string>
+                </property>
+                <property name="text">
+                    <string/>
+                </property>
+                <property name="checked">
+                    <bool>false</bool>
+                </property>
+                <property name="tristate">
+                    <bool>false</bool>
+                </property>
+            </widget>
+            <widget class="QCheckBox" name="checkBox_2">
+                <property name="geometry">
+                    <rect>
+                        <x>270</x>
+                        <y>100</y>
+                        <width>31</width>
+                        <height>31</height>
+                    </rect>
+                </property>
+                <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                    </sizepolicy>
+                </property>
+                <property name="styleSheet">
+                    <string notr="true">
 
 
-QCheckBox::indicator {
-     width: 20px; 
-     height: 20px; 
-     margin-left: 9px; 
-     margin-right: 0px; 
-     margin-top: 0px; 
-     margin-bottom: 0px; 
-	
-	
-	
-
-}
+                        QCheckBox::indicator {
+                        width: 20px;
+                        height: 20px;
+                        margin-left: 9px;
+                        margin-right: 0px;
+                        margin-top: 0px;
+                        margin-bottom: 0px;
 
 
-
-QCheckBox::indicator:checked {
-    
-	
-	image: url(:/assets/valveIconeV.png);
-
-}
-
-QCheckBox::indicator:unchecked {
-    
-	image: url(:/assets/valveIconeH.png);
-
-}
+                        }
 
 
+                        QCheckBox::indicator:checked {
 
 
+                        image: url(:/assets/valveIconeV.png);
 
-</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-    <property name="checked">
-     <bool>false</bool>
-    </property>
-    <property name="tristate">
-     <bool>false</bool>
-    </property>
-   </widget>
-   <widget class="QProgressBar" name="progressBar">
-    <property name="geometry">
-     <rect>
-      <x>250</x>
-      <y>190</y>
-      <width>21</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="value">
-     <number>24</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-   </widget>
-   <widget class="QProgressBar" name="progressBar_2">
-    <property name="geometry">
-     <rect>
-      <x>270</x>
-      <y>190</y>
-      <width>21</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="value">
-     <number>24</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-   </widget>
-   <widget class="QProgressBar" name="progressBar_3">
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>190</y>
-      <width>21</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="value">
-     <number>24</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>190</x>
-      <y>110</y>
-      <width>35</width>
-      <height>10</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">image: url(:/assets/Green_Light_Icon.svg.png);</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>300</x>
-      <y>90</y>
-      <width>35</width>
-      <height>10</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">image: url(:/assets/Green_Light_Icon.svg.png);</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>280</x>
-      <y>280</y>
-      <width>35</width>
-      <height>10</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">image: url(:/assets/Green_Light_Icon.svg.png);</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_4">
-    <property name="geometry">
-     <rect>
-      <x>240</x>
-      <y>280</y>
-      <width>35</width>
-      <height>10</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">image: url(:/assets/Green_Light_Icon.svg.png);</string>
-    </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-  </widget>
- </widget>
- <resources>
-  <include location="assets.qrc"/>
- </resources>
- <connections/>
+                        }
+
+                        QCheckBox::indicator:unchecked {
+
+                        image: url(:/assets/valveIconeH.png);
+
+                        }
+
+
+                    </string>
+                </property>
+                <property name="text">
+                    <string/>
+                </property>
+                <property name="checked">
+                    <bool>false</bool>
+                </property>
+                <property name="tristate">
+                    <bool>false</bool>
+                </property>
+            </widget>
+            <widget class="QCheckBox" name="checkBox_4">
+                <property name="geometry">
+                    <rect>
+                        <x>260</x>
+                        <y>280</y>
+                        <width>31</width>
+                        <height>31</height>
+                    </rect>
+                </property>
+                <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                    </sizepolicy>
+                </property>
+                <property name="styleSheet">
+                    <string notr="true">
+
+
+                        QCheckBox::indicator {
+                        width: 20px;
+                        height: 20px;
+                        margin-left: 5px;
+                        margin-right: 0px;
+                        margin-top: 0px;
+                        margin-bottom: 0px;
+
+
+                        }
+
+
+                        QCheckBox::indicator:checked {
+
+
+                        image: url(:/assets/valveIconeV.png);
+
+                        }
+
+                        QCheckBox::indicator:unchecked {
+
+                        image: url(:/assets/valveIconeH.png);
+
+                        }
+
+
+                    </string>
+                </property>
+                <property name="text">
+                    <string/>
+                </property>
+                <property name="checked">
+                    <bool>false</bool>
+                </property>
+                <property name="tristate">
+                    <bool>false</bool>
+                </property>
+            </widget>
+            <widget class="QCheckBox" name="checkBox_3">
+                <property name="geometry">
+                    <rect>
+                        <x>270</x>
+                        <y>280</y>
+                        <width>31</width>
+                        <height>31</height>
+                    </rect>
+                </property>
+                <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                    </sizepolicy>
+                </property>
+                <property name="styleSheet">
+                    <string notr="true">
+
+
+                        QCheckBox::indicator {
+                        width: 20px;
+                        height: 20px;
+                        margin-left: 9px;
+                        margin-right: 0px;
+                        margin-top: 0px;
+                        margin-bottom: 0px;
+
+
+                        }
+
+
+                        QCheckBox::indicator:checked {
+
+
+                        image: url(:/assets/valveIconeV.png);
+
+                        }
+
+                        QCheckBox::indicator:unchecked {
+
+                        image: url(:/assets/valveIconeH.png);
+
+                        }
+
+
+                    </string>
+                </property>
+                <property name="text">
+                    <string/>
+                </property>
+                <property name="checked">
+                    <bool>false</bool>
+                </property>
+                <property name="tristate">
+                    <bool>false</bool>
+                </property>
+            </widget>
+            <widget class="QProgressBar" name="progressBar">
+                <property name="geometry">
+                    <rect>
+                        <x>250</x>
+                        <y>190</y>
+                        <width>21</width>
+                        <height>71</height>
+                    </rect>
+                </property>
+                <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                    </sizepolicy>
+                </property>
+                <property name="styleSheet">
+                    <string notr="true">QProgressBar {
+                        color: white;
+                        font: 16pt &quot;Times New Roman&quot;;
+                        height: 30px;
+                        }
+                        QProgressBar {
+                        border: 3px solid gray;
+                        border-radius: 50px;
+                        background: black;
+                        padding: 2px;
+                        text-align: center;
+                        }
+                        QProgressBar::chunk {
+                        background: qlineargradient(x1: 0, y1: 0.5, x2: 1, y2: 0.5, stop: 0 rgb(39, 68, 255), stop: 1
+                        rgb(255, 38, 114));
+                        border-bottom-right-radius: 44px;
+                        border-bottom-left-radius: 44px;
+                        background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(43, 76, 199, 255),
+                        stop:1 rgba(193, 0, 255, 255));
+                        background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                        stop: 0 rgba(240, 248, 255, 255),
+                        stop: 0.4 rgba(19, 170, 249, 255),
+                        stop: 0.7 rgba(8, 104, 208, 255),
+                        stop: 1 rgba(28, 32, 127, 255));
+                        /*height: 10px;
+                        margin: 1px;*/
+                        }
+                    </string>
+                </property>
+                <property name="value">
+                    <number>24</number>
+                </property>
+                <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                </property>
+            </widget>
+            <widget class="QProgressBar" name="progressBar_2">
+                <property name="geometry">
+                    <rect>
+                        <x>270</x>
+                        <y>190</y>
+                        <width>21</width>
+                        <height>71</height>
+                    </rect>
+                </property>
+                <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                    </sizepolicy>
+                </property>
+                <property name="styleSheet">
+                    <string notr="true">QProgressBar {
+                        color: white;
+                        font: 16pt &quot;Times New Roman&quot;;
+                        height: 30px;
+                        }
+                        QProgressBar {
+                        border: 3px solid gray;
+                        border-radius: 50px;
+                        background: black;
+                        padding: 2px;
+                        text-align: center;
+                        }
+                        QProgressBar::chunk {
+                        background: qlineargradient(x1: 0, y1: 0.5, x2: 1, y2: 0.5, stop: 0 rgb(39, 68, 255), stop: 1
+                        rgb(255, 38, 114));
+                        border-bottom-right-radius: 44px;
+                        border-bottom-left-radius: 44px;
+                        background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(43, 76, 199, 255),
+                        stop:1 rgba(193, 0, 255, 255));
+                        background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                        stop: 0 rgba(240, 248, 255, 255),
+                        stop: 0.4 rgba(19, 170, 249, 255),
+                        stop: 0.7 rgba(8, 104, 208, 255),
+                        stop: 1 rgba(28, 32, 127, 255));
+                        /*height: 10px;
+                        margin: 1px;*/
+                        }
+                    </string>
+                </property>
+                <property name="value">
+                    <number>24</number>
+                </property>
+                <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                </property>
+            </widget>
+            <widget class="QProgressBar" name="progressBar_3">
+                <property name="geometry">
+                    <rect>
+                        <x>290</x>
+                        <y>190</y>
+                        <width>21</width>
+                        <height>71</height>
+                    </rect>
+                </property>
+                <property name="sizePolicy">
+                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                    </sizepolicy>
+                </property>
+                <property name="styleSheet">
+                    <string notr="true">QProgressBar {
+                        color: white;
+                        font: 16pt &quot;Times New Roman&quot;;
+                        height: 30px;
+                        }
+                        QProgressBar {
+                        border: 3px solid gray;
+                        border-radius: 50px;
+                        background: black;
+                        padding: 2px;
+                        text-align: center;
+                        }
+                        QProgressBar::chunk {
+                        background: qlineargradient(x1: 0, y1: 0.5, x2: 1, y2: 0.5, stop: 0 rgb(39, 68, 255), stop: 1
+                        rgb(255, 38, 114));
+                        border-bottom-right-radius: 44px;
+                        border-bottom-left-radius: 44px;
+                        background: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(43, 76, 199, 255),
+                        stop:1 rgba(193, 0, 255, 255));
+                        background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                        stop: 0 rgba(240, 248, 255, 255),
+                        stop: 0.4 rgba(19, 170, 249, 255),
+                        stop: 0.7 rgba(8, 104, 208, 255),
+                        stop: 1 rgba(28, 32, 127, 255));
+                        /*height: 10px;
+                        margin: 1px;*/
+                        }
+                    </string>
+                </property>
+                <property name="value">
+                    <number>24</number>
+                </property>
+                <property name="orientation">
+                    <enum>Qt::Vertical</enum>
+                </property>
+            </widget>
+            <widget class="QLabel" name="label">
+                <property name="geometry">
+                    <rect>
+                        <x>190</x>
+                        <y>110</y>
+                        <width>35</width>
+                        <height>10</height>
+                    </rect>
+                </property>
+                <property name="styleSheet">
+                    <string notr="true">image: url(:/assets/Green_Light_Icon.svg.png);</string>
+                </property>
+                <property name="text">
+                    <string/>
+                </property>
+            </widget>
+            <widget class="QLabel" name="label_2">
+                <property name="geometry">
+                    <rect>
+                        <x>300</x>
+                        <y>90</y>
+                        <width>35</width>
+                        <height>10</height>
+                    </rect>
+                </property>
+                <property name="styleSheet">
+                    <string notr="true">image: url(:/assets/Green_Light_Icon.svg.png);</string>
+                </property>
+                <property name="text">
+                    <string/>
+                </property>
+            </widget>
+            <widget class="QLabel" name="label_3">
+                <property name="geometry">
+                    <rect>
+                        <x>300</x>
+                        <y>270</y>
+                        <width>35</width>
+                        <height>10</height>
+                    </rect>
+                </property>
+                <property name="styleSheet">
+                    <string notr="true">image: url(:/assets/Green_Light_Icon.svg.png);</string>
+                </property>
+                <property name="text">
+                    <string/>
+                </property>
+            </widget>
+            <widget class="QLabel" name="label_4">
+                <property name="geometry">
+                    <rect>
+                        <x>230</x>
+                        <y>280</y>
+                        <width>35</width>
+                        <height>10</height>
+                    </rect>
+                </property>
+                <property name="styleSheet">
+                    <string notr="true">image: url(:/assets/Green_Light_Icon.svg.png);</string>
+                </property>
+                <property name="text">
+                    <string/>
+                </property>
+            </widget>
+            <widget class="QLabel" name="label_5">
+                <property name="geometry">
+                    <rect>
+                        <x>330</x>
+                        <y>190</y>
+                        <width>35</width>
+                        <height>10</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Tank3</string>
+                </property>
+            </widget>
+            <widget class="QLabel" name="label_6">
+                <property name="geometry">
+                    <rect>
+                        <x>330</x>
+                        <y>220</y>
+                        <width>35</width>
+                        <height>10</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Tank2</string>
+                </property>
+            </widget>
+            <widget class="QLabel" name="label_7">
+                <property name="geometry">
+                    <rect>
+                        <x>330</x>
+                        <y>240</y>
+                        <width>35</width>
+                        <height>10</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Tank1</string>
+                </property>
+            </widget>
+            <widget class="QCheckBox" name="checkBox_5">
+                <property name="geometry">
+                    <rect>
+                        <x>130</x>
+                        <y>370</y>
+                        <width>81</width>
+                        <height>41</height>
+                    </rect>
+                </property>
+                <property name="styleSheet">
+                    <string notr="true">QCheckBox::indicator {
+                        color: transparent;
+                        background-color: transparent;
+                        border: none;
+                        padding: 0;
+                        margin: 0;
+                        width: 0;
+                        height: 0;
+                        }
+
+                        QCheckBox {
+                        color: transparent;
+                        background-color: transparent;
+                        border: none;
+                        padding: 0;
+                        margin: 0;
+                        width: 0;
+                        height: 0;
+                        }
+                    </string>
+                </property>
+                <property name="text">
+                    <string>Confirm Abort</string>
+                </property>
+                <property name="checkable">
+                    <bool>false</bool>
+                </property>
+            </widget>
+        </widget>
+    </widget>
+    <resources>
+        <include location="assets.qrc"/>
+    </resources>
+    <connections/>
 </ui>

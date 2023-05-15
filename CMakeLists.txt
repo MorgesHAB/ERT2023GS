@@ -5,7 +5,7 @@ project(ERT2023GS)
 # Set the build varialble to ON or OFF on your need
 set(USE_GUI ON)
 set(USE_XBEE ON)
-set(USE_INFLUXDB ON)  # use for logging and Grafana
+set(USE_INFLUXDB OFF)  # use for logging and Grafana
 set(RUNNING_ON_RPI OFF) # <-- if not ON, the Ignition hardware won't wrork
 set(USE_SOUND OFF)
 ####
