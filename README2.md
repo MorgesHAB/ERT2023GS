@@ -1,7 +1,7 @@
 ___________________________________________
 # Install from zero (PC2)
 install WSL
-
+No need to go to the Windows market place, simply run that in Powershell admin:
 ```
 wsl --install
 ```
@@ -66,7 +66,7 @@ ldconfig -p | grep "libQt5Core.so.5"
 ```
 
 Now as WSL1 does not provide UI, you need to install a tool, this one work:
-
+https://sourceforge.net/projects/vcxsrv
 Then set the display:
 ```console
 export DISPLAY=:0

@@ -89,6 +89,7 @@ XstratoWindow::~XstratoWindow() {
 void
 XstratoWindow::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_t len) {
     static std::string filename_time = filename;
+    static float altitude_max = 0;
     ui->send_cmd_available->setStyleSheet("image: url(:/assets/Red_Light_Icon.svg.png);");
     packet_ctr++;
     lastRxTime = std::time(nullptr); // for now
@@ -142,15 +143,43 @@ XstratoWindow::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_t 
                       << " f_err: " << packet.telemetry.balloon.frequencyError << std::endl;
             std::cout << "RFinfo GS: rssi: " << packet.ground.rssi << " snr: " << packet.ground.snr
                       << " f_err: " << packet.ground.frequencyError << std::endl;
-            float sea_level_pressure_hPa = ui->sea_level_pressure_edit->text().toFloat();
-            float altitude = 44330.0 * (1.0 - pow(packet.telemetry.barometer.pressure / sea_level_pressure_hPa, 0.1903));
-            ui->altitude_press->setText(QString::number(altitude));
+
+            // RF info
+            ui->rssi_balloon_bar->setValue(packet.telemetry.balloon.rssi);
+            ui->rssi_balloon_value->setText(QString::number(packet.telemetry.balloon.rssi));
             ui->rssi_gs_bar->setValue(packet.ground.rssi);
             ui->rssi_gs_value->setText(QString::number(packet.ground.rssi));
+
+            // RF panel
+            ui->rssi_bal->setText(QString::number(packet.telemetry.balloon.rssi));
+            ui->snr_bal->setText(QString::number(packet.telemetry.balloon.snr));
+            ui->freqErr_bal->setText(QString::number(packet.telemetry.balloon.frequencyError));
+            ui->rssi_gs->setText(QString::number(packet.ground.rssi));
+            ui->snr_gs->setText(QString::number(packet.ground.snr));
+            ui->freqErr_gs->setText(QString::number(packet.ground.frequencyError));
+
+            // GPS data
+            ui->latitude_label->setText(QString::number(packet.telemetry.position.lat));
+            ui->longitude_label->setText(QString::number(packet.telemetry.position.lon));
+            ui->altitude_lcd_gps->display(QString::number(packet.telemetry.position.alt));
+            if (packet.telemetry.position.alt > altitude_max) altitude_max = packet.telemetry.position.alt;
+            ui->altitude_lcd_gps->display(QString::number(altitude_max));
+            ui->speed_vertical->setText(QString::number(packet.telemetry.verticalSpeed));
+            ui->speed_horizontal->setText(QString::number(packet.telemetry.horizontalSpeed));
+
+            // BME data
+            ui->temperature->setText(QString::number(packet.telemetry.barometer.temperature));
+            ui->humidity->setText(QString::number(packet.telemetry.barometer.humidity));
+            ui->pressure->setText(QString::number(packet.telemetry.barometer.pressure));
+            float sea_level_pressure_hPa = ui->sea_level_pressure_edit->text().toFloat();
+            float altitude = 44330.0 * (1.0 - pow(packet.telemetry.barometer.pressure / sea_level_pressure_hPa, 0.1903));
+            ui->altitude_sensor->setText(QString::number(altitude));
+
         }
             break;
         case CAPSULE_ID::ACK: {
             std::cout << "ACK received! " << std::endl;
+            ui->ping_pong_ack->setStyleSheet("image: url(:/assets/tennis.png);");
         }
             break;
         default:
@@ -335,6 +364,7 @@ void XstratoWindow::on_send_transmission_settings_pressed() {
 
 void XstratoWindow::qtimer_rximg_callback() {
     ui->send_cmd_available->setStyleSheet("image: url(:/assets/Green_Light_Icon.svg.png);");
+    ui->ping_pong_ack->setStyleSheet("");
 }
 
 void XstratoWindow::on_ping_cmd_pressed() {

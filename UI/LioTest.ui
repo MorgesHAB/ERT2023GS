@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1413</width>
-    <height>870</height>
+    <width>1409</width>
+    <height>860</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -74,7 +74,7 @@ QTabWidget::pane {
 </string>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="Ignition">
     <attribute name="title">
@@ -1306,7 +1306,7 @@ QTabWidget::pane {
 }</string>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="tab_3">
     <attribute name="title">
@@ -3026,6 +3026,72 @@ image: url(:/assets/test.svg);</string>
       <string/>
      </property>
     </widget>
+    <widget class="QPushButton" name="send_color_cmd">
+     <property name="geometry">
+      <rect>
+       <x>370</x>
+       <y>130</y>
+       <width>71</width>
+       <height>61</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+qproperty-icon: url(:/assets/send.png);
+qproperty-iconSize: 50px;
+border-radius: 25px;
+}
+QPushButton:hover {
+background-color: rgb(10, 0, 0); 
+}
+QPushButton:pressed {
+background-color: rgb(255, 255, 255);
+}
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="color_edit">
+     <property name="geometry">
+      <rect>
+       <x>360</x>
+       <y>230</y>
+       <width>113</width>
+       <height>21</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_11">
+     <property name="geometry">
+      <rect>
+       <x>360</x>
+       <y>190</y>
+       <width>101</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Send color CMD</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="test_button">
+     <property name="geometry">
+      <rect>
+       <x>400</x>
+       <y>270</y>
+       <width>75</width>
+       <height>24</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Test button</string>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QLabel" name="label_29">
@@ -3259,6 +3325,33 @@ image: url(:/assets/logo.png);</string>
     <string/>
    </property>
   </widget>
+  <widget class="QPushButton" name="set_RF_param">
+   <property name="geometry">
+    <rect>
+     <x>1270</x>
+     <y>40</y>
+     <width>61</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton{
+qproperty-icon: url(:/assets/setting.png);
+qproperty-iconSize: 50px;
+border-radius: 25px;
+}
+QPushButton:hover {
+background-color: rgb(10, 0, 0); 
+}
+QPushButton:pressed {
+background-color: rgb(16, 16, 16);
+}
+</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
   <zorder>label_62</zorder>
   <zorder>tabWidget_2</zorder>
   <zorder>tabWidget</zorder>
@@ -3273,6 +3366,7 @@ image: url(:/assets/logo.png);</string>
   <zorder>xbee_button</zorder>
   <zorder>send_msg</zorder>
   <zorder>logo_4</zorder>
+  <zorder>set_RF_param</zorder>
  </widget>
  <resources>
   <include location="assets.qrc"/>

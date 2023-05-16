@@ -45,6 +45,8 @@ int main(int argc, char** argv) {
 
    // std::thread t1(&myfunc, &x);
 
+    xstratoWindow.setWindowState(Qt::WindowMaximized);
+
     xstratoWindow.show();
 
     app.exec();
