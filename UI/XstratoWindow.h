@@ -24,7 +24,7 @@ QT_END_NAMESPACE
 class XstratoWindow: public QMainWindow {
     Q_OBJECT
 public:
-    XstratoWindow(int* myvar);
+    XstratoWindow(int* myvar = nullptr);
 
     virtual ~XstratoWindow();
 

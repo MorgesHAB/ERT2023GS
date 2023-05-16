@@ -12,6 +12,7 @@
 #include <iostream>
 #include <QTimer>
 #include <QGraphicsColorizeEffect>
+#include <cmath>
 
 // RF protocol XSTRATO
 #include "../XRF_interface/PacketDefinition.h"
@@ -63,7 +64,7 @@ XstratoWindow::XstratoWindow(int *myvar) :
        serial->setStopBits(QSerialPort::StopBits);
        //We will chose the Flow controls
        serial->setFlowControl(QSerialPort::FlowControl);*/
-
+    on_open_serial_pressed(); // open program by auto-detecting serial-port !
 }
 
 void XstratoWindow::readSerialData() {
@@ -131,9 +132,21 @@ XstratoWindow::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_t 
         }
         case CAPSULE_ID::TELEMETRY: {
             SerialTelemetryPacket packet;
-            memcpy(&packet, dataIn, Xstrato_img_info_size);
+            memcpy(&packet, dataIn, SerialTelemetryPacketSize);
+            std::cout << "NEW Packet, time: " << packet.telemetry.packetTime << std::endl;
             std::cout << "GNSS: alt: " << packet.telemetry.position.alt << " |lat: " << packet.telemetry.position.lat
-                      << "|lon: " << packet.telemetry.position.lon << " || rssiGS: " << packet.rssiGS << std::endl;
+                      << "|lon: " << packet.telemetry.position.lon << " | speed: V " << packet.telemetry.verticalSpeed << " |H " <<  packet.telemetry.horizontalSpeed << std::endl;
+            std::cout << "BME press: " << packet.telemetry.barometer.pressure << " temp: " <<packet.telemetry.barometer.temperature
+                      << " hum: " << packet.telemetry.barometer.humidity << std::endl;
+            std::cout << "RFinfo Balloon: rssi: " << packet.telemetry.balloon.rssi << " snr: " << packet.telemetry.balloon.snr
+                      << " f_err: " << packet.telemetry.balloon.frequencyError << std::endl;
+            std::cout << "RFinfo GS: rssi: " << packet.ground.rssi << " snr: " << packet.ground.snr
+                      << " f_err: " << packet.ground.frequencyError << std::endl;
+            float sea_level_pressure_hPa = ui->sea_level_pressure_edit->text().toFloat();
+            float altitude = 44330.0 * (1.0 - pow(packet.telemetry.barometer.pressure / sea_level_pressure_hPa, 0.1903));
+            ui->altitude_press->setText(QString::number(altitude));
+            ui->rssi_gs_bar->setValue(packet.ground.rssi);
+            ui->rssi_gs_value->setText(QString::number(packet.ground.rssi));
         }
             break;
         case CAPSULE_ID::ACK: {
@@ -313,7 +326,7 @@ std::string XstratoWindow::insert_time(std::string s) {
 
 void XstratoWindow::on_send_transmission_settings_pressed() {
     TransmissionSettingsPacket packet = {};
-    packet.transmissionEnable = ui->tx_image_checkbox->isEnabled();
+    packet.transmissionEnable = ui->tx_image_checkbox->isChecked();
     packet.marginRate = ui->margin_rate_edit->text().toFloat();
     packet.silenceTime = ui->silence_time_edit->text().toInt();
 
