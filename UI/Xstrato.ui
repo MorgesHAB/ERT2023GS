@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1534</width>
-    <height>840</height>
+    <width>1542</width>
+    <height>858</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -70,14 +70,30 @@ color: rgb(255, 255, 255);</string>
    <widget class="QPushButton" name="open_serial">
     <property name="geometry">
      <rect>
-      <x>1220</x>
+      <x>1200</x>
       <y>10</y>
-      <width>75</width>
-      <height>24</height>
+      <width>91</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">	border: 1px solid white;</string>
+     <string notr="true">QPushButton{
+color: rgb(30, 30, 30);
+font: 500 11pt &quot;Calibri&quot;;
+border-radius: 10px;
+background: rgb(255, 38, 114);
+}
+QPushButton:hover {
+font: 800 11pt &quot;Calibri&quot;;
+}
+QPushButton:pressed {
+font: 1000 11pt &quot;Calibri&quot;;
+color: white;
+background: transparent;
+border: 3px  solid rgb(255, 38, 114);
+}
+
+</string>
     </property>
     <property name="text">
      <string>Open Serial</string>
@@ -86,14 +102,29 @@ color: rgb(255, 255, 255);</string>
    <widget class="QPushButton" name="close_serial">
     <property name="geometry">
      <rect>
-      <x>1220</x>
-      <y>40</y>
-      <width>75</width>
-      <height>24</height>
+      <x>1200</x>
+      <y>50</y>
+      <width>91</width>
+      <height>31</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">	border: 1px solid white;</string>
+     <string notr="true">QPushButton{
+color: white;
+font: 500 11pt &quot;Calibri&quot;;
+border-radius: 10px;
+border: 2px  solid rgb(255, 38, 114);
+}
+QPushButton:hover {
+font: 800 11pt &quot;Calibri&quot;;
+}
+QPushButton:pressed {
+font: 800 11pt &quot;Calibri&quot;;
+background: rgb(255, 38, 114);
+/*color: rgb(3, 251, 173);
+border: 3px  solid rgb(255, 38, 114);*/
+}
+</string>
     </property>
     <property name="text">
      <string>Close Serial</string>
@@ -2024,7 +2055,7 @@ background: qlineargradient(spread:pad, x1:0.479, y1:0, x2:0.492474, y2:1, stop:
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1534</width>
+     <width>1542</width>
      <height>22</height>
     </rect>
    </property>
