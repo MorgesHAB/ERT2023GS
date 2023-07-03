@@ -20,7 +20,7 @@
 //#include "../Capsule/src/capsule.h"
 #include <capsule.h>
 
-void myfunc(int* x) {
+/*void myfunc(int* x) {
     while(true) {
         *x = *x + 1;
         std::cout << "thread running val: " << *x << std::endl;
@@ -30,20 +30,22 @@ void myfunc(int* x) {
 
 void handleRxPacketDevice1(uint8_t packetId, uint8_t *dataIn, uint32_t len) {
 
-}
+}*/
 
 int main(int argc, char** argv) {
 
-    CapsuleStatic device1(handleRxPacketDevice1);
-    device1.getCodedLen(34);
+    //CapsuleStatic device1(handleRxPacketDevice1);
+    //device1.getCodedLen(34);
 
     QApplication app(argc, argv); // QWidget: Must construct a QApplication before a QWidget
 
-    int x = 3;
+//    int x = 3;
 
-    XstratoWindow xstratoWindow(&x);
+    XstratoWindow xstratoWindow;
 
    // std::thread t1(&myfunc, &x);
+
+    xstratoWindow.setWindowState(Qt::WindowMaximized);
 
     xstratoWindow.show();
 

@@ -1,3 +1,83 @@
+___________________________________________
+# Install from zero (PC2)
+install WSL
+No need to go to the Windows market place, simply run that in Powershell admin:
+```
+wsl --install
+```
+Restart your computer
+It will open automatically a Ubuntu window writing: "setup ongoing" (?)
+Insert a username and password
+
+On WindowsPowershell, check if you have WSL 2, please change to 1 for Serial port
+```
+wsl -l -v
+```
+```
+wsl --set-version Ubuntu 1
+```
+It tooks 1min on my new PC
+
+
+```console
+sudo apt-get update
+```
+```console
+sudo apt-get upgrade
+```
+Now we need to install cmake to compile the code
+```console
+sudo apt-get install cmake
+```
+Install git to be able to clone this git repository
+```console
+sudo apt-get install git
+```
+Run the following command as sudo in order to get needed packages before installing Qt5
+```console
+sudo apt-get install build-essential
+```
+
+```console
+git clone --recursive-submodules https://github.com/MorgesHAB/ERT2020GS.git
+```
+
+This is no more available 
+```console
+sudo apt-get install qt5-default
+```
+So do that (this package is sufficient to compile this App):
+```console
+sudo apt-get install qtbase5-dev
+sudo apt-get install qtmultimedia5-dev
+```
+Necessary to communicate with RF device
+```console
+sudo apt-get install libqt5serialport5-dev
+```
+Warning it's when the awful part comes in play:
+Because of a Qt bug issue, you need to run that:
+```console
+sudo strip --remove-section=.note.ABI -tag /lib/x86_64-linux-gnu/libQt5Core.so.5
+```
+If it does not find the file, run that to find the path:
+```console
+ldconfig -p | grep "libQt5Core.so.5"
+```
+
+Now as WSL1 does not provide UI, you need to install a tool, this one work:
+https://sourceforge.net/projects/vcxsrv
+Then set the display:
+```console
+export DISPLAY=:0
+```
+Then run!
+```console
+./XSTRATO
+```
+___________________________________________
+
+
 # WSL 2
 
 Step 1: Go to settings > (search) turn windows feature on / off
@@ -13,7 +93,7 @@ sudo apt full-upgrade
 
 on PowerShell
 ```
-wsl -install
+wsl --install
 wsl --set-version Ubuntu 2
 ```
 This might take few hours !
