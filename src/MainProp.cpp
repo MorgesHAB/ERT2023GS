@@ -22,24 +22,26 @@
 #include <connector.h>
 #include <Worker.h>
 #include <propgsgui.h>
+#include <QDebug>
 
 
 
 int main(int argc, char **argv) {
+
     //set up everything
     // Test Test Ok it is a test1
     //std::shared_ptr<Connector> connector(std::make_shared<Connector>());
 
     QApplication app(argc, argv);
 
-
+    qDebug()<<"here?";
     PropGSGUI propGsgui;
 
     //run all threads
     //std::thread t1(&Worker::mainRoutine, Worker(connector));
 
     //std::this_thread::sleep_for(std::chrono::milliseconds(300));
-	
+    qDebug()<<"here?";
     propGsgui.show();
 
     //std::this_thread::sleep_for(std::chrono::milliseconds(300));
