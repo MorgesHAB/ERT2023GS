@@ -1,3 +1,16 @@
+With WSL1 !!! because really better ! serial port forwarding with Qt
+And also with WSL1 IP port forward is not necessary !!
+
+Simply do: once installed
+```
+sudo influxd &
+sudo grafana-server -homepath /usr/share/grafana &
+```
+
+Then connect directly with the IP address:
+http://172.22.22.141:3000/login
+http://172.22.22.141:8086/signin
+
 ___________________________________________
 # Install from zero (PC2)
 install WSL
@@ -126,6 +139,7 @@ sudo influxd &
 ```
 Go to localhost:8086
 
+On windows powershell run in administartor
 netsh interface portproxy add v4tov4 listenport=8086 listenaddress=0.0.0.0 connectport=8086 connectaddress=172.31.112.228
 netsh interface portproxy show all
 
@@ -144,7 +158,7 @@ sudo dpkg -i grafana-enterprise_9.5.1_amd64.deb
 sudo grafana-server -homepath /usr/share/grafana &
 ```
 The default username and password for Grafana is admin / admin . The first time you login, you will be asked to reset the default admin password.
-
+Now: admin pwd: B***
 ```shell
 netsh interface portproxy add v4tov4 listenport=3000 listenaddress=0.0.0.0 connectport=3000 connectaddress=172.31.112.228
 New-NetFirewallRule -DisplayName "WSL2 Port Bridge" -Direction Inbound -Action Allow -Protocol TCP -LocalPort 3000
