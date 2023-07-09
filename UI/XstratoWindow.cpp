@@ -163,7 +163,7 @@ XstratoWindow::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_t 
             ui->longitude_label->setText(QString::number(packet.telemetry.position.lon));
             ui->altitude_lcd_gps->display(QString::number(packet.telemetry.position.alt));
             if (packet.telemetry.position.alt > altitude_max) altitude_max = packet.telemetry.position.alt;
-            ui->altitude_lcd_gps->display(QString::number(altitude_max));
+            ui->altitude_max_lcd_m->display(QString::number(altitude_max));
             ui->speed_vertical->setText(QString::number(packet.telemetry.verticalSpeed));
             ui->speed_horizontal->setText(QString::number(packet.telemetry.horizontalSpeed));
 
@@ -333,13 +333,13 @@ void XstratoWindow::on_set_CAM_param_pressed() {
     CameraSettingsPacket packet = {};
     packet.framesize = (uint8_t) ui->cam_framsize_selector->currentIndex();
     packet.quality = ui->CAM_png_quality_slider->value();
-    packet.whiteBalanceEnable = ui->whiteBalanceEnable->isEnabled();
-    packet.awbGainEnable = ui->awbGainEnable->isEnabled();
+    packet.whiteBalanceEnable = ui->whiteBalanceEnable->isChecked();
+    packet.awbGainEnable = ui->awbGainEnable->isChecked();
     packet.wbMode = ui->CAM_wbmode_slider->value();
-    packet.exposureEnable = ui->exposureEnable->isEnabled();
+    packet.exposureEnable = ui->exposureEnable->isChecked();
     packet.exposureValue = ui->CAM_exposure_slider->value();
-    packet.aec2Enable = ui->aec2Enable->isEnabled();
-    packet.rawGmaEnable = ui->rawGmaEnable->isEnabled();
+    packet.aec2Enable = ui->aec2Enable->isChecked();
+    packet.rawGmaEnable = ui->rawGmaEnable->isChecked();
 
     sendSerialPacket(CAPSULE_ID::CAM_PARAM, (uint8_t *) &packet, CameraSettingsPacketSize);
 }
