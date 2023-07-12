@@ -13,6 +13,7 @@
 #include <QMainWindow>
 #include <QSerialPort>
 #include "../Capsule/src/capsule.h"
+#include "../ERT_RF_Protocol_Interface/PacketDefinition.h"
 #include <fstream>
 #include <QPushButton> // valve function
 
@@ -36,6 +37,8 @@ public slots:
     void on_disconnect_cmd_pressed();
     void on_reset_valves_pressed();
     void on_valve_test_pressed();
+    void on_GSE_fill_pressed();
+    void on_GSE_vent_pressed();
 
 
     void on_vent_GSE_clicked();
@@ -55,6 +58,8 @@ private:
     QSerialPort *serial;
 
     Capsule<NordendGUI> capsule;
+
+    GSE_cmd_status gse_cmd_status;
 };
 
 

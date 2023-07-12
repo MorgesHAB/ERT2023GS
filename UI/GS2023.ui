@@ -415,6 +415,9 @@ color: black;
       <height>601</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
     <property name="title">
      <string>Propulsion</string>
     </property>
@@ -432,7 +435,7 @@ color: black;
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton{
-qproperty-icon: url(:/assets/Prop_background_V1.svg);
+qproperty-icon: url(:/assets/Prop_background_V1.png);
 background: transparent;
 qproperty-iconSize: 700px;
 }</string>
@@ -441,14 +444,11 @@ qproperty-iconSize: 700px;
       <string/>
      </property>
     </widget>
-    <widget class="QCheckBox" name="vent_GSE">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
+    <widget class="QCheckBox" name="checkBox_5">
      <property name="geometry">
       <rect>
-       <x>65</x>
-       <y>340</y>
+       <x>400</x>
+       <y>330</y>
        <width>51</width>
        <height>61</height>
       </rect>
@@ -483,56 +483,7 @@ QCheckBox::indicator:unchecked {
 QCheckBox::indicator:hover {
 	background-color: rgba(0, 0, 0, 50); 
 }
-</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="checkable">
-      <bool>true</bool>
-     </property>
-     <property name="checked">
-      <bool>false</bool>
-     </property>
-     <property name="tristate">
-      <bool>true</bool>
-     </property>
-    </widget>
-    <widget class="QCheckBox" name="checkBox_5">
-     <property name="geometry">
-      <rect>
-       <x>380</x>
-       <y>330</y>
-       <width>51</width>
-       <height>61</height>
-      </rect>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QCheckBox {
-	background: transparent;
-}
-QCheckBox::indicator {
-     width: 50px; 
-     height: 50px; 
-}
 
-QCheckBox::indicator:checked {
-	image: url(:/assets/GS_valve_V1_OpenV.png);
-}
-
-QCheckBox::indicator:unchecked {
-	image: url(:/assets/GS_valve_V1_CloseH.png);
-}
-
-QCheckBox::indicator:hover {
-	background-color: rgba(0, 0, 0, 50); 
-}
 </string>
      </property>
      <property name="text">
@@ -548,7 +499,7 @@ QCheckBox::indicator:hover {
     <widget class="QCheckBox" name="checkBox_6">
      <property name="geometry">
       <rect>
-       <x>470</x>
+       <x>480</x>
        <y>330</y>
        <width>51</width>
        <height>61</height>
@@ -595,8 +546,8 @@ QCheckBox::indicator:hover {
     <widget class="QCheckBox" name="checkBox_7">
      <property name="geometry">
       <rect>
-       <x>470</x>
-       <y>60</y>
+       <x>480</x>
+       <y>90</y>
        <width>51</width>
        <height>61</height>
       </rect>
@@ -642,8 +593,8 @@ QCheckBox::indicator:hover {
     <widget class="QCheckBox" name="checkBox_8">
      <property name="geometry">
       <rect>
-       <x>530</x>
-       <y>148</y>
+       <x>540</x>
+       <y>160</y>
        <width>51</width>
        <height>61</height>
       </rect>
@@ -689,8 +640,8 @@ QCheckBox::indicator:hover {
     <widget class="QCheckBox" name="checkBox_9">
      <property name="geometry">
       <rect>
-       <x>320</x>
-       <y>148</y>
+       <x>340</x>
+       <y>160</y>
        <width>51</width>
        <height>61</height>
       </rect>
@@ -733,57 +684,6 @@ QCheckBox::indicator:hover {
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="QCheckBox" name="fill_GSE">
-     <property name="geometry">
-      <rect>
-       <x>66</x>
-       <y>230</y>
-       <width>51</width>
-       <height>61</height>
-      </rect>
-     </property>
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QCheckBox {
-	background: transparent;
-}
-QCheckBox::indicator {
-     width: 50px; 
-     height: 50px; 
-}
-
-QCheckBox::indicator:partiallychecked {
-	image: url(:/assets/GS_valve_V2_Unknown.svg);
-}
-
-QCheckBox::indicator:checked {
-    image: url(:/assets/GS_valve_V2_OpenV.svg);
-}
-
-QCheckBox::indicator:unchecked {
-	image: url(:/assets/GS_valve_V2_CloseH.svg);
-}
-
-QCheckBox::indicator:hover {
-	background-color: rgba(0, 0, 0, 50); 
-}
-</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="checked">
-      <bool>false</bool>
-     </property>
-     <property name="tristate">
-      <bool>true</bool>
-     </property>
-    </widget>
     <widget class="QPushButton" name="reset_valves">
      <property name="geometry">
       <rect>
@@ -819,7 +719,55 @@ border: 3px  solid white;
     <widget class="QPushButton" name="valve_test">
      <property name="geometry">
       <rect>
-       <x>200</x>
+       <x>270</x>
+       <y>400</y>
+       <width>61</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	background: transparent;
+	qproperty-icon: url(:/assets/GS_valve_V2_CloseH.svg);
+   qproperty-iconSize: 50px;
+}
+QPushButton:hover {
+	background-color: rgba(0, 0, 0, 50); 
+}
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="GSE_fill">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>230</y>
+       <width>61</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+	background: transparent;
+	qproperty-icon: url(:/assets/GS_valve_V2_CloseH.svg);
+   qproperty-iconSize: 50px;
+}
+QPushButton:hover {
+	background-color: rgba(0, 0, 0, 50); 
+}
+</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="GSE_vent">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
        <y>340</y>
        <width>61</width>
        <height>51</height>

@@ -12,7 +12,7 @@
 #include <iostream>
 #include <QTimer>
 #include <QGraphicsColorizeEffect>
-#include <cmath>
+//#include <cmath>
 
 #include "../ERT_RF_Protocol_Interface/PacketDefinition.h"
 
@@ -27,7 +27,8 @@
 NordendGUI::NordendGUI() :
         ui(new Ui::nordend),
         serial(new QSerialPort(this)),
-        capsule(&NordendGUI::handleSerialRxPacket, this)
+        capsule(&NordendGUI::handleSerialRxPacket, this),
+        gse_cmd_status({STATUS_INACTIVE, STATUS_ACTIVE})
 {
 
     ui->setupUi(this);
@@ -91,9 +92,17 @@ NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_t len
             //AckPacket packet;
             //memcpy(&packet, dataIn, _size);
             std::cout << "Packet GSE vent received" << std::endl;
-            ui->vent_GSE->setCheckState(Qt::CheckState::Checked);
-            ui->fill_GSE->setCheckState(Qt::CheckState::Checked);
+//            ui->vent_GSE->setCheckState(Qt::CheckState::Checked);
+//            ui->fill_GSE->setCheckState(Qt::CheckState::Checked);
             set_valve_img(ui->valve_test, 2);
+            break;
+        }
+        case CAPSULE_ID::GSE_TELEMETRY: {
+            //AckPacket packet;
+            memcpy(&gse_cmd_status, dataIn, GSE_cmd_status_size);
+            std::cout << "Packet GSE vent received" << std::endl;
+            set_valve_img(ui->GSE_fill, gse_cmd_status.fillingN2O);
+            set_valve_img(ui->GSE_vent, gse_cmd_status.vent);
             break;
         }
         default:
@@ -174,34 +183,36 @@ void NordendGUI::on_disconnect_cmd_pressed() {
 
 void NordendGUI::on_vent_GSE_clicked() { //stateChanged(int state) {
     std::cout << "Miaou state: " << "." << std::endl;
-    PacketAV_cmd p;
-    p.cmd_value = CMD_ACTIVE;
-    sendSerialPacket(CAPSULE_ID::GSE_VENT, (uint8_t*) &p, packetAV_cmd_size);
+    Packet_cmd p;
+    p.value = CMD_ACTIVE;
+    sendSerialPacket(CAPSULE_ID::GSE_VENT, (uint8_t*) &p, packet_cmd_size);
     //ui->vent_GSE->setCheckState(Qt::CheckState::PartiallyChecked);
 }
 
 void NordendGUI::on_reset_valves_pressed() {
-    ui->vent_GSE->setCheckState(Qt::CheckState::Unchecked);
-    ui->fill_GSE->setCheckState(Qt::CheckState::Unchecked);
+//    ui->vent_GSE->setCheckState(Qt::CheckState::Unchecked);
+//    ui->fill_GSE->setCheckState(Qt::CheckState::Unchecked);
     set_valve_img(ui->valve_test, 0);
+    set_valve_img(ui->GSE_fill, 0);
+    set_valve_img(ui->GSE_vent, 0);
 }
 
 void NordendGUI::on_valve_test_pressed() {
     std::cout << "Miaou state: " << "." << std::endl;
-    PacketAV_cmd p;
-    p.cmd_value = CMD_ACTIVE;
-    sendSerialPacket(CAPSULE_ID::GSE_VENT, (uint8_t*) &p, packetAV_cmd_size);
+    Packet_cmd p;
+    p.value = CMD_ACTIVE;
+    sendSerialPacket(CAPSULE_ID::GSE_VENT, (uint8_t*) &p, packet_cmd_size);
     set_valve_img(ui->valve_test, 1);
 }
 
 void NordendGUI::set_valve_img(QPushButton * valve, int i) {
     QString img_name = "";
     switch (i) {
-        case 0: img_name = "CloseH";
+        case STATUS_INACTIVE: img_name = "CloseH";
         break;
-        case 1: img_name = "Unknown";
+        case STATUS_ACTIVE: img_name = "OpenV";
         break;
-        case 2: img_name = "OpenV";
+        default: img_name = "Unknown";
         break;
     }
     valve->setStyleSheet("QPushButton {\n"
@@ -212,6 +223,22 @@ void NordendGUI::set_valve_img(QPushButton * valve, int i) {
                          "QPushButton:hover {\n"
                          "\tbackground-color: rgba(0, 0, 0, 50); \n"
                          "}");
+}
+
+void NordendGUI::on_GSE_fill_pressed() {
+    Packet_cmd p;
+    if (gse_cmd_status.fillingN2O == STATUS_ACTIVE) p.value = CMD_INACTIVE;
+    else if (gse_cmd_status.fillingN2O == STATUS_INACTIVE) p.value = CMD_ACTIVE;
+    sendSerialPacket(CAPSULE_ID::GSE_FILLING_N2O, (uint8_t*) &p, packet_cmd_size);
+    set_valve_img(ui->GSE_fill, 1);
+}
+
+void NordendGUI::on_GSE_vent_pressed() {
+    Packet_cmd p;
+    if (gse_cmd_status.vent == STATUS_ACTIVE) p.value = CMD_INACTIVE;
+    else if (gse_cmd_status.vent == STATUS_INACTIVE) p.value = CMD_ACTIVE;
+    sendSerialPacket(CAPSULE_ID::GSE_VENT, (uint8_t*) &p, packet_cmd_size);
+    set_valve_img(ui->GSE_vent, 1);
 }
 
 
