@@ -1,6 +1,11 @@
 <RCC>
   <qresource prefix="/">
+    <file>assets/GS_valve_V2_Unknown.svg</file>
+    <file>assets/GS_valve_V2_CloseH.svg</file>
+    <file>assets/GS_valve_V2_CloseV.svg</file>
+    <file>assets/GS_valve_V2_OpenH.svg</file>
     <file>assets/Prop_background_V1.svg</file>
+    <file>assets/GS_valve_V2_OpenV.svg</file>
     <file>assets/PROP_diagram.png</file>
     <file>assets/GS_valve_symbol_transparent.png</file>
     <file>assets/GS_valve_symbol.png</file>
@@ -67,16 +72,13 @@
     <file>assets/wave-sound.png</file>
     <file>assets/soccer-ball.png</file>
     <file>assets/tennis.png</file>
-
     <file>assets/GS_valve_V1_OpenH.png</file>
     <file>assets/GS_valve_V1_OpenV.png</file>
     <file>assets/GS_valve_V1_CloseH.png</file>
     <file>assets/GS_valve_V1_CloseV.png</file>
-
     <file>assets/rocket_icon.png</file>
     <file>assets/Prop_background_V1.1.png</file>
     <file>assets/Prop_background_V1.svg</file>
     <file>assets/icone_launch.png</file>
-
   </qresource>
 </RCC>

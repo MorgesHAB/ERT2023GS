@@ -19,7 +19,7 @@ find_package(Qt5 COMPONENTS SerialPort REQUIRED)
 file(GLOB SOURCES "*.cpp")
 
 #add_library(${PROJECT_NAME} ${SOURCES} LioTest.ui)
-add_library(${PROJECT_NAME} SecondWindow.cpp LioTest.ui XstratoWindow.cpp Xstrato.ui propgsgui.cpp propgsgui.ui propgsgui.cpp stopwatch.h stopwatch.cpp)
+add_library(${PROJECT_NAME} SecondWindow.cpp LioTest.ui XstratoWindow.cpp Xstrato.ui propgsgui.cpp propgsgui.ui propgsgui.cpp stopwatch.h stopwatch.cpp NordendGUI.cpp GS2023.ui)
 #add_library(${PROJECT_NAME} XstratoWindow.cpp Xstrato.ui)
 #add_library(${PROJECT_NAME} SecondWindow.cpp LioTest.ui propgsgui.cpp propgsgui.h propgsgui.ui)
 

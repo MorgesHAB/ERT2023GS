@@ -85,22 +85,25 @@ void PropGSGUI::sendSerialPacket(uint8_t packetId, uint8_t *packet, uint32_t siz
     serial->write((char *) packetToSend,capsule.getCodedLen(size));
     delete[] packetToSend;
 }
-    void PropGSGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_t len) {
-        switch (packetId) {
-            case 0x00:
-                std::cout << "Packet with ID 00 received : " << std::endl;
+
+void
+PropGSGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_t len) {
+    switch (packetId) {
+        case 0x00:
+            std::cout << "Packet with ID 00 received : " << std::endl;
 //Serial.write(dataIn,len);
-                break;
-            case 0x01:
-                std::cout << "Packet with ID 01 received : " << std::endl;
-                break;
-            default:
-                break;
-        }
+            break;
+        case 0x01:
+            std::cout << "Packet with ID 01 received : " << std::endl;
+            break;
+        default:
+            break;
     }
+}
+
 void PropGSGUI::CMDHandler(int valveNb) {
 
-    PacketAV_uplink packet = {};
+    //PacketAV_uplink packet = {};
     //packet
     switch (valveNb) {
         case 1:
