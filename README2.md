@@ -20,6 +20,15 @@ Then connect directly with the IP address:
 http://172.22.22.141:3000/login
 http://172.22.22.141:8086/signin
 
+otherwise simply use:
+```
+bash start_influxDB_Grafana.sh
+```
+Once finish
+```
+bash stop_influxDB_Grafana.sh
+```
+
 ___________________________________________
 # Install from zero (PC2)
 install WSL
