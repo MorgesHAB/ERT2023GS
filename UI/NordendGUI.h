@@ -40,10 +40,6 @@ public slots:
     void on_GSE_fill_pressed();
     void on_GSE_vent_pressed();
 
-
-    void on_vent_GSE_clicked();
-
-
     void serialError();
 
 public:
@@ -59,7 +55,7 @@ private:
 
     Capsule<NordendGUI> capsule;
 
-    GSE_cmd_status gse_cmd_status;
+    PacketGSE_downlink packetGSE_downlink;
 };
 
 

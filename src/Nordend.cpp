@@ -29,6 +29,9 @@ int main(int argc, char** argv) {
 
     nordendGui.show();
 
+//    ['Breeze', 'bb10dark', 'bb10bright', 'cleanlooks', 'gtk2', 'cde', 'motif', 'plastique', 'Oxygen', 'Windows', 'Fusion']
+//    std::cout << "Style: " << app.style() << std::endl;
+    app.setStyle("Windows");
     app.exec();
 
     std::cout << "program running" << std::endl;

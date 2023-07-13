@@ -27,9 +27,11 @@
 NordendGUI::NordendGUI() :
         ui(new Ui::nordend),
         serial(new QSerialPort(this)),
-        capsule(&NordendGUI::handleSerialRxPacket, this),
-        gse_cmd_status({STATUS_INACTIVE, STATUS_ACTIVE})
-{
+        capsule(&NordendGUI::handleSerialRxPacket, this)
+        {
+
+//    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
+//    QCoreApplication::setAttribute(Qt::AA_Use96Dpi);
 
     ui->setupUi(this);
 
@@ -99,10 +101,11 @@ NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_t len
         }
         case CAPSULE_ID::GSE_TELEMETRY: {
             //AckPacket packet;
-            memcpy(&gse_cmd_status, dataIn, GSE_cmd_status_size);
+            memcpy(&packetGSE_downlink, dataIn, packetGSE_downlink_size);
             std::cout << "Packet GSE vent received" << std::endl;
-            set_valve_img(ui->GSE_fill, gse_cmd_status.fillingN2O);
-            set_valve_img(ui->GSE_vent, gse_cmd_status.vent);
+            set_valve_img(ui->GSE_fill, packetGSE_downlink.status.fillingN2O);
+            set_valve_img(ui->GSE_vent, packetGSE_downlink.status.vent);
+            ui->GSE_pressure->setText(QString::number(packetGSE_downlink.tankPressure) + " hPa");
             break;
         }
         default:
@@ -181,14 +184,6 @@ void NordendGUI::on_disconnect_cmd_pressed() {
 
 }
 
-void NordendGUI::on_vent_GSE_clicked() { //stateChanged(int state) {
-    std::cout << "Miaou state: " << "." << std::endl;
-    Packet_cmd p;
-    p.value = CMD_ACTIVE;
-    sendSerialPacket(CAPSULE_ID::GSE_VENT, (uint8_t*) &p, packet_cmd_size);
-    //ui->vent_GSE->setCheckState(Qt::CheckState::PartiallyChecked);
-}
-
 void NordendGUI::on_reset_valves_pressed() {
 //    ui->vent_GSE->setCheckState(Qt::CheckState::Unchecked);
 //    ui->fill_GSE->setCheckState(Qt::CheckState::Unchecked);
@@ -200,7 +195,7 @@ void NordendGUI::on_reset_valves_pressed() {
 void NordendGUI::on_valve_test_pressed() {
     std::cout << "Miaou state: " << "." << std::endl;
     Packet_cmd p;
-    p.value = CMD_ACTIVE;
+    p.value = ACTIVE;
     sendSerialPacket(CAPSULE_ID::GSE_VENT, (uint8_t*) &p, packet_cmd_size);
     set_valve_img(ui->valve_test, 1);
 }
@@ -208,15 +203,15 @@ void NordendGUI::on_valve_test_pressed() {
 void NordendGUI::set_valve_img(QPushButton * valve, int i) {
     QString img_name = "";
     switch (i) {
-        case STATUS_INACTIVE: img_name = "CloseH";
+        case INACTIVE: img_name = "CloseH";
         break;
-        case STATUS_ACTIVE: img_name = "OpenV";
+        case ACTIVE: img_name = "OpenV";
         break;
         default: img_name = "Unknown";
         break;
     }
     valve->setStyleSheet("QPushButton {\n"
-                         "\tbackground: transparent;\n"
+                         "\tbackground-color: transparent;\n"
                          "\tqproperty-icon: url(:/assets/GS_valve_V2_" + img_name + ".svg);\n"
                          "   qproperty-iconSize: 50px;\n"
                          "}\n"
@@ -227,16 +222,14 @@ void NordendGUI::set_valve_img(QPushButton * valve, int i) {
 
 void NordendGUI::on_GSE_fill_pressed() {
     Packet_cmd p;
-    if (gse_cmd_status.fillingN2O == STATUS_ACTIVE) p.value = CMD_INACTIVE;
-    else if (gse_cmd_status.fillingN2O == STATUS_INACTIVE) p.value = CMD_ACTIVE;
+    p.value = (packetGSE_downlink.status.fillingN2O == ACTIVE)?INACTIVE:ACTIVE;
     sendSerialPacket(CAPSULE_ID::GSE_FILLING_N2O, (uint8_t*) &p, packet_cmd_size);
     set_valve_img(ui->GSE_fill, 1);
 }
 
 void NordendGUI::on_GSE_vent_pressed() {
     Packet_cmd p;
-    if (gse_cmd_status.vent == STATUS_ACTIVE) p.value = CMD_INACTIVE;
-    else if (gse_cmd_status.vent == STATUS_INACTIVE) p.value = CMD_ACTIVE;
+    p.value = (packetGSE_downlink.status.vent == ACTIVE)?INACTIVE:ACTIVE;
     sendSerialPacket(CAPSULE_ID::GSE_VENT, (uint8_t*) &p, packet_cmd_size);
     set_valve_img(ui->GSE_vent, 1);
 }
