@@ -218,3 +218,24 @@ TCP	boost	tcp	tcp://localhost:8094
 
 
 wget https://launchpad.net/ubuntu/+archive/primary/+files/libboost-dev_1.71.0.0ubuntu2_amd64.deb
+
+
+
+-------------------
+if want to uninstall all the influxDB stuff.
+in /root/
+rm -rf .influxdbv2/
+
+sudo dpkg -r influxdb2     (remove)
+sudo dpkg -P influxdb2     (purge)
+
+sudo service influxdb stop
+sudo apt remove influxdb
+sudo apt remove influxdb-client
+sudo apt remove influxdb2
+sudo apt autoclean && sudo apt autoremove
+
+sudo rm -rf /var/lib/influxdb/
+sudo rm -rf /var/log/influxdb/
+sudo rm -rf /etc/influxdb/
+sudo rm -rf ~/.influxdbv2/configs
