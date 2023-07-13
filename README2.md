@@ -139,10 +139,7 @@ NAME      STATE           VERSION
 
 
 ___________________________________________
-Start the Docker daemon:
-```
-sudo dockerd &
-```
+## Install InfluxDB
 ```
 wget https://dl.influxdata.com/influxdb/releases/influxdb2-2.7.1-amd64.deb
 sudo dpkg -i influxdb2-2.7.1-amd64.deb
@@ -160,6 +157,12 @@ ps -A | grep influxd
 sudo influxd &
 ```
 Go to localhost:8086
+
+To stop the background process
+```
+sudo pkill influxd
+```
+You can check it really kill the process by running `ps -A | grep "influx"`
 
 On windows powershell run in administartor
 netsh interface portproxy add v4tov4 listenport=8086 listenaddress=0.0.0.0 connectport=8086 connectaddress=172.31.112.228
