@@ -1,3 +1,12 @@
+TODO clean this readme....
+
+If you want to edit the UI file with Qt Designer (not Qt Design Studio!), install:
+```console
+sudo apt-get install qttools5-dev-tools
+```
+![image](https://github.com/MorgesHAB/ERT2023GS/assets/28660469/e7324286-9fd2-4640-bcdb-285780499c3a)
+
+
 With WSL1 !!! because really better ! serial port forwarding with Qt
 And also with WSL1 IP port forward is not necessary !!
 
@@ -32,6 +41,7 @@ wsl --set-version Ubuntu 1
 It tooks 1min on my new PC
 
 
+## Install ERTGS2023 Qt UI App
 ```console
 sudo apt-get update
 ```
@@ -62,13 +72,25 @@ sudo apt-get install qt5-default
 So do that (this package is sufficient to compile this App):
 ```console
 sudo apt-get install qtbase5-dev
-sudo apt-get install qtmultimedia5-dev
 ```
 Necessary to communicate with RF device
 ```console
 sudo apt-get install libqt5serialport5-dev
 ```
-Warning it's when the awful part comes in play:
+Optionnally if want to play some sound
+```console
+sudo apt-get install qtmultimedia5-dev
+```
+On Linux/Ubuntu, you are done! 
+you can run the App as follow:
+```console
+mkdir build && cd build
+cmake ..
+make Nordend
+./Nordend
+```
+
+However on Windows (WSL), it's when the awful part comes in play:
 Because of a Qt bug issue, you need to run that:
 ```console
 sudo strip --remove-section=.note.ABI -tag /lib/x86_64-linux-gnu/libQt5Core.so.5
