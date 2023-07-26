@@ -73,8 +73,7 @@ NordendGUI::~NordendGUI() {
     std::cout << "NordendGUI deleted" << std::endl;
 }
 
-void
-NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_t len) {
+void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_t len) {
 //    static std::string filename_time = filename;
 //    static float altitude_max = 0;
 //    ui->send_cmd_available->setStyleSheet("image: url(:/assets/Red_Light_Icon.svg.png);");
@@ -86,7 +85,7 @@ NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_t len
             std::cout << "Packet with ID 00 received : " << +packetId << std::endl;
             //Serial.write(dataIn,len);
             break;
-        case CAPSULE_ID::AV_CMD_VALVE_FUEL: {
+        /*case CAPSULE_ID::AV_CMD_VALVE_FUEL: {
             std::cout << "AV_CMD_VALVE_FUEL received! " << std::endl;
 //            ui->ping_pong_ack->setStyleSheet("image: url(:/assets/tennis.png);");
             break;
@@ -97,7 +96,7 @@ NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_t len
 //            ui->vent_GSE->setCheckState(Qt::CheckState::Checked);
 //            ui->fill_GSE->setCheckState(Qt::CheckState::Checked);
             break;
-        }
+        }*/
         case CAPSULE_ID::GSE_TELEMETRY: {
             //AckPacket packet;
             memcpy(&packetGSE_downlink, dataIn, packetGSE_downlink_size);
@@ -113,7 +112,6 @@ NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_t len
             // set callback for sending cmd available
 //    qtimer_rximg->start(TIME_TO_SEND_CMD_ms);
 //    qtimer_rximg->setSingleShot(true);
-    }
 }
 
 void NordendGUI::sendSerialPacket(uint8_t packetId, uint8_t *packet, uint32_t size) {
@@ -155,6 +153,8 @@ void NordendGUI::on_open_serial_pressed() {
             #else
             serial_port_name = "ttyS" + QString::number(ctr++);
             #endif
+            std::cout << serial_port_name.toStdString() << std::endl;
+            //serial_port_name = "ttyACM0";
             serial->setPortName(serial_port_name);
         } while (!serial->open(QIODevice::ReadWrite) && ctr <= 30);
         if (serial->isOpen()) {
@@ -176,7 +176,7 @@ void NordendGUI::on_open_serial_pressed() {
 
 void NordendGUI::on_abort_cmd_pressed() {
     uint8_t x =  10;
-    sendSerialPacket(CAPSULE_ID::ABORT, &x, sizeof(x));
+    //sendSerialPacket(CAPSULE_ID::ABORT, &x, sizeof(x));
 }
 
 void NordendGUI::on_ignition_cmd_pressed() {
@@ -185,6 +185,10 @@ void NordendGUI::on_ignition_cmd_pressed() {
 
 void NordendGUI::on_disconnect_cmd_pressed() {
     ui->prop_diagram->setStyleSheet("QPushButton{background: transparent;qproperty-icon: url(:/assets/Prop_background_disconnect.png);qproperty-iconSize: 700px;}");
+    av_uplink_t p;
+    p.order_id = CMD_ID::DISCONNECT;
+    p.order_value = ACTIVE;
+    sendSerialPacket(CAPSULE_ID::GS_CMD, (uint8_t*) &p, av_uplink_size);
 }
 
 void NordendGUI::on_reset_valves_pressed() {
@@ -220,16 +224,17 @@ void NordendGUI::set_valve_img(QPushButton * valve, int i) {
 }
 
 void NordendGUI::on_GSE_fill_pressed() {
-    Packet_cmd p;
-    p.value = (packetGSE_downlink.status.fillingN2O == ACTIVE)?INACTIVE:ACTIVE;
-    sendSerialPacket(CAPSULE_ID::GSE_FILLING_N2O, (uint8_t*) &p, packet_cmd_size);
+    av_uplink_t p;
+    p.order_id = CMD_ID::GSE_FILLING_N2O;
+    p.order_value = (packetGSE_downlink.status.fillingN2O == ACTIVE)?INACTIVE:ACTIVE;
+    sendSerialPacket(CAPSULE_ID::GS_CMD, (uint8_t*) &p, av_uplink_size);
     set_valve_img(ui->GSE_fill, 1);
 }
 
 void NordendGUI::on_GSE_vent_pressed() {
-    Packet_cmd p;
-    p.value = (packetGSE_downlink.status.vent == ACTIVE)?INACTIVE:ACTIVE;
-    sendSerialPacket(CAPSULE_ID::GSE_VENT, (uint8_t*) &p, packet_cmd_size);
+    av_uplink_t p;
+    p.order_value = (packetGSE_downlink.status.vent == ACTIVE)?INACTIVE:ACTIVE;
+    sendSerialPacket(CAPSULE_ID::GS_CMD, (uint8_t*) &p, av_uplink_size);
     set_valve_img(ui->GSE_vent, 1);
 }
 
