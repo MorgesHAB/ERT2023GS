@@ -96,7 +96,6 @@ NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_t len
             std::cout << "Packet GSE vent received" << std::endl;
 //            ui->vent_GSE->setCheckState(Qt::CheckState::Checked);
 //            ui->fill_GSE->setCheckState(Qt::CheckState::Checked);
-            set_valve_img(ui->valve_test, 2);
             break;
         }
         case CAPSULE_ID::GSE_TELEMETRY: {
@@ -185,23 +184,19 @@ void NordendGUI::on_ignition_cmd_pressed() {
 }
 
 void NordendGUI::on_disconnect_cmd_pressed() {
-
+    ui->prop_diagram->setStyleSheet("QPushButton{background: transparent;qproperty-icon: url(:/assets/Prop_background_disconnect.png);qproperty-iconSize: 700px;}");
 }
 
 void NordendGUI::on_reset_valves_pressed() {
 //    ui->vent_GSE->setCheckState(Qt::CheckState::Unchecked);
 //    ui->fill_GSE->setCheckState(Qt::CheckState::Unchecked);
-    set_valve_img(ui->valve_test, 0);
     set_valve_img(ui->GSE_fill, 0);
     set_valve_img(ui->GSE_vent, 0);
-}
-
-void NordendGUI::on_valve_test_pressed() {
-    std::cout << "Miaou state: " << "." << std::endl;
-    Packet_cmd p;
-    p.value = ACTIVE;
-    sendSerialPacket(CAPSULE_ID::GSE_VENT, (uint8_t*) &p, packet_cmd_size);
-    set_valve_img(ui->valve_test, 1);
+    set_valve_img(ui->AV_vent_N2O, 0);
+    set_valve_img(ui->AV_vent_fuel, 0);
+    set_valve_img(ui->AV_servo_N2O, 0);
+    set_valve_img(ui->AV_servo_fuel, 0);
+    set_valve_img(ui->AV_pressurization, 0);
 }
 
 void NordendGUI::set_valve_img(QPushButton * valve, int i) {

@@ -36,7 +36,6 @@ public slots:
     void on_ignition_cmd_pressed();
     void on_disconnect_cmd_pressed();
     void on_reset_valves_pressed();
-    void on_valve_test_pressed();
     void on_GSE_fill_pressed();
     void on_GSE_vent_pressed();
 

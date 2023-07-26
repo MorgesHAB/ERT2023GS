@@ -461,36 +461,6 @@ border: none;
       <string>RESET</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="valve_test">
-     <property name="enabled">
-      <bool>true</bool>
-     </property>
-     <property name="geometry">
-      <rect>
-       <x>270</x>
-       <y>400</y>
-       <width>61</width>
-       <height>51</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QPushButton {
-	background-color: rgba(0, 0, 0, 100);
-	qproperty-icon: url(:/assets/GS_valve_V2_CloseH.svg);
-   qproperty-iconSize: 50px;
-}
-QPushButton:hover {
-	background-color: rgba(0, 0, 0, 50); 
-}
-</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="flat">
-      <bool>false</bool>
-     </property>
-    </widget>
     <widget class="QPushButton" name="GSE_fill">
      <property name="geometry">
       <rect>
@@ -629,10 +599,10 @@ font: 9pt &quot;Verdana&quot;;
       <string>Servo Fuel</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="GSE_vent_2">
+    <widget class="QPushButton" name="AV_servo_N2O">
      <property name="geometry">
       <rect>
-       <x>397</x>
+       <x>396</x>
        <y>330</y>
        <width>61</width>
        <height>51</height>
@@ -656,7 +626,7 @@ QPushButton:hover {
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QPushButton" name="GSE_vent_3">
+    <widget class="QPushButton" name="AV_servo_fuel">
      <property name="geometry">
       <rect>
        <x>478</x>
@@ -683,7 +653,7 @@ QPushButton:hover {
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QPushButton" name="GSE_vent_4">
+    <widget class="QPushButton" name="AV_vent_N2O">
      <property name="geometry">
       <rect>
        <x>340</x>
@@ -710,7 +680,7 @@ QPushButton:hover {
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QPushButton" name="GSE_vent_5">
+    <widget class="QPushButton" name="AV_vent_fuel">
      <property name="geometry">
       <rect>
        <x>540</x>
@@ -737,7 +707,7 @@ QPushButton:hover {
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QPushButton" name="GSE_vent_6">
+    <widget class="QPushButton" name="AV_pressurization">
      <property name="geometry">
       <rect>
        <x>440</x>
@@ -884,7 +854,7 @@ font: 9pt &quot;Verdana&quot;;
       <string>0 °C</string>
      </property>
     </widget>
-    <widget class="QLabel" name="ihhhfg">
+    <widget class="QLabel" name="filling_pressure">
      <property name="geometry">
       <rect>
        <x>65</x>
@@ -902,26 +872,101 @@ font: 9pt &quot;Verdana&quot;;
       <string>0 hPa</string>
      </property>
     </widget>
+    <widget class="QLabel" name="chamber_pressure">
+     <property name="geometry">
+      <rect>
+       <x>550</x>
+       <y>420</y>
+       <width>61</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background: transparent;
+font: 9pt &quot;Verdana&quot;;
+</string>
+     </property>
+     <property name="text">
+      <string>0 hPa</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="fuel_pressure">
+     <property name="geometry">
+      <rect>
+       <x>600</x>
+       <y>230</y>
+       <width>61</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background: transparent;
+font: 9pt &quot;Verdana&quot;;
+</string>
+     </property>
+     <property name="text">
+      <string>0 hPa</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="N2O_pressure">
+     <property name="geometry">
+      <rect>
+       <x>290</x>
+       <y>230</y>
+       <width>61</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background: transparent;
+font: 9pt &quot;Verdana&quot;;
+</string>
+     </property>
+     <property name="text">
+      <string>0 hPa</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="N2O_temp">
+     <property name="geometry">
+      <rect>
+       <x>290</x>
+       <y>262</y>
+       <width>61</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background: transparent;
+font: 9pt &quot;Verdana&quot;;
+</string>
+     </property>
+     <property name="text">
+      <string>0 °C</string>
+     </property>
+    </widget>
     <zorder>prop_diagram</zorder>
     <zorder>label</zorder>
     <zorder>reset_valves</zorder>
-    <zorder>valve_test</zorder>
     <zorder>GSE_fill</zorder>
     <zorder>GSE_vent</zorder>
     <zorder>label_2</zorder>
     <zorder>label_3</zorder>
     <zorder>label_4</zorder>
-    <zorder>GSE_vent_2</zorder>
-    <zorder>GSE_vent_3</zorder>
-    <zorder>GSE_vent_4</zorder>
-    <zorder>GSE_vent_5</zorder>
-    <zorder>GSE_vent_6</zorder>
+    <zorder>AV_servo_N2O</zorder>
+    <zorder>AV_servo_fuel</zorder>
+    <zorder>AV_vent_N2O</zorder>
+    <zorder>AV_vent_fuel</zorder>
+    <zorder>AV_pressurization</zorder>
     <zorder>label_5</zorder>
     <zorder>label_6</zorder>
     <zorder>label_7</zorder>
     <zorder>GSE_pressure</zorder>
     <zorder>GSE_temp</zorder>
-    <zorder>ihhhfg</zorder>
+    <zorder>filling_pressure</zorder>
+    <zorder>chamber_pressure</zorder>
+    <zorder>fuel_pressure</zorder>
+    <zorder>N2O_pressure</zorder>
+    <zorder>N2O_temp</zorder>
    </widget>
    <widget class="QGroupBox" name="groupBox_3">
     <property name="geometry">
@@ -1153,7 +1198,7 @@ background: green;
 }</string>
     </property>
     <property name="text">
-     <string>MIUAUSSAD</string>
+     <string>Test</string>
     </property>
     <property name="flat">
      <bool>false</bool>
