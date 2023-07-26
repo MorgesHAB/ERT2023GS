@@ -31,7 +31,7 @@ int main(int argc, char** argv) {
 
 //    ['Breeze', 'bb10dark', 'bb10bright', 'cleanlooks', 'gtk2', 'cde', 'motif', 'plastique', 'Oxygen', 'Windows', 'Fusion']
 //    std::cout << "Style: " << app.style() << std::endl;
-    app.setStyle("Windows");
+    //app.setStyle("Windows");  // put button "flat" checkbox in param
     app.exec();
 
     std::cout << "program running" << std::endl;

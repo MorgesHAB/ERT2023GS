@@ -251,3 +251,13 @@ sudo rm -rf /var/lib/influxdb/
 sudo rm -rf /var/log/influxdb/
 sudo rm -rf /etc/influxdb/
 sudo rm -rf ~/.influxdbv2/configs
+
+
+-------------------------
+## How to setup project on VScode
+```
+git config --global user.name "Lionel-NUC"
+git config --global user.email johndoe@example.com
+git config pull.rebase false
+```
+The last command set to merge by default when pull-push problem (vs rebase, ...)

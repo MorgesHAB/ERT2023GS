@@ -16,6 +16,10 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="assets.qrc">
+    <normaloff>:/assets/krtek.png</normaloff>:/assets/krtek.png</iconset>
+  </property>
   <property name="styleSheet">
    <string notr="true">background-color: rgb(30, 30, 30);
 color: rgb(255, 255, 255);</string>
@@ -447,6 +451,10 @@ background: transparent;
 border: 3px  solid white;
 }
 
+QPushButton:focus{
+border: none;
+}
+
 </string>
      </property>
      <property name="text">
@@ -454,6 +462,9 @@ border: 3px  solid white;
      </property>
     </widget>
     <widget class="QPushButton" name="valve_test">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>270</x>
@@ -464,7 +475,7 @@ border: 3px  solid white;
      </property>
      <property name="styleSheet">
       <string notr="true">QPushButton {
-	background: transparent;
+	background-color: rgba(0, 0, 0, 100);
 	qproperty-icon: url(:/assets/GS_valve_V2_CloseH.svg);
    qproperty-iconSize: 50px;
 }
@@ -475,6 +486,9 @@ QPushButton:hover {
      </property>
      <property name="text">
       <string/>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
      </property>
     </widget>
     <widget class="QPushButton" name="GSE_fill">
@@ -500,6 +514,9 @@ QPushButton:hover {
      <property name="text">
       <string/>
      </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
     </widget>
     <widget class="QPushButton" name="GSE_vent">
      <property name="geometry">
@@ -519,10 +536,22 @@ QPushButton:hover {
 QPushButton:hover {
 	background-color: rgba(0, 0, 0, 50); 
 }
+QPushButton:pressed {
+	background-color: rgba(0, 0, 0, 50); 
+}
 </string>
      </property>
      <property name="text">
       <string/>
+     </property>
+     <property name="autoDefault">
+      <bool>false</bool>
+     </property>
+     <property name="default">
+      <bool>false</bool>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
      </property>
     </widget>
     <widget class="QLabel" name="label">
@@ -603,7 +632,7 @@ font: 9pt &quot;Verdana&quot;;
     <widget class="QPushButton" name="GSE_vent_2">
      <property name="geometry">
       <rect>
-       <x>400</x>
+       <x>397</x>
        <y>330</y>
        <width>61</width>
        <height>51</height>
@@ -623,11 +652,14 @@ QPushButton:hover {
      <property name="text">
       <string/>
      </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
     </widget>
     <widget class="QPushButton" name="GSE_vent_3">
      <property name="geometry">
       <rect>
-       <x>480</x>
+       <x>478</x>
        <y>330</y>
        <width>61</width>
        <height>51</height>
@@ -647,12 +679,15 @@ QPushButton:hover {
      <property name="text">
       <string/>
      </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
     </widget>
     <widget class="QPushButton" name="GSE_vent_4">
      <property name="geometry">
       <rect>
        <x>340</x>
-       <y>170</y>
+       <y>167</y>
        <width>61</width>
        <height>51</height>
       </rect>
@@ -670,13 +705,16 @@ QPushButton:hover {
      </property>
      <property name="text">
       <string/>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
      </property>
     </widget>
     <widget class="QPushButton" name="GSE_vent_5">
      <property name="geometry">
       <rect>
        <x>540</x>
-       <y>170</y>
+       <y>167</y>
        <width>61</width>
        <height>51</height>
       </rect>
@@ -694,6 +732,9 @@ QPushButton:hover {
      </property>
      <property name="text">
       <string/>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
      </property>
     </widget>
     <widget class="QPushButton" name="GSE_vent_6">
@@ -718,6 +759,9 @@ QPushButton:hover {
      </property>
      <property name="text">
       <string/>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
      </property>
     </widget>
     <widget class="QLabel" name="label_5">
@@ -793,6 +837,9 @@ font: 9pt &quot;Verdana&quot;;
      </property>
     </widget>
     <widget class="QPushButton" name="prop_diagram">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -815,6 +862,45 @@ QPushButton:checked {
      <property name="text">
       <string/>
      </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="GSE_temp">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>167</y>
+       <width>61</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background: transparent;
+font: 9pt &quot;Verdana&quot;;
+</string>
+     </property>
+     <property name="text">
+      <string>0 °C</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="ihhhfg">
+     <property name="geometry">
+      <rect>
+       <x>65</x>
+       <y>300</y>
+       <width>61</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background: transparent;
+font: 9pt &quot;Verdana&quot;;
+</string>
+     </property>
+     <property name="text">
+      <string>0 hPa</string>
+     </property>
     </widget>
     <zorder>prop_diagram</zorder>
     <zorder>label</zorder>
@@ -834,6 +920,8 @@ QPushButton:checked {
     <zorder>label_6</zorder>
     <zorder>label_7</zorder>
     <zorder>GSE_pressure</zorder>
+    <zorder>GSE_temp</zorder>
+    <zorder>ihhhfg</zorder>
    </widget>
    <widget class="QGroupBox" name="groupBox_3">
     <property name="geometry">
@@ -932,6 +1020,9 @@ border: 3px  solid red;
      </property>
      <property name="text">
       <string>DISCONNECT</string>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
      </property>
     </widget>
    </widget>
@@ -1047,6 +1138,27 @@ QCheckBox::indicator:hover {
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:700;&quot;&gt;MIAOU&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>800</x>
+      <y>660</y>
+      <width>101</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton:hover {
+background: green;
+}</string>
+    </property>
+    <property name="text">
+     <string>MIUAUSSAD</string>
+    </property>
+    <property name="flat">
+     <bool>false</bool>
+    </property>
+   </widget>
    <zorder>groupBox_3</zorder>
    <zorder>groupBox_2</zorder>
    <zorder>label_11</zorder>
@@ -1060,6 +1172,7 @@ QCheckBox::indicator:hover {
    <zorder>checkBox_6</zorder>
    <zorder>checkBox_5</zorder>
    <zorder>label_8</zorder>
+   <zorder>pushButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
