@@ -89,7 +89,7 @@ XstratoWindow::~XstratoWindow() {
 void
 XstratoWindow::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_t len) {
     static std::string filename_time = filename;
-    static float altitude_max = 0;
+    static int altitude_max = 0;
     ui->send_cmd_available->setStyleSheet("image: url(:/assets/Red_Light_Icon.svg.png);");
     packet_ctr++;
     lastRxTime = std::time(nullptr); // for now
@@ -161,7 +161,7 @@ XstratoWindow::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_t 
             // GPS data
             ui->latitude_label->setText(QString::number(packet.telemetry.position.lat));
             ui->longitude_label->setText(QString::number(packet.telemetry.position.lon));
-            ui->altitude_lcd_gps->display(QString::number(packet.telemetry.position.alt));
+            ui->altitude_lcd_gps->display(QString::number((int) packet.telemetry.position.alt));
             if (packet.telemetry.position.alt > altitude_max) altitude_max = packet.telemetry.position.alt;
             ui->altitude_max_lcd_m->display(QString::number(altitude_max));
             ui->speed_vertical->setText(QString::number(packet.telemetry.verticalSpeed));
