@@ -260,7 +260,11 @@ void XstratoWindow::on_open_serial_pressed() {
     QString serial_port_name = "";
     if (!serial->isOpen()) {
         do {
+            #ifdef __linux__
+            serial_port_name = "ttyACM" + QString::number(ctr++); // need to run in sudo ./XSTRATO   !!!
+            #else
             serial_port_name = "ttyS" + QString::number(ctr++);
+            #endif
             serial->setPortName(serial_port_name);
         } while (!serial->open(QIODevice::ReadWrite) && ctr <= 30);
         if (serial->isOpen()) {
