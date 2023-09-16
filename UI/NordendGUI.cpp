@@ -108,6 +108,8 @@ void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_
             set_valve_img(ui->GSE_fill, packetGSE_downlink.status.fillingN2O);
             set_valve_img(ui->GSE_vent, packetGSE_downlink.status.vent);
             ui->GSE_pressure->setText(QString::number(packetGSE_downlink.tankPressure) + " hPa");
+            ui->GSE_temp->setText(QString::number(packetGSE_downlink.tankTemperature) + " °C");
+            ui->filling_pressure->setText(QString::number(packetGSE_downlink.fillingPressure) + " hPa");
             break;
         }
         default:
