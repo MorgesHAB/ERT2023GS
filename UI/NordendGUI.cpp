@@ -201,6 +201,7 @@ void NordendGUI::on_reset_valves_pressed() {
     set_valve_img(ui->AV_servo_N2O, 0);
     set_valve_img(ui->AV_servo_fuel, 0);
     set_valve_img(ui->AV_pressurization, 0);
+    ui->prop_diagram->setStyleSheet("QPushButton{background: transparent;qproperty-icon: url(:/assets/Prop_background_V1.png);qproperty-iconSize: 700px;}");
 }
 
 void NordendGUI::set_valve_img(QPushButton * valve, int i) {

@@ -275,7 +275,7 @@ void XstratoWindow::on_open_serial_pressed() {
             ui->serial_port_detected_name->textFormat();
             ui->serial_port_detected_name->setStyleSheet("color : green;");
         } else {
-            std::cout << "Impossible to find valid serial port" << std::endl;
+            std::cout << "Impossible to find valid serial port, did you run in SUDO ?" << std::endl;
             ui->serialport_status->setStyleSheet(
                     "QLabel {image: url(:/assets/redCross.png);}");
             ui->serial_port_detected_name->setText("None!");
