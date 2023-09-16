@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1013</width>
-    <height>787</height>
+    <width>1003</width>
+    <height>781</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -169,29 +169,15 @@ color: black;
      <string>Data AV</string>
     </property>
     <layout class="QGridLayout" name="gridLayout_8">
-     <item row="2" column="1">
-      <widget class="QLabel" name="pressure">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
      <item row="4" column="1">
-      <widget class="QLabel" name="altitude_sensor">
+      <widget class="QLabel" name="AV_altitude_baro">
        <property name="text">
         <string/>
        </property>
       </widget>
      </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="label_29">
-       <property name="text">
-        <string>Sea level P.</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLabel" name="temperature">
+     <item row="1" column="1">
+      <widget class="QLabel" name="AV_humidity">
        <property name="text">
         <string/>
        </property>
@@ -204,20 +190,6 @@ color: black;
        </property>
       </widget>
      </item>
-     <item row="2" column="2">
-      <widget class="QLabel" name="hpa_unit_label">
-       <property name="text">
-        <string>hPa</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="2">
-      <widget class="QLabel" name="m_s_unit_label">
-       <property name="text">
-        <string>%</string>
-       </property>
-      </widget>
-     </item>
      <item row="4" column="2">
       <widget class="QLabel" name="m_unit_label_3">
        <property name="text">
@@ -225,10 +197,17 @@ color: black;
        </property>
       </widget>
      </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="pressure_label">
+     <item row="0" column="2">
+      <widget class="QLabel" name="celcius_label">
        <property name="text">
-        <string>Pressure</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;o&lt;/span&gt;C&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="AV_temp">
+       <property name="text">
+        <string/>
        </property>
       </widget>
      </item>
@@ -242,10 +221,17 @@ color: black;
        </property>
       </widget>
      </item>
-     <item row="5" column="2">
-      <widget class="QLabel" name="label_30">
+     <item row="2" column="1">
+      <widget class="QLabel" name="AV_pressure">
        <property name="text">
-        <string>hPa</string>
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QLabel" name="m_s_unit_label">
+       <property name="text">
+        <string>%</string>
        </property>
       </widget>
      </item>
@@ -342,7 +328,7 @@ color: black;
          </widget>
         </item>
         <item row="4" column="1">
-         <widget class="QLabel" name="time_since_last_Rx">
+         <widget class="QLabel" name="vibe_check">
           <property name="toolTip">
            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Last packet's timestamp&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
@@ -357,6 +343,34 @@ color: black;
        </layout>
       </widget>
      </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="altitude_label_telemetry">
+       <property name="text">
+        <string>Altitude</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QLabel" name="hpa_unit_label">
+       <property name="text">
+        <string>hPa</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="pressure_label">
+       <property name="text">
+        <string>Pressure</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="2">
+      <widget class="QLabel" name="label_30">
+       <property name="text">
+        <string>hPa</string>
+       </property>
+      </widget>
+     </item>
      <item row="5" column="1">
       <widget class="QLineEdit" name="sea_level_pressure_edit">
        <property name="styleSheet">
@@ -367,24 +381,10 @@ color: black;
        </property>
       </widget>
      </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="altitude_label_telemetry">
+     <item row="5" column="0">
+      <widget class="QLabel" name="label_29">
        <property name="text">
-        <string>Altitude</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLabel" name="humidity">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QLabel" name="celcius_label">
-       <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;o&lt;/span&gt;C&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>Sea level P.</string>
        </property>
       </widget>
      </item>
@@ -944,76 +944,11 @@ font: 9pt &quot;Verdana&quot;;
       <string>0 °C</string>
      </property>
     </widget>
-    <zorder>prop_diagram</zorder>
-    <zorder>label</zorder>
-    <zorder>reset_valves</zorder>
-    <zorder>GSE_fill</zorder>
-    <zorder>GSE_vent</zorder>
-    <zorder>label_2</zorder>
-    <zorder>label_3</zorder>
-    <zorder>label_4</zorder>
-    <zorder>AV_servo_N2O</zorder>
-    <zorder>AV_servo_fuel</zorder>
-    <zorder>AV_vent_N2O</zorder>
-    <zorder>AV_vent_fuel</zorder>
-    <zorder>AV_pressurization</zorder>
-    <zorder>label_5</zorder>
-    <zorder>label_6</zorder>
-    <zorder>label_7</zorder>
-    <zorder>GSE_pressure</zorder>
-    <zorder>GSE_temp</zorder>
-    <zorder>filling_pressure</zorder>
-    <zorder>chamber_pressure</zorder>
-    <zorder>fuel_pressure</zorder>
-    <zorder>N2O_pressure</zorder>
-    <zorder>N2O_temp</zorder>
-   </widget>
-   <widget class="QGroupBox" name="groupBox_3">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>640</y>
-      <width>721</width>
-      <height>81</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>Command</string>
-    </property>
-    <widget class="QPushButton" name="abort_cmd">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>30</y>
-       <width>100</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">QPushButton{
-font: 9pt &quot;Verdana&quot;;
-border-radius: 10px;
-background: red;
-}
-QPushButton:hover {
-font: 700 9pt &quot;Verdana&quot;;
-}
-QPushButton:pressed {
-font: 700 9pt &quot;Verdana&quot;;
-color: white;
-background: transparent;
-border: 3px  solid red;
-}</string>
-     </property>
-     <property name="text">
-      <string>ABORT</string>
-     </property>
-    </widget>
     <widget class="QPushButton" name="ignition_cmd">
      <property name="geometry">
       <rect>
-       <x>140</x>
-       <y>30</y>
+       <x>420</x>
+       <y>530</y>
        <width>100</width>
        <height>30</height>
       </rect>
@@ -1041,8 +976,8 @@ border: 3px  solid red;
     <widget class="QPushButton" name="disconnect_cmd">
      <property name="geometry">
       <rect>
-       <x>260</x>
-       <y>30</y>
+       <x>240</x>
+       <y>440</y>
        <width>100</width>
        <height>30</height>
       </rect>
@@ -1070,10 +1005,48 @@ border: 3px  solid red;
       <bool>false</bool>
      </property>
     </widget>
+    <zorder>prop_diagram</zorder>
+    <zorder>label</zorder>
+    <zorder>reset_valves</zorder>
+    <zorder>GSE_fill</zorder>
+    <zorder>GSE_vent</zorder>
+    <zorder>label_2</zorder>
+    <zorder>label_3</zorder>
+    <zorder>label_4</zorder>
+    <zorder>AV_servo_N2O</zorder>
+    <zorder>AV_servo_fuel</zorder>
+    <zorder>AV_vent_N2O</zorder>
+    <zorder>AV_vent_fuel</zorder>
+    <zorder>AV_pressurization</zorder>
+    <zorder>label_5</zorder>
+    <zorder>label_6</zorder>
+    <zorder>label_7</zorder>
+    <zorder>GSE_pressure</zorder>
+    <zorder>GSE_temp</zorder>
+    <zorder>filling_pressure</zorder>
+    <zorder>chamber_pressure</zorder>
+    <zorder>fuel_pressure</zorder>
+    <zorder>N2O_pressure</zorder>
+    <zorder>N2O_temp</zorder>
+    <zorder>ignition_cmd</zorder>
+    <zorder>disconnect_cmd</zorder>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_3">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>640</y>
+      <width>721</width>
+      <height>81</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Command</string>
+    </property>
     <widget class="QPushButton" name="arm_cmd">
      <property name="geometry">
       <rect>
-       <x>380</x>
+       <x>20</x>
        <y>30</y>
        <width>100</width>
        <height>30</height>
@@ -1105,7 +1078,71 @@ border: 3px  solid red;
     <widget class="QPushButton" name="disarm_cmd">
      <property name="geometry">
       <rect>
-       <x>500</x>
+       <x>140</x>
+       <y>30</y>
+       <width>100</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+color: white;
+font: 9pt &quot;Verdana&quot;;
+border-radius: 10px;
+border: 2px  solid red;
+}
+QPushButton:hover {
+font: 700 9pt &quot;Verdana&quot;;
+}
+QPushButton:pressed {
+font: 700 9pt &quot;Verdana&quot;;
+background: red;
+color: black;
+}</string>
+     </property>
+     <property name="text">
+      <string>DISARM</string>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="recover_cmd">
+     <property name="geometry">
+      <rect>
+       <x>380</x>
+       <y>30</y>
+       <width>100</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+color: white;
+font: 9pt &quot;Verdana&quot;;
+border-radius: 10px;
+border: 2px  solid red;
+}
+QPushButton:hover {
+font: 700 9pt &quot;Verdana&quot;;
+}
+QPushButton:pressed {
+font: 700 9pt &quot;Verdana&quot;;
+background: red;
+color: black;
+}</string>
+     </property>
+     <property name="text">
+      <string>RECOVER</string>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="abort_cmd">
+     <property name="geometry">
+      <rect>
+       <x>260</x>
        <y>30</y>
        <width>100</width>
        <height>30</height>
@@ -1128,145 +1165,202 @@ border: 3px  solid red;
 }</string>
      </property>
      <property name="text">
-      <string>DISARM</string>
-     </property>
-     <property name="flat">
-      <bool>false</bool>
+      <string>ABORT</string>
      </property>
     </widget>
    </widget>
-   <widget class="QCheckBox" name="checkBox_6">
+   <widget class="QLabel" name="last_refresh_label">
     <property name="geometry">
      <rect>
-      <x>770</x>
-      <y>540</y>
-      <width>51</width>
-      <height>61</height>
+      <x>20</x>
+      <y>10</y>
+      <width>191</width>
+      <height>24</height>
      </rect>
     </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QCheckBox {
-	background: transparent;
-}
-QCheckBox::indicator {
-     width: 50px; 
-     height: 50px; 
-}
-
-QCheckBox::indicator:checked {
-	image: url(:/assets/GS_valve_V1_OpenV.png);
-}
-
-QCheckBox::indicator:unchecked {
-	image: url(:/assets/GS_valve_V1_CloseH.png);
-}
-
-QCheckBox::indicator:hover {
-	background-color: rgba(0, 0, 0, 50); 
-}
-</string>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Last packet's timestamp&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="text">
-     <string/>
-    </property>
-    <property name="checked">
-     <bool>false</bool>
-    </property>
-    <property name="tristate">
-     <bool>false</bool>
+     <string>Time since last received packet</string>
     </property>
    </widget>
-   <widget class="QCheckBox" name="checkBox_5">
+   <widget class="QLabel" name="time_since_last_Rx">
     <property name="geometry">
      <rect>
-      <x>770</x>
-      <y>590</y>
-      <width>51</width>
-      <height>61</height>
+      <x>200</x>
+      <y>10</y>
+      <width>71</width>
+      <height>24</height>
      </rect>
     </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QCheckBox {
-	background: transparent;
-}
-QCheckBox::indicator {
-     width: 50px; 
-     height: 50px; 
-}
-
-QCheckBox::indicator:partiallychecked {
-	image: url(:/assets/GS_valve_V2_Unknown.svg);
-}
-
-QCheckBox::indicator:checked {
-    image: url(:/assets/GS_valve_V2_OpenV.svg);
-}
-
-QCheckBox::indicator:unchecked {
-	image: url(:/assets/GS_valve_V2_CloseH.svg);
-}
-
-QCheckBox::indicator:hover {
-	background-color: rgba(0, 0, 0, 50); 
-}
-
-</string>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Last packet's timestamp&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="text">
-     <string/>
+     <string>2:32</string>
     </property>
-    <property name="checked">
-     <bool>false</bool>
-    </property>
-    <property name="tristate">
-     <bool>false</bool>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QLabel" name="label_8">
+   <widget class="QGroupBox" name="gps_box">
     <property name="geometry">
      <rect>
-      <x>770</x>
-      <y>510</y>
-      <width>211</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:700;&quot;&gt;MIAOU&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="pushButton">
-    <property name="geometry">
-     <rect>
-      <x>800</x>
-      <y>660</y>
-      <width>101</width>
-      <height>41</height>
+      <x>760</x>
+      <y>500</y>
+      <width>221</width>
+      <height>211</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">QPushButton:hover {
-background: green;
-}</string>
+     <string notr="true"/>
     </property>
-    <property name="text">
-     <string>Test</string>
+    <property name="title">
+     <string>GPS</string>
     </property>
-    <property name="flat">
-     <bool>false</bool>
-    </property>
+    <layout class="QGridLayout" name="gridLayout_3">
+     <item row="3" column="1" colspan="3">
+      <widget class="QLabel" name="AV_longitude">
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1" colspan="3">
+      <widget class="QLabel" name="speed_vertical">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="altitude_label_gps">
+       <property name="text">
+        <string>Altitude</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1" colspan="3">
+      <widget class="QLabel" name="AV_latitude">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="latitude_label">
+       <property name="text">
+        <string>Latitude</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="altitude_max_label">
+       <property name="text">
+        <string>Altitude max</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="label_XX">
+       <property name="text">
+        <string>Speed Vert.</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="longitude_label">
+       <property name="text">
+        <string>Longitude</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="0">
+      <widget class="QLabel" name="label_XX_2">
+       <property name="text">
+        <string>Speed Horiz.</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1" colspan="3">
+      <widget class="QLabel" name="speed_horizontal">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="3">
+      <widget class="QLabel" name="m_unit_label_2">
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>m</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1" colspan="2">
+      <widget class="QLCDNumber" name="altitude_lcd_gps">
+       <property name="smallDecimalPoint">
+        <bool>false</bool>
+       </property>
+       <property name="digitCount">
+        <number>7</number>
+       </property>
+       <property name="segmentStyle">
+        <enum>QLCDNumber::Flat</enum>
+       </property>
+       <property name="intValue" stdset="0">
+        <number>0</number>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="3">
+      <widget class="QLabel" name="m_unit_label">
+       <property name="text">
+        <string>m</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1" colspan="2">
+      <widget class="QLCDNumber" name="altitude_max_lcd_max">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="digitCount">
+        <number>7</number>
+       </property>
+       <property name="segmentStyle">
+        <enum>QLCDNumber::Flat</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </widget>
    <zorder>groupBox_3</zorder>
    <zorder>groupBox_2</zorder>
@@ -1278,17 +1372,16 @@ background: green;
    <zorder>serial_port_detected_name</zorder>
    <zorder>avionics_box</zorder>
    <zorder>label_39</zorder>
-   <zorder>checkBox_6</zorder>
-   <zorder>checkBox_5</zorder>
-   <zorder>label_8</zorder>
-   <zorder>pushButton</zorder>
+   <zorder>last_refresh_label</zorder>
+   <zorder>time_since_last_Rx</zorder>
+   <zorder>gps_box</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1013</width>
+     <width>1003</width>
      <height>22</height>
     </rect>
    </property>

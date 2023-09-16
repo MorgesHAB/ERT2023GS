@@ -33,15 +33,24 @@ public slots:
     void on_open_serial_pressed();
     void on_close_serial_pressed();
     void on_abort_cmd_pressed();
+    void on_recover_cmd_pressed();
     void on_arm_cmd_pressed();
     void on_disarm_cmd_pressed();
     void on_ignition_cmd_pressed();
     void on_disconnect_cmd_pressed();
     void on_reset_valves_pressed();
+
     void on_GSE_fill_pressed();
     void on_GSE_vent_pressed();
+    void on_AV_servo_N2O_pressed();
+    void on_AV_servo_fuel_pressed();
+    void on_AV_vent_N2O_pressed();
+    void on_AV_vent_fuel_pressed();
+    void on_AV_pressurization_pressed();
 
     void serialError();
+
+    void qtimer_callback();
 
 public:
     void handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_t len);
@@ -57,6 +66,11 @@ private:
     Capsule<NordendGUI> capsule;
 
     PacketGSE_downlink packetGSE_downlink;
+
+    av_downlink_t packetAV_downlink;
+
+    QTimer * qtimer; // for time since last rx packet
+    time_t lastRxTime;
 };
 
 
