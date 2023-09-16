@@ -1070,6 +1070,70 @@ border: 3px  solid red;
       <bool>false</bool>
      </property>
     </widget>
+    <widget class="QPushButton" name="arm_cmd">
+     <property name="geometry">
+      <rect>
+       <x>380</x>
+       <y>30</y>
+       <width>100</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+font: 9pt &quot;Verdana&quot;;
+border-radius: 10px;
+background: red;
+}
+QPushButton:hover {
+font: 700 9pt &quot;Verdana&quot;;
+}
+QPushButton:pressed {
+font: 700 9pt &quot;Verdana&quot;;
+color: white;
+background: transparent;
+border: 3px  solid red;
+}</string>
+     </property>
+     <property name="text">
+      <string>ARM</string>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="disarm_cmd">
+     <property name="geometry">
+      <rect>
+       <x>500</x>
+       <y>30</y>
+       <width>100</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+font: 9pt &quot;Verdana&quot;;
+border-radius: 10px;
+background: red;
+}
+QPushButton:hover {
+font: 700 9pt &quot;Verdana&quot;;
+}
+QPushButton:pressed {
+font: 700 9pt &quot;Verdana&quot;;
+color: white;
+background: transparent;
+border: 3px  solid red;
+}</string>
+     </property>
+     <property name="text">
+      <string>DISARM</string>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+    </widget>
    </widget>
    <widget class="QCheckBox" name="checkBox_6">
     <property name="geometry">

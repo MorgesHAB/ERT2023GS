@@ -148,15 +148,15 @@ void NordendGUI::on_open_serial_pressed() {
     QString serial_port_name = "";
     if (!serial->isOpen()) {
         do {
-            #ifdef __linux__
-            serial_port_name = "ttyACM" + QString::number(ctr++);
-            #else
+//            #ifdef __linux__
+//            serial_port_name = "ttyACM" + QString::number(ctr++);
+//            #else
             serial_port_name = "ttyS" + QString::number(ctr++);
-            #endif
+//            #endif
             std::cout << serial_port_name.toStdString() << std::endl;
             //serial_port_name = "ttyACM0";
             serial->setPortName(serial_port_name);
-        } while (!serial->open(QIODevice::ReadWrite) && ctr <= 30);
+        } while (!serial->open(QIODevice::ReadWrite) && ctr <= 50); // tmp
         if (serial->isOpen()) {
             std::cout << "Serial port open" << std::endl;
             ui->serialport_status->setStyleSheet(
@@ -174,13 +174,34 @@ void NordendGUI::on_open_serial_pressed() {
     }
 }
 
+// CMD button handling
+
+void NordendGUI::on_arm_cmd_pressed() {
+    av_uplink_t p;
+    p.order_id = CMD_ID::ARM;
+    p.order_value = ACTIVE;
+    sendSerialPacket(CAPSULE_ID::GS_CMD, (uint8_t*) &p, av_uplink_size);
+}
+
+void NordendGUI::on_disarm_cmd_pressed() {
+    av_uplink_t p;
+    p.order_id = CMD_ID::ARM;
+    p.order_value = INACTIVE;
+    sendSerialPacket(CAPSULE_ID::GS_CMD, (uint8_t*) &p, av_uplink_size);
+}
+
 void NordendGUI::on_abort_cmd_pressed() {
-    uint8_t x =  10;
-    //sendSerialPacket(CAPSULE_ID::ABORT, &x, sizeof(x));
+    av_uplink_t p;
+    p.order_id = CMD_ID::ABORT;
+    p.order_value = ACTIVE;
+    sendSerialPacket(CAPSULE_ID::GS_CMD, (uint8_t*) &p, av_uplink_size);
 }
 
 void NordendGUI::on_ignition_cmd_pressed() {
-
+    av_uplink_t p;
+    p.order_id = CMD_ID::IGNITION;
+    p.order_value = ACTIVE;
+    sendSerialPacket(CAPSULE_ID::GS_CMD, (uint8_t*) &p, av_uplink_size);
 }
 
 void NordendGUI::on_disconnect_cmd_pressed() {

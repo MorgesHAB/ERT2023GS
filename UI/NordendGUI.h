@@ -33,6 +33,8 @@ public slots:
     void on_open_serial_pressed();
     void on_close_serial_pressed();
     void on_abort_cmd_pressed();
+    void on_arm_cmd_pressed();
+    void on_disarm_cmd_pressed();
     void on_ignition_cmd_pressed();
     void on_disconnect_cmd_pressed();
     void on_reset_valves_pressed();
