@@ -62,20 +62,20 @@ void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_
 //    packet_ctr++;
     static int altitude_max = 0;
     lastRxTime = std::time(nullptr); // for now
-    std::cout << "Packet received, ID: " << +packetId << std::endl;
+    std::cout << "Packet received, ID: " << +packetId << " len: "  << len << std::endl;
     switch (packetId) {
         case 0x00:
             std::cout << "Packet with ID 00 received : " << +packetId << std::endl;
             break;
         case CAPSULE_ID::AV_TELEMETRY: {
-            std::cout << "Packet AV_TELEMETRY received" << std::endl;
+            std::cout << "Packet AV_TELEMETRY received " << packetAV_downlink.packet_nbr << std::endl;
             memcpy(&packetAV_downlink, dataIn, av_downlink_size);
             // Set the valves states
-            set_valve_img(ui->AV_servo_N2O, packetAV_downlink.valves_state); // TODO update !!!! with real value
-            set_valve_img(ui->AV_servo_fuel, packetAV_downlink.valves_state);
-            set_valve_img(ui->AV_vent_N2O, packetAV_downlink.valves_state);
-            set_valve_img(ui->AV_vent_fuel, packetAV_downlink.valves_state);
-            set_valve_img(ui->AV_pressurization, packetAV_downlink.valves_state);
+            set_valve_img(ui->AV_servo_N2O, packetAV_downlink.engine_state.servo_N2O);
+            set_valve_img(ui->AV_servo_fuel, packetAV_downlink.engine_state.servo_fuel);
+            set_valve_img(ui->AV_vent_N2O, packetAV_downlink.engine_state.vent_N2O);
+            set_valve_img(ui->AV_vent_fuel, packetAV_downlink.engine_state.vent_fuel);
+            set_valve_img(ui->AV_pressurization, packetAV_downlink.engine_state.pressurize);
 
             // Set telemetry data box
             ui->N2O_pressure->setText(QString::number(packetAV_downlink.N2O_pressure) + " hPa");
@@ -169,7 +169,7 @@ void NordendGUI::on_disconnect_cmd_pressed() {
 void NordendGUI::on_AV_servo_N2O_pressed() {
     av_uplink_t p;
     p.order_id = CMD_ID::AV_CMD_SERVO_N2O;
-    p.order_value = (packetAV_downlink.engine_state == ACTIVE)?INACTIVE:ACTIVE; // TODO update !!!!!!!!!!!!!!!!!!
+    p.order_value = (packetAV_downlink.engine_state.servo_N2O == ACTIVE)?INACTIVE:ACTIVE;
     sendSerialPacket(CAPSULE_ID::GS_CMD, (uint8_t*) &p, av_uplink_size);
     set_valve_img(ui->AV_servo_N2O, UNKNOWN);
 }
@@ -177,7 +177,7 @@ void NordendGUI::on_AV_servo_N2O_pressed() {
 void NordendGUI::on_AV_servo_fuel_pressed() {
     av_uplink_t p;
     p.order_id = CMD_ID::AV_CMD_SERVO_FUEL;
-    p.order_value = (packetAV_downlink.engine_state == ACTIVE)?INACTIVE:ACTIVE; // TODO update !!!!!!!!!!!!!!!!!!
+    p.order_value = (packetAV_downlink.engine_state.servo_fuel == ACTIVE)?INACTIVE:ACTIVE;
     sendSerialPacket(CAPSULE_ID::GS_CMD, (uint8_t*) &p, av_uplink_size);
     set_valve_img(ui->AV_servo_fuel, UNKNOWN);
 }
@@ -185,7 +185,7 @@ void NordendGUI::on_AV_servo_fuel_pressed() {
 void NordendGUI::on_AV_vent_N2O_pressed() {
     av_uplink_t p;
     p.order_id = CMD_ID::AV_CMD_VENT_N2O;
-    p.order_value = (packetAV_downlink.engine_state == ACTIVE)?INACTIVE:ACTIVE; // TODO update !!!!!!!!!!!!!!!!!!
+    p.order_value = (packetAV_downlink.engine_state.vent_N2O == ACTIVE)?INACTIVE:ACTIVE;
     sendSerialPacket(CAPSULE_ID::GS_CMD, (uint8_t*) &p, av_uplink_size);
     set_valve_img(ui->AV_vent_N2O, UNKNOWN);
 }
@@ -193,7 +193,7 @@ void NordendGUI::on_AV_vent_N2O_pressed() {
 void NordendGUI::on_AV_vent_fuel_pressed() {
     av_uplink_t p;
     p.order_id = CMD_ID::AV_CMD_VENT_FUEL;
-    p.order_value = (packetAV_downlink.engine_state == ACTIVE)?INACTIVE:ACTIVE; // TODO update !!!!!!!!!!!!!!!!!!
+    p.order_value = (packetAV_downlink.engine_state.vent_fuel == ACTIVE)?INACTIVE:ACTIVE;
     sendSerialPacket(CAPSULE_ID::GS_CMD, (uint8_t*) &p, av_uplink_size);
     set_valve_img(ui->AV_vent_fuel, UNKNOWN);
 }
@@ -201,7 +201,7 @@ void NordendGUI::on_AV_vent_fuel_pressed() {
 void NordendGUI::on_AV_pressurization_pressed() {
     av_uplink_t p;
     p.order_id = CMD_ID::AV_CMD_PRESSURIZE;
-    p.order_value = (packetAV_downlink.engine_state == ACTIVE)?INACTIVE:ACTIVE; // TODO update !!!!!!!!!!!!!!!!!!
+    p.order_value = (packetAV_downlink.engine_state.pressurize == ACTIVE)?INACTIVE:ACTIVE;
     sendSerialPacket(CAPSULE_ID::GS_CMD, (uint8_t*) &p, av_uplink_size);
     set_valve_img(ui->AV_pressurization, UNKNOWN);
 }
