@@ -107,6 +107,9 @@ void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_
             memcpy(&packetGSE_downlink, dataIn, packetGSE_downlink_size);
             set_valve_img(ui->GSE_fill, packetGSE_downlink.status.fillingN2O);
             set_valve_img(ui->GSE_vent, packetGSE_downlink.status.vent);
+            if (packetGSE_downlink.disconnectActive) { // for 20sec
+                ui->prop_diagram->setStyleSheet("QPushButton{background: transparent;qproperty-icon: url(:/assets/Prop_background_disconnect.png);qproperty-iconSize: 700px;}");
+            }
             ui->GSE_pressure->setText(QString::number(packetGSE_downlink.tankPressure) + " hPa");
             ui->GSE_temp->setText(QString::number(packetGSE_downlink.tankTemperature) + " °C");
             ui->filling_pressure->setText(QString::number(packetGSE_downlink.fillingPressure) + " hPa");
@@ -156,7 +159,6 @@ void NordendGUI::on_ignition_cmd_pressed() {
 }
 
 void NordendGUI::on_disconnect_cmd_pressed() {
-    ui->prop_diagram->setStyleSheet("QPushButton{background: transparent;qproperty-icon: url(:/assets/Prop_background_disconnect.png);qproperty-iconSize: 700px;}");
     av_uplink_t p;
     p.order_id = CMD_ID::AV_CMD_DISCONNECT;
     p.order_value = ACTIVE;
@@ -217,6 +219,7 @@ void NordendGUI::on_GSE_fill_pressed() {
 
 void NordendGUI::on_GSE_vent_pressed() {
     av_uplink_t p;
+    p.order_id = CMD_ID::GSE_VENT;
     p.order_value = (packetGSE_downlink.status.vent == ACTIVE)?INACTIVE:ACTIVE;
     sendSerialPacket(CAPSULE_ID::GS_CMD, (uint8_t*) &p, av_uplink_size);
     set_valve_img(ui->GSE_vent, UNKNOWN);
