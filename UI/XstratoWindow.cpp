@@ -115,6 +115,7 @@ XstratoWindow::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_t 
             std::cout << "IMAGE START received" << std::endl;
             filename_time = insert_time(filename);
             fileOutImg = std::ofstream(filename_time, std::ios::trunc | std::ios::binary);
+            if (!fileOutImg.is_open()) std::cout << "Error opening file" << std::endl;
             fileOutImg.write((char *) dataIn, len);
             break;
         }
