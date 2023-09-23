@@ -899,6 +899,139 @@ background-color: rgb(16, 16, 16);
     </property>
    </widget>
   </widget>
+  <widget class="QPushButton" name="pushButton">
+   <property name="geometry">
+    <rect>
+     <x>760</x>
+     <y>600</y>
+     <width>101</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton:hover {
+background: green;
+}</string>
+   </property>
+   <property name="text">
+    <string>Test</string>
+   </property>
+   <property name="flat">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkBox_5">
+   <property name="geometry">
+    <rect>
+     <x>730</x>
+     <y>530</y>
+     <width>51</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QCheckBox {
+	background: transparent;
+}
+QCheckBox::indicator {
+     width: 50px; 
+     height: 50px; 
+}
+
+QCheckBox::indicator:partiallychecked {
+	image: url(:/assets/GS_valve_V2_Unknown.svg);
+}
+
+QCheckBox::indicator:checked {
+    image: url(:/assets/GS_valve_V2_OpenV.svg);
+}
+
+QCheckBox::indicator:unchecked {
+	image: url(:/assets/GS_valve_V2_CloseH.svg);
+}
+
+QCheckBox::indicator:hover {
+	background-color: rgba(0, 0, 0, 50); 
+}
+
+</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="tristate">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_8">
+   <property name="geometry">
+    <rect>
+     <x>730</x>
+     <y>450</y>
+     <width>211</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:700;&quot;&gt;MIAOU&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QCheckBox" name="checkBox_6">
+   <property name="geometry">
+    <rect>
+     <x>730</x>
+     <y>480</y>
+     <width>51</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QCheckBox {
+	background: transparent;
+}
+QCheckBox::indicator {
+     width: 50px; 
+     height: 50px; 
+}
+
+QCheckBox::indicator:checked {
+	image: url(:/assets/GS_valve_V1_OpenV.png);
+}
+
+QCheckBox::indicator:unchecked {
+	image: url(:/assets/GS_valve_V1_CloseH.png);
+}
+
+QCheckBox::indicator:hover {
+	background-color: rgba(0, 0, 0, 50); 
+}
+</string>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="tristate">
+    <bool>false</bool>
+   </property>
+  </widget>
   <zorder>tabWidget</zorder>
   <zorder>logo</zorder>
   <zorder>label_29</zorder>
@@ -911,6 +1044,10 @@ background-color: rgb(16, 16, 16);
   <zorder>send_msg</zorder>
   <zorder>label_7</zorder>
   <zorder>groupBox_2</zorder>
+  <zorder>pushButton</zorder>
+  <zorder>checkBox_5</zorder>
+  <zorder>label_8</zorder>
+  <zorder>checkBox_6</zorder>
  </widget>
  <resources>
   <include location="assets.qrc"/>

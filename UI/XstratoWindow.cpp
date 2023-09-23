@@ -261,11 +261,11 @@ void XstratoWindow::on_open_serial_pressed() {
     QString serial_port_name = "";
     if (!serial->isOpen()) {
         do {
-            #ifdef __linux__
-            serial_port_name = "ttyACM" + QString::number(ctr++); // need to run in sudo ./XSTRATO   !!!
-            #else
+//            #ifdef __linux__
+//            serial_port_name = "ttyACM" + QString::number(ctr++); // need to run in sudo ./XSTRATO   !!!
+//            #else
             serial_port_name = "ttyS" + QString::number(ctr++);
-            #endif
+//            #endif
             serial->setPortName(serial_port_name);
         } while (!serial->open(QIODevice::ReadWrite) && ctr <= 30);
         if (serial->isOpen()) {
@@ -276,7 +276,7 @@ void XstratoWindow::on_open_serial_pressed() {
             ui->serial_port_detected_name->textFormat();
             ui->serial_port_detected_name->setStyleSheet("color : green;");
         } else {
-            std::cout << "Impossible to find valid serial port" << std::endl;
+            std::cout << "Impossible to find valid serial port, did you run in SUDO ?" << std::endl;
             ui->serialport_status->setStyleSheet(
                     "QLabel {image: url(:/assets/redCross.png);}");
             ui->serial_port_detected_name->setText("None!");
