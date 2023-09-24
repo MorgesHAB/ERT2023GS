@@ -13,6 +13,7 @@
 #include <QTimer>
 #include <QGraphicsColorizeEffect>
 #include <cmath> // pow, alt(pressure)
+#include <QMessageBox>
 
 #include "../ERT_RF_Protocol_Interface/PacketDefinition.h"
 
@@ -109,10 +110,13 @@ void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_
             set_valve_img(ui->GSE_vent, packetGSE_downlink.status.vent);
             if (packetGSE_downlink.disconnectActive) { // for 20sec
                 ui->prop_diagram->setStyleSheet("QPushButton{background: transparent;qproperty-icon: url(:/assets/Prop_background_disconnect.png);qproperty-iconSize: 700px;}");
+            } else {
+                ui->prop_diagram->setStyleSheet("QPushButton{background: transparent;qproperty-icon: url(:/assets/Prop_background_V1.png);qproperty-iconSize: 700px;}");
             }
             ui->GSE_pressure->setText(QString::number(packetGSE_downlink.tankPressure) + " hPa");
-            ui->GSE_temp->setText(QString::number(packetGSE_downlink.tankTemperature) + " °C");
+            ui->GSE_temp->setText(QString::number(packetGSE_downlink.tankTemperature, (char)103, 4) + " °C");
             ui->filling_pressure->setText(QString::number(packetGSE_downlink.fillingPressure) + " hPa");
+            ui->safe_config_label->setVisible(packetGSE_downlink.status.vent == ACTIVE && packetGSE_downlink.status.fillingN2O == INACTIVE);
             break;
         }
         default:
@@ -124,10 +128,15 @@ void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_
 // CMD button handling
 
 void NordendGUI::on_arm_cmd_pressed() {
-    av_uplink_t p;
-    p.order_id = CMD_ID::AV_CMD_ARM;
-    p.order_value = ACTIVE;
-    sendSerialPacket(CAPSULE_ID::GS_CMD, (uint8_t*) &p, av_uplink_size);
+    QMessageBox::StandardButton reply = QMessageBox::question(this,"ARM MODE","Arm mode confirmation request", QMessageBox::Yes | QMessageBox::No);
+    if (reply == QMessageBox::Yes) {
+        av_uplink_t p;
+        p.order_id = CMD_ID::AV_CMD_ARM;
+        p.order_value = ACTIVE;
+        sendSerialPacket(CAPSULE_ID::GS_CMD, (uint8_t*) &p, av_uplink_size);
+    } else {
+        std::cout << "Arm mode rejected" << std::endl;
+    }
 }
 
 void NordendGUI::on_disarm_cmd_pressed() {
@@ -159,10 +168,15 @@ void NordendGUI::on_ignition_cmd_pressed() {
 }
 
 void NordendGUI::on_disconnect_cmd_pressed() {
-    av_uplink_t p;
-    p.order_id = CMD_ID::AV_CMD_DISCONNECT;
-    p.order_value = ACTIVE;
-    sendSerialPacket(CAPSULE_ID::GS_CMD, (uint8_t*) &p, av_uplink_size);
+    QMessageBox::StandardButton reply = QMessageBox::question(this,"DISCONNECT","GSE Disconnect confirmation request", QMessageBox::Yes | QMessageBox::No);
+    if (reply == QMessageBox::Yes) {
+        av_uplink_t p;
+        p.order_id = CMD_ID::AV_CMD_DISCONNECT;
+        p.order_value = ACTIVE;
+        sendSerialPacket(CAPSULE_ID::GS_CMD, (uint8_t*) &p, av_uplink_size);
+    } else {
+        std::cout << "Disconnect cmd rejected" << std::endl;
+    }
 }
 
 ////////////////////////////////////////////////////////
@@ -263,6 +277,7 @@ void NordendGUI::set_valve_img(QPushButton * valve, int i) {
 void NordendGUI::qtimer_callback() {
     // Time since last received packet
     time_t t = difftime(std::time(nullptr), lastRxTime);
+    ui->time_since_last_Rx->setStyleSheet(((t > 5) ? "color : red;" : "color : white;"));
     struct tm *tt = gmtime(&t);
     char buf[32];
     std::strftime(buf, 32, "%T", tt);

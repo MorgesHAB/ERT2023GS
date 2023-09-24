@@ -127,7 +127,7 @@ color: black;
      <rect>
       <x>760</x>
       <y>130</y>
-      <width>131</width>
+      <width>141</width>
       <height>21</height>
      </rect>
     </property>
@@ -142,9 +142,9 @@ color: black;
    <widget class="QLabel" name="serial_port_detected_name">
     <property name="geometry">
      <rect>
-      <x>900</x>
+      <x>910</x>
       <y>130</y>
-      <width>51</width>
+      <width>81</width>
       <height>21</height>
      </rect>
     </property>
@@ -401,10 +401,10 @@ color: black;
     </property>
     <property name="styleSheet">
      <string notr="true">color: white;
-font: 13pt &quot;Verdana&quot;;</string>
+font: 16pt &quot;Verdana&quot;;</string>
     </property>
     <property name="text">
-     <string>NORDEND GS</string>
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;NORDEND GS&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -749,7 +749,7 @@ font: 9pt &quot;Verdana&quot;;
 </string>
      </property>
      <property name="text">
-      <string>Vent Fuel</string>
+      <string>Fuel vent</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_6">
@@ -767,7 +767,7 @@ font: 9pt &quot;Verdana&quot;;
 </string>
      </property>
      <property name="text">
-      <string>N2O Fuel</string>
+      <string>N2O vent</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_7">
@@ -1005,6 +1005,27 @@ border: 3px  solid red;
       <bool>false</bool>
      </property>
     </widget>
+    <widget class="QLabel" name="safe_config_label">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>70</y>
+       <width>111</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background: transparent;
+font: 10pt &quot;Verdana&quot;;
+color: rgb(8, 222, 10);</string>
+     </property>
+     <property name="text">
+      <string>SAFE config</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
     <zorder>prop_diagram</zorder>
     <zorder>label</zorder>
     <zorder>reset_valves</zorder>
@@ -1030,6 +1051,7 @@ border: 3px  solid red;
     <zorder>N2O_temp</zorder>
     <zorder>ignition_cmd</zorder>
     <zorder>disconnect_cmd</zorder>
+    <zorder>safe_config_label</zorder>
    </widget>
    <widget class="QGroupBox" name="groupBox_3">
     <property name="geometry">
@@ -1174,7 +1196,7 @@ border: 3px  solid red;
      <rect>
       <x>20</x>
       <y>10</y>
-      <width>191</width>
+      <width>211</width>
       <height>24</height>
      </rect>
     </property>
@@ -1182,13 +1204,13 @@ border: 3px  solid red;
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Last packet's timestamp&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="text">
-     <string>Time since last received packet</string>
+     <string>Time since last received packet:</string>
     </property>
    </widget>
    <widget class="QLabel" name="time_since_last_Rx">
     <property name="geometry">
      <rect>
-      <x>200</x>
+      <x>240</x>
       <y>10</y>
       <width>71</width>
       <height>24</height>
@@ -1201,7 +1223,7 @@ border: 3px  solid red;
      <string>2:32</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignCenter</set>
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
     </property>
    </widget>
    <widget class="QGroupBox" name="gps_box">
