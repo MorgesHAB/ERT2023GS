@@ -16,6 +16,7 @@
 #include "../ERT_RF_Protocol_Interface/PacketDefinition.h"
 #include <fstream>
 #include <QPushButton> // valve function
+#include <QLabel>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class nordend; } // named of object "QMainWindow" in ui file
@@ -39,6 +40,24 @@ public slots:
     void on_ignition_cmd_pressed();
     void on_disconnect_cmd_pressed();
     void on_reset_valves_pressed();
+    void on_debug_button_pressed();
+
+    // full manual cmd
+    void on_cmd_active_pressurization_pressed();
+    void on_cmd_inactive_pressurization_pressed();
+    void on_cmd_active_N2O_servo_pressed();
+    void on_cmd_inactive_N2O_servo_pressed();
+    void on_cmd_active_fuel_servo_pressed();
+    void on_cmd_inactive_fuel_servo_pressed();
+    void on_cmd_active_N2O_vent_pressed();
+    void on_cmd_inactive_N2O_vent_pressed();
+    void on_cmd_active_fuel_vent_pressed();
+    void on_cmd_inactive_fuel_vent_pressed();
+
+    void on_cmd_active_N2O_fill_pressed();
+    void on_cmd_inactive_N2O_fill_pressed();
+    void on_cmd_active_GSE_vent_pressed();
+    void on_cmd_inactive_GSE_vent_pressed();
 
     void on_GSE_fill_pressed();
     void on_GSE_vent_pressed();
@@ -56,8 +75,11 @@ public:
     void handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_t len);
 private:
     void sendSerialPacket(uint8_t packetId, uint8_t *packet, uint32_t size);
-    void set_valve_img(QPushButton * valve, int i);
+    void set_valve_img(QPushButton * valve, int i, bool horizontal_bar = false);
+    void update_AV_states(control_state_copy_t state);
+    void set_AV_state(QLabel* st_label);//, control_state_copy_t state);
 
+    void send_cmd(uint8_t order_id, uint8_t order_value, QPushButton* button);
 private:
     Ui::nordend *ui;
 
@@ -71,6 +93,8 @@ private:
 
     QTimer * qtimer; // for time since last rx packet
     time_t lastRxTime;
+
+    QLabel* last_state; // for state table color setting
 };
 
 
