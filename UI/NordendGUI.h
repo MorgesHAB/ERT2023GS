@@ -75,7 +75,7 @@ public:
     void handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_t len);
 private:
     void sendSerialPacket(uint8_t packetId, uint8_t *packet, uint32_t size);
-    void set_valve_img(QPushButton * valve, int i, bool horizontal_bar = false);
+    void set_valve_img(QPushButton * valve, int i, bool normally_open = false, bool horizontal_bar = false);
     void update_AV_states(control_state_copy_t state);
     void set_AV_state(QLabel* st_label);//, control_state_copy_t state);
 

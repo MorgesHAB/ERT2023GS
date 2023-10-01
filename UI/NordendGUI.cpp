@@ -74,9 +74,9 @@ void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_
             // Set the valves states
             set_valve_img(ui->AV_servo_N2O, packetAV_downlink.engine_state.servo_N2O+10);
             set_valve_img(ui->AV_servo_fuel, packetAV_downlink.engine_state.servo_fuel+10);
-            set_valve_img(ui->AV_vent_N2O, packetAV_downlink.engine_state.vent_N2O+10, true);
-            set_valve_img(ui->AV_vent_fuel, packetAV_downlink.engine_state.vent_fuel+10, true);
-            set_valve_img(ui->AV_pressurization, packetAV_downlink.engine_state.pressurize+10, true);
+            set_valve_img(ui->AV_vent_N2O, packetAV_downlink.engine_state.vent_N2O+10, true, true);
+            set_valve_img(ui->AV_vent_fuel, packetAV_downlink.engine_state.vent_fuel+10, true, true);
+            set_valve_img(ui->AV_pressurization, packetAV_downlink.engine_state.pressurize+10, false, true);
 
             // Set telemetry data box
             ui->N2O_pressure->setText(QString::number(packetAV_downlink.N2O_pressure) + " hPa");
@@ -107,7 +107,7 @@ void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_
             std::cout << "Packet GSE_TELEMETRY received" << std::endl;
             memcpy(&packetGSE_downlink, dataIn, packetGSE_downlink_size);
             set_valve_img(ui->GSE_fill, packetGSE_downlink.status.fillingN2O);
-            set_valve_img(ui->GSE_vent, packetGSE_downlink.status.vent);
+            set_valve_img(ui->GSE_vent, packetGSE_downlink.status.vent, true);
             if (packetGSE_downlink.disconnectActive) { // for 20sec
                 ui->prop_diagram->setStyleSheet("QPushButton{background: transparent;qproperty-icon: url(:/assets/Prop_background_disconnect.png);qproperty-iconSize: 700px;}");
             } else {
@@ -177,7 +177,7 @@ void NordendGUI::on_disconnect_cmd_pressed() {
     if (reply == QMessageBox::Yes) {
         av_uplink_t p;
         p.prefix = ERT_PREFIX;
-        p.order_id = CMD_ID::AV_CMD_DISCONNECT;
+        p.order_id = CMD_ID::GSE_CMD_DISCONNECT;
         p.order_value = ACTIVE;
         sendSerialPacket(CAPSULE_ID::GS_CMD, (uint8_t*) &p, av_uplink_size);
     } else {
@@ -187,14 +187,24 @@ void NordendGUI::on_disconnect_cmd_pressed() {
 
 /////////////////////////////////////////////////////
 
-void NordendGUI::set_valve_img(QPushButton * valve, int i, bool horizontal_bar) {
+void NordendGUI::set_valve_img(QPushButton * valve, int i, bool normally_open, bool horizontal_bar) {
     QString img_name = "";
     switch (i) {
-        case 10:
-        case INACTIVE: img_name = (horizontal_bar)?"CloseV":"CloseH";
-        break;
-        case 11:
-        case ACTIVE: img_name = (horizontal_bar)?"OpenH":"OpenV";
+        case 10: // 0 => INACTIVE
+        case INACTIVE:
+            if (!normally_open) { // => normally close, classic => red
+                img_name = (horizontal_bar)?"CloseV":"CloseH";
+            } else {
+                img_name = (horizontal_bar)?"OpenH":"OpenV";
+            }
+            break;
+        case 11: // 1 => ACTIVE
+        case ACTIVE:
+            if (!normally_open) { // => normally close, classic => green
+                img_name = (horizontal_bar)?"OpenH":"OpenV";
+            } else { // => normally close, NO => red
+                img_name = (horizontal_bar)?"CloseH":"CloseV";
+            }
         break;
         default: img_name = "Unknown";
         break;
@@ -413,22 +423,22 @@ void NordendGUI::on_AV_pressurization_pressed() {
 
 
 void NordendGUI::on_GSE_fill_pressed() {
-    send_cmd(CMD_ID::GSE_FILLING_N2O, (packetGSE_downlink.status.fillingN2O)?INACTIVE:ACTIVE, ui->GSE_fill);
+    send_cmd(CMD_ID::GSE_CMD_FILLING_N2O, (packetGSE_downlink.status.fillingN2O)?INACTIVE:ACTIVE, ui->GSE_fill);
 }
 
 void NordendGUI::on_GSE_vent_pressed() {
-    send_cmd(CMD_ID::GSE_VENT, (packetGSE_downlink.status.vent)?INACTIVE:ACTIVE, ui->GSE_vent);
+    send_cmd(CMD_ID::GSE_CMD_VENT, (packetGSE_downlink.status.vent)?INACTIVE:ACTIVE, ui->GSE_vent);
 }
 
 //////////////////////////////////////////////
 // Full manual cmd
 
 void NordendGUI::on_cmd_active_pressurization_pressed() {
-    send_cmd(CMD_ID::AV_CMD_PRESSURIZE, ACTIVE, ui->AV_pressurization);
+    send_cmd(CMD_ID::AV_CMD_MAN_PRESSURE, ACTIVE, ui->AV_pressurization);
 }
 
 void NordendGUI::on_cmd_inactive_pressurization_pressed() {
-    send_cmd(CMD_ID::AV_CMD_PRESSURIZE, INACTIVE, ui->AV_pressurization);
+    send_cmd(CMD_ID::AV_CMD_MAN_PRESSURE, INACTIVE, ui->AV_pressurization);
 }
 
 void NordendGUI::on_cmd_active_N2O_servo_pressed() {
@@ -464,19 +474,19 @@ void NordendGUI::on_cmd_inactive_fuel_vent_pressed() {
 }
 
 void NordendGUI::on_cmd_active_N2O_fill_pressed() {
-    send_cmd(CMD_ID::GSE_FILLING_N2O, ACTIVE, ui->GSE_fill);
+    send_cmd(CMD_ID::GSE_CMD_FILLING_N2O, ACTIVE, ui->GSE_fill);
 }
 
 void NordendGUI::on_cmd_inactive_N2O_fill_pressed() {
-    send_cmd(CMD_ID::GSE_FILLING_N2O, INACTIVE, ui->GSE_fill);
+    send_cmd(CMD_ID::GSE_CMD_FILLING_N2O, INACTIVE, ui->GSE_fill);
 }
 
 void NordendGUI::on_cmd_active_GSE_vent_pressed() {
-    send_cmd(CMD_ID::GSE_VENT, ACTIVE, ui->GSE_vent);
+    send_cmd(CMD_ID::GSE_CMD_VENT, ACTIVE, ui->GSE_vent);
 }
 
 void NordendGUI::on_cmd_inactive_GSE_vent_pressed() {
-    send_cmd(CMD_ID::GSE_VENT, INACTIVE, ui->GSE_vent);
+    send_cmd(CMD_ID::GSE_CMD_VENT, INACTIVE, ui->GSE_vent);
 }
 
 
