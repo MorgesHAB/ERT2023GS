@@ -29,7 +29,8 @@ NordendGUI::NordendGUI() :
         serial(new QSerialPort(this)),
         capsule(&NordendGUI::handleSerialRxPacket, this),
         qtimer(new QTimer(this)),
-        lastRxTime(std::time(nullptr))
+        lastRxTime_AV(std::time(nullptr)),
+        lastRxTime_GSE(std::time(nullptr))
         {
 
 //    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
@@ -62,13 +63,13 @@ NordendGUI::~NordendGUI() {
 void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_t len) {
 //    packet_ctr++;
     static int altitude_max = 0;
-    lastRxTime = std::time(nullptr); // for now
     std::cout << "Packet received, ID: " << +packetId << " len: "  << len << std::endl;
     switch (packetId) {
         case 0x00:
             std::cout << "Packet with ID 00 received : " << +packetId << std::endl;
             break;
         case CAPSULE_ID::AV_TELEMETRY: {
+            lastRxTime_AV = std::time(nullptr); // for now
             std::cout << "Packet AV_TELEMETRY received " << packetAV_downlink.packet_nbr << std::endl;
             memcpy(&packetAV_downlink, dataIn, av_downlink_size);
             // Set the valves states
@@ -104,6 +105,7 @@ void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_
             break;
         }
         case CAPSULE_ID::GSE_TELEMETRY: {
+            lastRxTime_GSE = std::time(nullptr); // for now
             std::cout << "Packet GSE_TELEMETRY received" << std::endl;
             memcpy(&packetGSE_downlink, dataIn, packetGSE_downlink_size);
             set_valve_img(ui->GSE_fill, packetGSE_downlink.status.fillingN2O);
@@ -113,9 +115,9 @@ void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_
             } else {
                 ui->prop_diagram->setStyleSheet("QPushButton{background: transparent;qproperty-icon: url(:/assets/Prop_background_V1.png);qproperty-iconSize: 700px;}");
             }
-            ui->GSE_pressure->setText(QString::number(packetGSE_downlink.tankPressure) + " hPa");
+            ui->GSE_pressure->setText(QString::number(packetGSE_downlink.tankPressure, (char)103, 5) + " bar");
             ui->GSE_temp->setText(QString::number(packetGSE_downlink.tankTemperature, (char)103, 4) + " °C");
-            ui->filling_pressure->setText(QString::number(packetGSE_downlink.fillingPressure) + " hPa");
+            ui->filling_pressure->setText(QString::number(packetGSE_downlink.fillingPressure, (char)103, 5) + " bar");
             ui->safe_config_label->setVisible(packetGSE_downlink.status.vent == INACTIVE && packetGSE_downlink.status.fillingN2O == INACTIVE);
             break;
         }
@@ -221,12 +223,19 @@ void NordendGUI::set_valve_img(QPushButton * valve, int i, bool normally_open, b
 
 void NordendGUI::qtimer_callback() {
     // Time since last received packet
-    time_t t = difftime(std::time(nullptr), lastRxTime);
-    ui->time_since_last_Rx->setStyleSheet(((t > 3) ? "color : red;" : "color : white;"));
-    struct tm *tt = gmtime(&t);
-    char buf[32];
-    std::strftime(buf, 32, "%T", tt);
-    ui->time_since_last_Rx->setText(buf);
+    time_t t1 = difftime(std::time(nullptr), lastRxTime_AV);
+    ui->time_since_last_Rx_AV->setStyleSheet(((t1 > 3) ? "color : red;" : "color : white;"));
+    struct tm *tt1 = gmtime(&t1);
+    char buf1[32];
+    std::strftime(buf1, 32, "%T", tt1);
+    ui->time_since_last_Rx_AV->setText(buf1);
+
+    time_t t2 = difftime(std::time(nullptr), lastRxTime_GSE);
+    ui->time_since_last_Rx_GSE->setStyleSheet(((t2 > 3) ? "color : red;" : "color : white;"));
+    struct tm *tt2 = gmtime(&t2);
+    char buf2[32];
+    std::strftime(buf2, 32, "%T", tt2);
+    ui->time_since_last_Rx_GSE->setText(buf2);
 }
 
 //////////////////////////////////////////////
@@ -396,6 +405,7 @@ void NordendGUI::on_debug_button_pressed() {
     update_AV_states((control_state_copy_t) ctr);
     ctr+=2;
     if (ctr==8) ctr=3;
+    if (ctr > 13) ctr = 0;
 }
 
 ////////////////////////////////////////////////////////

@@ -1207,11 +1207,11 @@ border: 3px  solid red;
      <string>Time since last received packet:</string>
     </property>
    </widget>
-   <widget class="QLabel" name="time_since_last_Rx">
+   <widget class="QLabel" name="time_since_last_Rx_AV">
     <property name="geometry">
      <rect>
-      <x>240</x>
-      <y>10</y>
+      <x>310</x>
+      <y>0</y>
       <width>71</width>
       <height>24</height>
      </rect>
@@ -2386,6 +2386,57 @@ font: 9pt &quot;Verdana&quot;;
      </property>
     </widget>
    </widget>
+   <widget class="QLabel" name="time_since_last_Rx_GSE">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>20</y>
+      <width>71</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Last packet's timestamp&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="text">
+     <string>2:32</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="last_refresh_label_2">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>0</y>
+      <width>41</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Last packet's timestamp&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="text">
+     <string>AV</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="last_refresh_label_3">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>20</y>
+      <width>41</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Last packet's timestamp&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="text">
+     <string>GSE</string>
+    </property>
+   </widget>
    <zorder>groupBox_3</zorder>
    <zorder>groupBox_2</zorder>
    <zorder>label_11</zorder>
@@ -2397,11 +2448,14 @@ font: 9pt &quot;Verdana&quot;;
    <zorder>avionics_box</zorder>
    <zorder>label_39</zorder>
    <zorder>last_refresh_label</zorder>
-   <zorder>time_since_last_Rx</zorder>
+   <zorder>time_since_last_Rx_AV</zorder>
    <zorder>gps_box</zorder>
    <zorder>av_states_box</zorder>
    <zorder>debug_button</zorder>
    <zorder>groupBox_4</zorder>
+   <zorder>time_since_last_Rx_GSE</zorder>
+   <zorder>last_refresh_label_2</zorder>
+   <zorder>last_refresh_label_3</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

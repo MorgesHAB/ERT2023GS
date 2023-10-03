@@ -92,7 +92,8 @@ private:
     av_downlink_t packetAV_downlink;
 
     QTimer * qtimer; // for time since last rx packet
-    time_t lastRxTime;
+    time_t lastRxTime_AV;
+    time_t lastRxTime_GSE;
 
     QLabel* last_state; // for state table color setting
 };
