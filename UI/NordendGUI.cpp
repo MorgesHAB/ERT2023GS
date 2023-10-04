@@ -24,20 +24,23 @@
 
 #define UNKNOWN                 0  // valve state yellow
 
+#define FORMAT                  "background: transparent; font: 9pt \"Verdana\";"
+
 NordendGUI::NordendGUI() :
         ui(new Ui::nordend),
         serial(new QSerialPort(this)),
         capsule(&NordendGUI::handleSerialRxPacket, this),
         qtimer(new QTimer(this)),
         lastRxTime_AV(std::time(nullptr)),
-        lastRxTime_GSE(std::time(nullptr))
+        lastRxTime_GSE(std::time(nullptr)),
+        tare_val(0.0), gain_val(1.0)
         {
 
 //    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
 //    QCoreApplication::setAttribute(Qt::AA_Use96Dpi);
 
     ui->setupUi(this);
-    last_state = ui->st_idle;
+    last_state = ui->st_init;
 
     qtimer->start(REFRESH_PERIOD_ms);
 
@@ -63,15 +66,33 @@ NordendGUI::~NordendGUI() {
 void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_t len) {
 //    packet_ctr++;
     static int altitude_max = 0;
-    std::cout << "Packet received, ID: " << +packetId << " len: "  << len << std::endl;
+    static int altitude_max_r = 0;
+
+    // std::cout << "Packet received, ID: " << +packetId << " len: "  << len << std::endl;
     switch (packetId) {
         case 0x00:
             std::cout << "Packet with ID 00 received : " << +packetId << std::endl;
             break;
         case CAPSULE_ID::AV_TELEMETRY: {
             lastRxTime_AV = std::time(nullptr); // for now
-            std::cout << "Packet AV_TELEMETRY received " << packetAV_downlink.packet_nbr << std::endl;
+            std::cout << "Packet AV_TELEMETRY received " << packetAV_downlink.packet_nbr << " time: " << packetAV_downlink.timestamp << std::endl;
             memcpy(&packetAV_downlink, dataIn, av_downlink_size);
+
+            static uint32_t t = 0;
+            if (packetAV_downlink.timestamp < t) ui->AV_timestamp->setStyleSheet("color: red;");
+            t = packetAV_downlink.timestamp;
+            ui->AV_timestamp->setText(QString::number(packetAV_downlink.timestamp));
+
+            // sensor debug
+            static bool first_time = true;
+            if (packetAV_downlink.N2O_pressure < 0 && first_time) {
+                time_t t = std::time(nullptr);
+                struct tm *tt = gmtime(&t);
+                char buf[32];
+                std::strftime(buf, 32, "%T", tt);
+                ui->sensor_crash_time->setText(buf);
+            }
+
             // Set the valves states
             set_valve_img(ui->AV_servo_N2O, packetAV_downlink.engine_state.servo_N2O+10);
             set_valve_img(ui->AV_servo_fuel, packetAV_downlink.engine_state.servo_fuel+10);
@@ -80,28 +101,41 @@ void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_
             set_valve_img(ui->AV_pressurization, packetAV_downlink.engine_state.pressurize+10, false, true);
 
             // Set telemetry data box
-            ui->N2O_pressure->setText(QString::number(packetAV_downlink.N2O_pressure) + " hPa");
-            ui->N2O_temp->setText(QString::number(packetAV_downlink.tank_temp) + " °C");
-            ui->fuel_pressure->setText(QString::number(packetAV_downlink.fuel_pressure) + " hPa");
-            ui->chamber_pressure->setText(QString::number(packetAV_downlink.chamber_pressure) + " hPa");
+            ui->N2O_pressure->setText(QString::number(packetAV_downlink.N2O_pressure, (char)103, 4) + " bar");
+            ui->N2O_pressure->setStyleSheet(((packetAV_downlink.N2O_pressure < 0)?QString(FORMAT)+"color: red;":QString(FORMAT)+"color:white"));
+            ui->N2O_temp->setText(QString::number(packetAV_downlink.tank_temp, (char)103, 4) + " °C");
+            ui->fuel_pressure->setText(QString::number(packetAV_downlink.fuel_pressure, (char)103, 4) + " bar");
+            ui->fuel_pressure->setStyleSheet(((packetAV_downlink.fuel_pressure < 0)?QString(FORMAT)+"color: red;":QString(FORMAT)+"color:white"));
+            ui->chamber_pressure->setText(QString::number(packetAV_downlink.chamber_pressure, (char)103, 4) + " bar");
+            ui->chamber_pressure->setStyleSheet(((packetAV_downlink.chamber_pressure < 0)?QString(FORMAT)+"color: red;":QString(FORMAT)+"color:white"));
 
             ui->AV_temp->setText(QString::number(packetAV_downlink.baro_temp));
 //            ui->AV_humidity->setText(QString::number(packetAV_downlink.humidity));
-            ui->AV_humidity->setText(QString::number(packetAV_downlink.baro_press));
+            ui->AV_pressure->setText(QString::number(packetAV_downlink.baro_press));
             float sea_level_pressure_hPa = ui->sea_level_pressure_edit->text().toFloat();
             float altitude = 44330.0 * (1.0 - pow(packetAV_downlink.baro_press / sea_level_pressure_hPa, 0.1903));
             ui->AV_altitude_baro->setText(QString::number(altitude));
 
-            // GPS data
             // GPS data
             ui->AV_latitude->setText(QString::number(packetAV_downlink.gnss_lat));
             ui->AV_longitude->setText(QString::number(packetAV_downlink.gnss_lon));
             ui->altitude_lcd_gps->display(QString::number((int) packetAV_downlink.gnss_alt));
             if (packetAV_downlink.gnss_alt > altitude_max) altitude_max =packetAV_downlink.gnss_alt;
             ui->altitude_max_lcd_max->display(QString::number(altitude_max));
+            // GPS reserve
+            ui->AV_latitude_r->setText(QString::number(packetAV_downlink.gnss_lat_r));
+            ui->AV_longitude_r->setText(QString::number(packetAV_downlink.gnss_lon_r));
+            ui->altitude_lcd_gps_r->display(QString::number((int) packetAV_downlink.gnss_alt_r));
+            if (packetAV_downlink.gnss_alt > altitude_max) altitude_max_r =packetAV_downlink.gnss_alt_r;
+            ui->altitude_max_lcd_max_r->display(QString::number(altitude_max_r));
 //            ui->speed_vertical->setText(QString::number(packet.telemetry.verticalSpeed));
 //            ui->speed_horizontal->setText(QString::number(packet.telemetry.horizontalSpeed));
             update_AV_states((control_state_copy_t) packetAV_downlink.av_state);
+
+            //std::cout << "Servo fuel " << +packetAV_downlink.engine_state.servo_fuel << std::endl; 
+            //std::cout << "Servo N2O " << +packetAV_downlink.engine_state.servo_N2O << std::endl; 
+            //std::cout << "vent fuel " << +packetAV_downlink.engine_state.vent_fuel << std::endl; 
+            //std::cout << "vent n2o " << +packetAV_downlink.engine_state.vent_N2O<< std::endl; 
             break;
         }
         case CAPSULE_ID::GSE_TELEMETRY: {
@@ -115,10 +149,13 @@ void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_
             } else {
                 ui->prop_diagram->setStyleSheet("QPushButton{background: transparent;qproperty-icon: url(:/assets/Prop_background_V1.png);qproperty-iconSize: 700px;}");
             }
-            ui->GSE_pressure->setText(QString::number(packetGSE_downlink.tankPressure, (char)103, 5) + " bar");
+            ui->GSE_pressure->setText(QString::number(packetGSE_downlink.tankPressure, (char)103, 3) + " bar");
             ui->GSE_temp->setText(QString::number(packetGSE_downlink.tankTemperature, (char)103, 4) + " °C");
-            ui->filling_pressure->setText(QString::number(packetGSE_downlink.fillingPressure, (char)103, 5) + " bar");
-            ui->safe_config_label->setVisible(packetGSE_downlink.status.vent == INACTIVE && packetGSE_downlink.status.fillingN2O == INACTIVE);
+            ui->filling_pressure->setText(QString::number(packetGSE_downlink.fillingPressure, (char)103, 3) + " bar");
+            ui->safe_config_label->setVisible(packetGSE_downlink.status.vent == INACTIVE && packetGSE_downlink.status.fillingN2O == INACTIVE && !packetAV_downlink.engine_state.pressurize && !packetAV_downlink.engine_state.vent_fuel && !packetAV_downlink.engine_state.vent_N2O && !packetAV_downlink.engine_state.servo_fuel && !packetAV_downlink.engine_state.servo_N2O);
+            
+            ui->load_cell->setText(QString::number(packetGSE_downlink.loadcellRaw));
+            ui->load_cell_kg->setText(QString::number(packetGSE_downlink.loadcellRaw - tare_val));
             break;
         }
         default:
@@ -185,6 +222,11 @@ void NordendGUI::on_disconnect_cmd_pressed() {
     } else {
         std::cout << "Disconnect cmd rejected" << std::endl;
     }
+}
+
+
+void NordendGUI::on_tare_button_pressed() {
+    tare_val = packetGSE_downlink.loadcellRaw;
 }
 
 /////////////////////////////////////////////////////
@@ -336,7 +378,7 @@ void NordendGUI::update_AV_states(control_state_copy_t state) {
     last_state->setText("X");
     switch (state) {
         case AV_CONTROL_IDLE:
-            set_AV_state(ui->st_idle);
+            set_AV_state(ui->st_init);
             std::cout << "AV_CONTROL_IDLE: Wait for arming or calibration"
                       << std::endl;
             break;
@@ -382,14 +424,6 @@ void NordendGUI::update_AV_states(control_state_copy_t state) {
         case AV_CONTROL_DESCENT:
             set_AV_state(ui->st_descent);
             std::cout << "AV_CONTROL_DESCENT: Descent" << std::endl;
-            break;
-        case AV_CONTROL_SAFE:
-            set_AV_state(ui->st_safe);
-            std::cout << "AV_CONTROL_SAFE: Safe state" << std::endl;
-            break;
-        case AV_CONTROL_ERROR:
-            set_AV_state(ui->st_error);
-            std::cout << "AV_CONTROL_ERROR: System error" << std::endl;
             break;
         case AV_CONTROL_ABORT:
             set_AV_state(ui->st_abort);
@@ -512,9 +546,18 @@ void NordendGUI::on_reset_valves_pressed() {
     set_valve_img(ui->AV_pressurization, UNKNOWN);
     ui->prop_diagram->setStyleSheet("QPushButton{background: transparent;qproperty-icon: url(:/assets/Prop_background_V1.png);qproperty-iconSize: 700px;}");
 
+    ui->N2O_pressure->setText("0 bar");
+    ui->N2O_temp->setText("0 °C");
+    ui->chamber_pressure->setText("0 bar");
+    ui->fuel_pressure->setText("0 bar");
+    ui->filling_pressure->setText("0 bar");
+    ui->GSE_pressure->setText("0 bar");
+    ui->GSE_temp->setText("0 °C");
+
+
     // reset AV state table
-    ui->st_idle->setText("X");
-    ui->st_idle->setStyleSheet("color: red;");
+    ui->st_init->setText("X");
+    ui->st_init->setStyleSheet("color: red;");
     ui->st_calibration->setText("X");
     ui->st_calibration->setStyleSheet("color: red;");
     ui->st_manual_operation->setText("X");
@@ -535,10 +578,6 @@ void NordendGUI::on_reset_valves_pressed() {
     ui->st_glide->setStyleSheet("color: red;");
     ui->st_descent->setText("X");
     ui->st_descent->setStyleSheet("color: red;");
-    ui->st_safe->setText("X");
-    ui->st_safe->setStyleSheet("color: red;");
-    ui->st_error->setText("X");
-    ui->st_error->setStyleSheet("color: red;");
     ui->st_abort->setText("X");
     ui->st_abort->setStyleSheet("color: red;");
 }

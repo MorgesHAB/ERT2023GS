@@ -41,6 +41,7 @@ public slots:
     void on_disconnect_cmd_pressed();
     void on_reset_valves_pressed();
     void on_debug_button_pressed();
+    void on_tare_button_pressed();
 
     // full manual cmd
     void on_cmd_active_pressurization_pressed();
@@ -80,6 +81,7 @@ private:
     void set_AV_state(QLabel* st_label);//, control_state_copy_t state);
 
     void send_cmd(uint8_t order_id, uint8_t order_value, QPushButton* button);
+
 private:
     Ui::nordend *ui;
 
@@ -96,6 +98,10 @@ private:
     time_t lastRxTime_GSE;
 
     QLabel* last_state; // for state table color setting
+
+    // for load cell
+    float tare_val;
+    float gain_val;
 };
 
 

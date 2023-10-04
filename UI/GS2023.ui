@@ -1008,7 +1008,7 @@ border: 3px  solid red;
     <widget class="QLabel" name="safe_config_label">
      <property name="geometry">
       <rect>
-       <x>130</x>
+       <x>230</x>
        <y>70</y>
        <width>111</width>
        <height>31</height>
@@ -1024,6 +1024,96 @@ color: rgb(8, 222, 10);</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="load_cell">
+     <property name="geometry">
+      <rect>
+       <x>240</x>
+       <y>500</y>
+       <width>61</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background: transparent;
+font: 9pt &quot;Verdana&quot;;
+</string>
+     </property>
+     <property name="text">
+      <string>0</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="load_cell_label">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>500</y>
+       <width>71</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background: transparent;
+font: 9pt &quot;Verdana&quot;;
+</string>
+     </property>
+     <property name="text">
+      <string>load cell:</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="tare_button">
+     <property name="geometry">
+      <rect>
+       <x>150</x>
+       <y>530</y>
+       <width>71</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton{
+color: rgb(30, 30, 30);
+font: 9pt &quot;Verdana&quot;;
+border-radius: 10px;
+background: white;
+}
+QPushButton:hover {
+font: 700 9pt &quot;Verdana&quot;;
+}
+QPushButton:pressed {
+font: 700 9pt &quot;Verdana&quot;;
+color: white;
+background: transparent;
+border: 3px  solid white;
+}
+
+QPushButton:focus{
+border: none;
+}
+
+</string>
+     </property>
+     <property name="text">
+      <string>TARE</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="load_cell_kg">
+     <property name="geometry">
+      <rect>
+       <x>240</x>
+       <y>520</y>
+       <width>61</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background: transparent;
+font: 9pt &quot;Verdana&quot;;
+</string>
+     </property>
+     <property name="text">
+      <string>0 kg</string>
      </property>
     </widget>
     <zorder>prop_diagram</zorder>
@@ -1052,6 +1142,10 @@ color: rgb(8, 222, 10);</string>
     <zorder>ignition_cmd</zorder>
     <zorder>disconnect_cmd</zorder>
     <zorder>safe_config_label</zorder>
+    <zorder>load_cell</zorder>
+    <zorder>load_cell_label</zorder>
+    <zorder>tare_button</zorder>
+    <zorder>load_cell_kg</zorder>
    </widget>
    <widget class="QGroupBox" name="groupBox_3">
     <property name="geometry">
@@ -1239,7 +1333,7 @@ border: 3px  solid red;
      <string notr="true"/>
     </property>
     <property name="title">
-     <string>GPS</string>
+     <string>GPS 1</string>
     </property>
     <layout class="QGridLayout" name="gridLayout_3">
      <item row="3" column="1" colspan="3">
@@ -1397,7 +1491,56 @@ border: 3px  solid red;
      <string>AV States</string>
     </property>
     <layout class="QGridLayout" name="gridLayout_11">
-     <item row="8" column="1">
+     <item row="1" column="0">
+      <widget class="QLabel" name="idle_labe">
+       <property name="text">
+        <string>Ready steady</string>
+       </property>
+      </widget>
+     </item>
+     <item row="11" column="1">
+      <widget class="QLabel" name="st_descent">
+       <property name="minimumSize">
+        <size>
+         <width>30</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>23</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 0, 0);</string>
+       </property>
+       <property name="text">
+        <string>X</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="calibration_label">
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="text">
+        <string>Calibration</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="0">
+      <widget class="QLabel" name="ignition_label">
+       <property name="text">
+        <string>Ignition</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="1">
       <widget class="QLabel" name="st_shutdown">
        <property name="minimumSize">
         <size>
@@ -1423,6 +1566,31 @@ border: 3px  solid red;
       </widget>
      </item>
      <item row="4" column="1">
+      <widget class="QLabel" name="st_armed">
+       <property name="minimumSize">
+        <size>
+         <width>30</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>23</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 0, 0);</string>
+       </property>
+       <property name="text">
+        <string>X</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
       <widget class="QLabel" name="st_pressured">
        <property name="minimumSize">
         <size>
@@ -1447,7 +1615,49 @@ border: 3px  solid red;
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
+     <item row="10" column="0">
+      <widget class="QLabel" name="abort_label_2">
+       <property name="text">
+        <string>Ascent</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="init_label">
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="text">
+        <string>Initialization</string>
+       </property>
+      </widget>
+     </item>
+     <item row="13" column="1">
+      <widget class="QLabel" name="st_abort">
+       <property name="minimumSize">
+        <size>
+         <width>30</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>23</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 0, 0);</string>
+       </property>
+       <property name="text">
+        <string>X</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
       <widget class="QLabel" name="st_calibration">
        <property name="minimumSize">
         <size>
@@ -1472,39 +1682,21 @@ border: 3px  solid red;
        </property>
       </widget>
      </item>
-     <item row="6" column="1">
-      <widget class="QLabel" name="st_ignition">
-       <property name="minimumSize">
-        <size>
-         <width>30</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>23</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">color: rgb(255, 0, 0);</string>
-       </property>
+     <item row="12" column="0">
+      <widget class="QLabel" name="glide_label">
        <property name="text">
-        <string>X</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <string>Gliding</string>
        </property>
       </widget>
      </item>
-     <item row="7" column="0">
-      <widget class="QLabel" name="thrust_label">
+     <item row="9" column="0">
+      <widget class="QLabel" name="shutdown_label">
        <property name="text">
-        <string>Thrust</string>
+        <string>Shutdown</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
+     <item row="3" column="1">
       <widget class="QLabel" name="st_manual_operation">
        <property name="minimumSize">
         <size>
@@ -1530,21 +1722,53 @@ border: 3px  solid red;
       </widget>
      </item>
      <item row="5" column="0">
-      <widget class="QLabel" name="fire_igniter_label">
+      <widget class="QLabel" name="pressured_label">
        <property name="text">
-        <string>Fire igniter</string>
+        <string>Pressured</string>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="1">
+      <widget class="QLabel" name="st_ascent">
+       <property name="minimumSize">
+        <size>
+         <width>30</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>23</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 0, 0);</string>
+       </property>
+       <property name="text">
+        <string>X</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
      <item row="11" column="0">
-      <widget class="QLabel" name="safe_label">
+      <widget class="QLabel" name="descent_label">
        <property name="text">
-        <string>Safe</string>
+        <string>Descent</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="armed_label">
+       <property name="text">
+        <string>Armed</string>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLabel" name="st_idle">
+      <widget class="QLabel" name="st_init">
        <property name="minimumSize">
         <size>
          <width>30</width>
@@ -1569,13 +1793,6 @@ border: 3px  solid red;
       </widget>
      </item>
      <item row="3" column="0">
-      <widget class="QLabel" name="armed_label">
-       <property name="text">
-        <string>Armed</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
       <widget class="QLabel" name="manual_opration_label">
        <property name="styleSheet">
         <string notr="true"/>
@@ -1585,7 +1802,39 @@ border: 3px  solid red;
        </property>
       </widget>
      </item>
-     <item row="9" column="1">
+     <item row="8" column="0">
+      <widget class="QLabel" name="thrust_label">
+       <property name="text">
+        <string>Thrust</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1">
+      <widget class="QLabel" name="st_ignition">
+       <property name="minimumSize">
+        <size>
+         <width>30</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>23</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">color: rgb(255, 0, 0);</string>
+       </property>
+       <property name="text">
+        <string>X</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="12" column="1">
       <widget class="QLabel" name="st_glide">
        <property name="minimumSize">
         <size>
@@ -1610,116 +1859,7 @@ border: 3px  solid red;
        </property>
       </widget>
      </item>
-     <item row="7" column="1">
-      <widget class="QLabel" name="st_thrust">
-       <property name="minimumSize">
-        <size>
-         <width>30</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>23</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">color: rgb(255, 0, 0);</string>
-       </property>
-       <property name="text">
-        <string>X</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="10" column="0">
-      <widget class="QLabel" name="descent_label">
-       <property name="text">
-        <string>Descent</string>
-       </property>
-      </widget>
-     </item>
-     <item row="12" column="0">
-      <widget class="QLabel" name="error_label">
-       <property name="text">
-        <string>Error</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QLabel" name="st_armed">
-       <property name="minimumSize">
-        <size>
-         <width>30</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>23</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">color: rgb(255, 0, 0);</string>
-       </property>
-       <property name="text">
-        <string>X</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="0">
-      <widget class="QLabel" name="ignition_label">
-       <property name="text">
-        <string>Ignition</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="calibration_label">
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
-       <property name="text">
-        <string>Calibration</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="idle_labe">
-       <property name="text">
-        <string>IDLE</string>
-       </property>
-      </widget>
-     </item>
-     <item row="9" column="0">
-      <widget class="QLabel" name="glide_label">
-       <property name="text">
-        <string>Glide</string>
-       </property>
-      </widget>
-     </item>
-     <item row="8" column="0">
-      <widget class="QLabel" name="shutdown_label">
-       <property name="text">
-        <string>Shutdown</string>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="pressured_label">
-       <property name="text">
-        <string>Pressured</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="1">
+     <item row="6" column="1">
       <widget class="QLabel" name="st_fire_igniter">
        <property name="minimumSize">
         <size>
@@ -1751,8 +1891,8 @@ border: 3px  solid red;
        </property>
       </widget>
      </item>
-     <item row="10" column="1">
-      <widget class="QLabel" name="st_descent">
+     <item row="8" column="1">
+      <widget class="QLabel" name="st_thrust">
        <property name="minimumSize">
         <size>
          <width>30</width>
@@ -1776,58 +1916,15 @@ border: 3px  solid red;
        </property>
       </widget>
      </item>
-     <item row="11" column="1">
-      <widget class="QLabel" name="st_safe">
-       <property name="minimumSize">
-        <size>
-         <width>30</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>23</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">color: rgb(255, 0, 0);</string>
-       </property>
+     <item row="6" column="0">
+      <widget class="QLabel" name="fire_igniter_label">
        <property name="text">
-        <string>X</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <string>Fire igniter</string>
        </property>
       </widget>
      </item>
-     <item row="12" column="1">
-      <widget class="QLabel" name="st_error">
-       <property name="minimumSize">
-        <size>
-         <width>30</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>23</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">color: rgb(255, 0, 0);</string>
-       </property>
-       <property name="text">
-        <string>X</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="13" column="1">
-      <widget class="QLabel" name="st_abort">
+     <item row="1" column="1">
+      <widget class="QLabel" name="st_ready_steady">
        <property name="minimumSize">
         <size>
          <width>30</width>
@@ -2437,6 +2534,221 @@ font: 9pt &quot;Verdana&quot;;
      <string>GSE</string>
     </property>
    </widget>
+   <widget class="QLabel" name="AV_timestamp">
+    <property name="geometry">
+     <rect>
+      <x>1030</x>
+      <y>50</y>
+      <width>121</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Last packet's timestamp&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="text">
+     <string>2:32</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="sensor_crash_time">
+    <property name="geometry">
+     <rect>
+      <x>1020</x>
+      <y>770</y>
+      <width>121</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Last packet's timestamp&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="text">
+     <string>no</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="AV_timestamp_3">
+    <property name="geometry">
+     <rect>
+      <x>1020</x>
+      <y>740</y>
+      <width>121</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Last packet's timestamp&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="text">
+     <string>Sensor crash time:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="gps_box_2">
+    <property name="geometry">
+     <rect>
+      <x>980</x>
+      <y>500</y>
+      <width>221</width>
+      <height>221</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="title">
+     <string>GPS 2</string>
+    </property>
+    <layout class="QGridLayout" name="gridLayout_4">
+     <item row="3" column="1" colspan="3">
+      <widget class="QLabel" name="AV_longitude_r">
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1" colspan="3">
+      <widget class="QLabel" name="speed_vertical_r">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="altitude_label_gps_2">
+       <property name="text">
+        <string>Altitude</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1" colspan="3">
+      <widget class="QLabel" name="AV_latitude_r">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="latitude_label_2">
+       <property name="text">
+        <string>Latitude</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="altitude_max_label_2">
+       <property name="text">
+        <string>Altitude max</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="label_XX_3">
+       <property name="text">
+        <string>Speed Vert.</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="longitude_label_2">
+       <property name="text">
+        <string>Longitude</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="0">
+      <widget class="QLabel" name="label_XX_4">
+       <property name="text">
+        <string>Speed Horiz.</string>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="1" colspan="3">
+      <widget class="QLabel" name="speed_horizontal_r">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="3">
+      <widget class="QLabel" name="m_unit_label_4">
+       <property name="maximumSize">
+        <size>
+         <width>30</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>m</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1" colspan="2">
+      <widget class="QLCDNumber" name="altitude_lcd_gps_r">
+       <property name="smallDecimalPoint">
+        <bool>false</bool>
+       </property>
+       <property name="digitCount">
+        <number>7</number>
+       </property>
+       <property name="segmentStyle">
+        <enum>QLCDNumber::Flat</enum>
+       </property>
+       <property name="intValue" stdset="0">
+        <number>0</number>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="3">
+      <widget class="QLabel" name="m_unit_label_6">
+       <property name="text">
+        <string>m</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1" colspan="2">
+      <widget class="QLCDNumber" name="altitude_max_lcd_max_r">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="digitCount">
+        <number>7</number>
+       </property>
+       <property name="segmentStyle">
+        <enum>QLCDNumber::Flat</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
    <zorder>groupBox_3</zorder>
    <zorder>groupBox_2</zorder>
    <zorder>label_11</zorder>
@@ -2456,6 +2768,10 @@ font: 9pt &quot;Verdana&quot;;
    <zorder>time_since_last_Rx_GSE</zorder>
    <zorder>last_refresh_label_2</zorder>
    <zorder>last_refresh_label_3</zorder>
+   <zorder>AV_timestamp</zorder>
+   <zorder>sensor_crash_time</zorder>
+   <zorder>AV_timestamp_3</zorder>
+   <zorder>gps_box_2</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
