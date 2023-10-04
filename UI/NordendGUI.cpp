@@ -130,7 +130,7 @@ void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_
             ui->altitude_max_lcd_max_r->display(QString::number(altitude_max_r));
 //            ui->speed_vertical->setText(QString::number(packet.telemetry.verticalSpeed));
 //            ui->speed_horizontal->setText(QString::number(packet.telemetry.horizontalSpeed));
-            update_AV_states((control_state_copy_t) packetAV_downlink.av_state);
+            update_AV_states((FLIGHTMODE) packetAV_downlink.av_state);
 
             //std::cout << "Servo fuel " << +packetAV_downlink.engine_state.servo_fuel << std::endl; 
             //std::cout << "Servo N2O " << +packetAV_downlink.engine_state.servo_N2O << std::endl; 
@@ -372,71 +372,129 @@ void NordendGUI::set_AV_state(QLabel* st_label) {//, control_state_copy_t state)
     last_state = st_label;
 }
 
-// Function to print the state text
-void NordendGUI::update_AV_states(control_state_copy_t state) {
+void NordendGUI::update_AV_states(FLIGHTMODE state) {
     last_state->setStyleSheet("color: green");
     last_state->setText("X");
     switch (state) {
-        case AV_CONTROL_IDLE:
+        case INITIALIZE_MODE:
             set_AV_state(ui->st_init);
-            std::cout << "AV_CONTROL_IDLE: Wait for arming or calibration"
-                      << std::endl;
+            std::cout << "INITIALIZE_MODE: Wait for arming or calibration" << std::endl;
             break;
-        case AV_CONTROL_CALIBRATION:
+        case CALIBRATION_MODE:
             set_AV_state(ui->st_calibration);
-            std::cout << "AV_CONTROL_CALIBRATION: Calibrate sensors and actuators"
-                      << std::endl;
+            std::cout << "CALIBRATION_MODE: Calibrate sensors and actuators" << std::endl;
             break;
-        case AV_CONTROL_MANUAL_OPERATION:
+        case MANUAL_MODE:
             set_AV_state(ui->st_manual_operation);
-            std::cout << "AV_CONTROL_MANUAL_OPERATION: Manual Servo movement"
-                      << std::endl;
+            std::cout << "MANUAL_MODE: Manual Servo movement" << std::endl;
             break;
-        case AV_CONTROL_ARMED:
+        case ARMED_MODE:
             set_AV_state(ui->st_armed);
-            std::cout << "AV_CONTROL_ARMED: System is armed and ready to pressure"
-                      << std::endl;
+            std::cout << "ARMED_MODE: System is armed and ready to pressure" << std::endl;
             break;
-        case AV_CONTROL_PRESSURED:
+        case PRESSURED_MODE:
             set_AV_state(ui->st_pressured);
-            std::cout << "AV_CONTROL_PRESSURED: System is pressured" << std::endl;
+            std::cout << "PRESSURED_MODE: System is pressured" << std::endl;
             break;
-        case AV_CONTROL_IGNITER:
+        case IGNITER_MODE:
             set_AV_state(ui->st_fire_igniter);
-            std::cout << "AV_CONTROL_IGNITER: Fire igniter" << std::endl;
+            std::cout << "IGNITER_MODE: Fire igniter" << std::endl;
             break;
-        case AV_CONTROL_IGNITION:
+        case IGNITION_MODE:
             set_AV_state(ui->st_ignition);
-            std::cout << "AV_CONTROL_IGNITION: Partially open valves" << std::endl;
+            std::cout << "IGNITION_MODE: Partially open valves" << std::endl;
             break;
-        case AV_CONTROL_THRUST:
+        case THRUST_MODE:
             set_AV_state(ui->st_thrust);
-            std::cout << "AV_CONTROL_THRUST: Fully open valves" << std::endl;
+            std::cout << "THRUST_MODE: Fully open valves" << std::endl;
             break;
-        case AV_CONTROL_SHUTDOWN:
+        case SHUTDOWN_MODE:
             set_AV_state(ui->st_shutdown);
-            std::cout << "AV_CONTROL_SHUTDOWN: Close ethanol valve" << std::endl;
+            std::cout << "SHUTDOWN_MODE: Close ethanol valve" << std::endl;
             break;
-        case AV_CONTROL_GLIDE:
+        case GLIDING_MODE:
             set_AV_state(ui->st_glide);
-            std::cout << "AV_CONTROL_GLIDE: Glide" << std::endl;
+            std::cout << "GLIDING_MODE: Glide" << std::endl;
             break;
-        case AV_CONTROL_DESCENT:
+        case DESCENT_MODE:
             set_AV_state(ui->st_descent);
-            std::cout << "AV_CONTROL_DESCENT: Descent" << std::endl;
+            std::cout << "DESCENT_MODE: Descent" << std::endl;
             break;
-        case AV_CONTROL_ABORT:
+        case ABORT_MODE:
             set_AV_state(ui->st_abort);
-            std::cout << "AV_CONTROL_ABORT: User triggered abort" << std::endl;
+            std::cout << "ABORT_MODE: User triggered abort" << std::endl;
             break;
         default:
             std::cout << "Unknown state" << std::endl;
     }
 }
 
+
+// // Function to print the state text
+// void NordendGUI::update_AV_states(control_state_copy_t state) {
+//     last_state->setStyleSheet("color: green");
+//     last_state->setText("X");
+//     switch (state) {
+//         case AV_CONTROL_IDLE:
+//             set_AV_state(ui->st_init);
+//             std::cout << "AV_CONTROL_IDLE: Wait for arming or calibration"
+//                       << std::endl;
+//             break;
+//         case AV_CONTROL_CALIBRATION:
+//             set_AV_state(ui->st_calibration);
+//             std::cout << "AV_CONTROL_CALIBRATION: Calibrate sensors and actuators"
+//                       << std::endl;
+//             break;
+//         case AV_CONTROL_MANUAL_OPERATION:
+//             set_AV_state(ui->st_manual_operation);
+//             std::cout << "AV_CONTROL_MANUAL_OPERATION: Manual Servo movement"
+//                       << std::endl;
+//             break;
+//         case AV_CONTROL_ARMED:
+//             set_AV_state(ui->st_armed);
+//             std::cout << "AV_CONTROL_ARMED: System is armed and ready to pressure"
+//                       << std::endl;
+//             break;
+//         case AV_CONTROL_PRESSURED:
+//             set_AV_state(ui->st_pressured);
+//             std::cout << "AV_CONTROL_PRESSURED: System is pressured" << std::endl;
+//             break;
+//         case AV_CONTROL_IGNITER:
+//             set_AV_state(ui->st_fire_igniter);
+//             std::cout << "AV_CONTROL_IGNITER: Fire igniter" << std::endl;
+//             break;
+//         case AV_CONTROL_IGNITION:
+//             set_AV_state(ui->st_ignition);
+//             std::cout << "AV_CONTROL_IGNITION: Partially open valves" << std::endl;
+//             break;
+//         case AV_CONTROL_THRUST:
+//             set_AV_state(ui->st_thrust);
+//             std::cout << "AV_CONTROL_THRUST: Fully open valves" << std::endl;
+//             break;
+//         case AV_CONTROL_SHUTDOWN:
+//             set_AV_state(ui->st_shutdown);
+//             std::cout << "AV_CONTROL_SHUTDOWN: Close ethanol valve" << std::endl;
+//             break;
+//         case AV_CONTROL_GLIDE:
+//             set_AV_state(ui->st_glide);
+//             std::cout << "AV_CONTROL_GLIDE: Glide" << std::endl;
+//             break;
+//         case AV_CONTROL_DESCENT:
+//             set_AV_state(ui->st_descent);
+//             std::cout << "AV_CONTROL_DESCENT: Descent" << std::endl;
+//             break;
+//         case AV_CONTROL_ABORT:
+//             set_AV_state(ui->st_abort);
+//             std::cout << "AV_CONTROL_ABORT: User triggered abort" << std::endl;
+//             break;
+//         default:
+//             std::cout << "Unknown state" << std::endl;
+//     }
+// }
+
 void NordendGUI::on_debug_button_pressed() {
     static int ctr = 0;
-    update_AV_states((control_state_copy_t) ctr);
+    update_AV_states((FLIGHTMODE) ctr);
     ctr+=2;
     if (ctr==8) ctr=3;
     if (ctr > 13) ctr = 0;
