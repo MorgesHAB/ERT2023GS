@@ -155,7 +155,9 @@ void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_
             ui->safe_config_label->setVisible(packetGSE_downlink.status.vent == INACTIVE && packetGSE_downlink.status.fillingN2O == INACTIVE && !packetAV_downlink.engine_state.pressurize && !packetAV_downlink.engine_state.vent_fuel && !packetAV_downlink.engine_state.vent_N2O && !packetAV_downlink.engine_state.servo_fuel && !packetAV_downlink.engine_state.servo_N2O);
             
             ui->load_cell->setText(QString::number(packetGSE_downlink.loadcellRaw));
-            ui->load_cell_kg->setText(QString::number(packetGSE_downlink.loadcellRaw - tare_val));
+            ui->load_cell_tare->setText(QString::number(packetGSE_downlink.loadcellRaw - tare_val));
+            float gain_val = ui->load_cell_gain_edit->text().toFloat();
+            ui->load_cell_kg->setText(QString::number((packetGSE_downlink.loadcellRaw - tare_val) * gain_val)+" kg");
             break;
         }
         default:

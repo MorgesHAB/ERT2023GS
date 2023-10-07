@@ -527,9 +527,9 @@ QPushButton:pressed {
     <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
-       <x>70</x>
+       <x>100</x>
        <y>240</y>
-       <width>101</width>
+       <width>51</width>
        <height>31</height>
       </rect>
      </property>
@@ -539,7 +539,7 @@ font: 9pt &quot;Verdana&quot;;
 </string>
      </property>
      <property name="text">
-      <string>N2O Fill valve</string>
+      <string>GSE fill</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_2">
@@ -557,15 +557,15 @@ font: 9pt &quot;Verdana&quot;;
 </string>
      </property>
      <property name="text">
-      <string>GSE vent</string>
+      <string>GSE purge</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_3">
      <property name="geometry">
       <rect>
-       <x>320</x>
+       <x>290</x>
        <y>340</y>
-       <width>81</width>
+       <width>111</width>
        <height>31</height>
       </rect>
      </property>
@@ -575,7 +575,7 @@ font: 9pt &quot;Verdana&quot;;
 </string>
      </property>
      <property name="text">
-      <string>N2O servo</string>
+      <string>N2O main valve</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -586,7 +586,7 @@ font: 9pt &quot;Verdana&quot;;
       <rect>
        <x>540</x>
        <y>340</y>
-       <width>81</width>
+       <width>101</width>
        <height>31</height>
       </rect>
      </property>
@@ -596,7 +596,7 @@ font: 9pt &quot;Verdana&quot;;
 </string>
      </property>
      <property name="text">
-      <string>Fuel servo</string>
+      <string>Fuel main valve</string>
      </property>
     </widget>
     <widget class="QPushButton" name="AV_servo_N2O">
@@ -1098,7 +1098,7 @@ border: none;
       <string>TARE</string>
      </property>
     </widget>
-    <widget class="QLabel" name="load_cell_kg">
+    <widget class="QLabel" name="load_cell_tare">
      <property name="geometry">
       <rect>
        <x>240</x>
@@ -1113,7 +1113,56 @@ font: 9pt &quot;Verdana&quot;;
 </string>
      </property>
      <property name="text">
+      <string>0</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="load_cell_kg">
+     <property name="geometry">
+      <rect>
+       <x>240</x>
+       <y>560</y>
+       <width>61</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background: transparent;
+font: 9pt &quot;Verdana&quot;;
+</string>
+     </property>
+     <property name="text">
       <string>0 kg</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="load_cell_gain_edit">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>560</y>
+       <width>41</width>
+       <height>25</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>650</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="load_cell_label_2">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>560</y>
+       <width>41</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background: transparent;
+font: 9pt &quot;Verdana&quot;;
+</string>
+     </property>
+     <property name="text">
+      <string>Gain:</string>
      </property>
     </widget>
     <zorder>prop_diagram</zorder>
@@ -1145,7 +1194,10 @@ font: 9pt &quot;Verdana&quot;;
     <zorder>load_cell</zorder>
     <zorder>load_cell_label</zorder>
     <zorder>tare_button</zorder>
+    <zorder>load_cell_tare</zorder>
     <zorder>load_cell_kg</zorder>
+    <zorder>load_cell_gain_edit</zorder>
+    <zorder>load_cell_label_2</zorder>
    </widget>
    <widget class="QGroupBox" name="groupBox_3">
     <property name="geometry">
