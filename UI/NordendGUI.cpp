@@ -33,6 +33,8 @@ NordendGUI::NordendGUI() :
         qtimer(new QTimer(this)),
         lastRxTime_AV(std::time(nullptr)),
         lastRxTime_GSE(std::time(nullptr)),
+        start_filling_time(std::time(nullptr)),
+        disconnect_time(std::time(nullptr)),
         tare_val(0.0), gain_val(1.0)
         {
 
@@ -52,6 +54,10 @@ NordendGUI::NordendGUI() :
     std::cout << "NordendGUI inited" << std::endl;
 
     on_open_serial_pressed(); // open program by auto-detecting serial-port !
+
+
+    ui->down_range->display(QString::number((int) compute_downrange(39.38872, -8.28786)));
+
 }
 
 NordendGUI::~NordendGUI() {
@@ -99,6 +105,11 @@ void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_
             set_valve_img(ui->AV_vent_N2O, packetAV_downlink.engine_state.vent_N2O+10, true, true);
             set_valve_img(ui->AV_vent_fuel, packetAV_downlink.engine_state.vent_fuel+10, true, true);
             set_valve_img(ui->AV_pressurization, packetAV_downlink.engine_state.pressurize+10, false, true);
+            set_valve_light(ui->N2O_servo_light, packetAV_downlink.engine_state.servo_N2O);
+            set_valve_light(ui->fuel_servo_light, packetAV_downlink.engine_state.servo_fuel);
+            set_valve_light(ui->N2O_vent_light, packetAV_downlink.engine_state.vent_N2O);
+            set_valve_light(ui->fuel_vent_light, packetAV_downlink.engine_state.vent_fuel);
+            set_valve_light(ui->pressurize_light, packetAV_downlink.engine_state.pressurize);
 
             // Set telemetry data box
             ui->N2O_pressure->setText(QString::number(packetAV_downlink.N2O_pressure, (char)103, 4) + " bar");
@@ -135,7 +146,12 @@ void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_
             //std::cout << "Servo fuel " << +packetAV_downlink.engine_state.servo_fuel << std::endl; 
             //std::cout << "Servo N2O " << +packetAV_downlink.engine_state.servo_N2O << std::endl; 
             //std::cout << "vent fuel " << +packetAV_downlink.engine_state.vent_fuel << std::endl; 
-            //std::cout << "vent n2o " << +packetAV_downlink.engine_state.vent_N2O<< std::endl; 
+            //std::cout << "vent n2o " << +packetAV_downlink.engine_state.vent_N2O<< std::endl;
+
+            // downrange
+             //I have the rocket position: packetAV_downlink.gnss_lat packetAV_downlink.gnss_lon
+            ui->down_range->display(QString::number((int) compute_downrange(packetAV_downlink.gnss_lat, packetAV_downlink.gnss_lon)));
+
             break;
         }
         case CAPSULE_ID::GSE_TELEMETRY: {
@@ -144,11 +160,39 @@ void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_
             memcpy(&packetGSE_downlink, dataIn, packetGSE_downlink_size);
             set_valve_img(ui->GSE_fill, packetGSE_downlink.status.fillingN2O);
             set_valve_img(ui->GSE_vent, packetGSE_downlink.status.vent, true);
+            set_valve_light(ui->GSE_fill_light, packetGSE_downlink.status.fillingN2O==ACTIVE);
+            set_valve_light(ui->GSE_vent_light, packetGSE_downlink.status.vent==ACTIVE);
             if (packetGSE_downlink.disconnectActive) { // for 20sec
                 ui->prop_diagram->setStyleSheet("QPushButton{background: transparent;qproperty-icon: url(:/assets/Prop_background_disconnect.png);qproperty-iconSize: 700px;}");
             } else {
                 ui->prop_diagram->setStyleSheet("QPushButton{background: transparent;qproperty-icon: url(:/assets/Prop_background_V1.png);qproperty-iconSize: 700px;}");
             }
+
+            // GSE filling timer
+            static bool start_filling = false;
+            if (packetGSE_downlink.status.fillingN2O == ACTIVE) {
+                if (!start_filling) {
+                    start_filling = true;
+                    start_filling_time = std::time(nullptr);
+                    ui->GSE_fill_timer->setVisible(false);
+                }
+            } else {
+                start_filling = false;
+                ui->GSE_fill_timer->setVisible(false);
+            }
+            // GSE disconnect timer
+            static bool start_disconnect = false;
+            if (packetGSE_downlink.disconnectActive) {
+                if (!start_disconnect) {
+                    start_disconnect = true;
+                    disconnect_time = std::time(nullptr);
+                    ui->disconnect_timer->setVisible(false);
+                }
+            } else {
+                start_disconnect = false;
+                ui->disconnect_timer->setVisible(false);
+            }
+
             ui->GSE_pressure->setText(QString::number(packetGSE_downlink.tankPressure, (char)103, 3) + " bar");
             ui->GSE_temp->setText(QString::number(packetGSE_downlink.tankTemperature, (char)103, 4) + " °C");
             ui->filling_pressure->setText(QString::number(packetGSE_downlink.fillingPressure, (char)103, 3) + " bar");
@@ -206,11 +250,16 @@ void NordendGUI::on_recover_cmd_pressed() {
 }
 
 void NordendGUI::on_ignition_cmd_pressed() {
-    av_uplink_t p;
-    p.prefix = ERT_PREFIX;
-    p.order_id = CMD_ID::AV_CMD_IGNITION;
-    p.order_value = IGNITION_CODE;
-    sendSerialPacket(CAPSULE_ID::GS_CMD, (uint8_t*) &p, av_uplink_size);
+    QMessageBox::StandardButton reply = QMessageBox::question(this,"IGNITION","Ignition confirmation request", QMessageBox::Yes | QMessageBox::No);
+    if (reply == QMessageBox::Yes) {
+        av_uplink_t p;
+        p.prefix = ERT_PREFIX;
+        p.order_id = CMD_ID::AV_CMD_IGNITION;
+        p.order_value = IGNITION_CODE;
+        sendSerialPacket(CAPSULE_ID::GS_CMD, (uint8_t*) &p, av_uplink_size);
+    } else {
+        std::cout << "Disconnect cmd rejected" << std::endl;
+    }
 }
 
 void NordendGUI::on_disconnect_cmd_pressed() {
@@ -224,6 +273,13 @@ void NordendGUI::on_disconnect_cmd_pressed() {
     } else {
         std::cout << "Disconnect cmd rejected" << std::endl;
     }
+}
+
+void NordendGUI::on_pressurization_cmd_pressed() {
+    av_uplink_t p;
+    p.prefix = ERT_PREFIX;
+    p.order_id = CMD_ID::AV_CMD_PRESSURIZE;
+    sendSerialPacket(CAPSULE_ID::GS_CMD, (uint8_t*) &p, av_uplink_size);
 }
 
 
@@ -280,6 +336,18 @@ void NordendGUI::qtimer_callback() {
     char buf2[32];
     std::strftime(buf2, 32, "%T", tt2);
     ui->time_since_last_Rx_GSE->setText(buf2);
+
+    time_t t3 = difftime(std::time(nullptr), start_filling_time);
+    struct tm *tt3 = gmtime(&t3);
+    char buf3[32];
+    std::strftime(buf3, 32, "%T", tt3);
+    ui->GSE_fill_timer->setText(buf3);
+
+    time_t t4 = difftime(std::time(nullptr), disconnect_time);
+    struct tm *tt4 = gmtime(&t4);
+    char buf4[32];
+    std::strftime(buf4, 32, "%T", tt4);
+    ui->disconnect_timer->setText(buf4);
 }
 
 //////////////////////////////////////////////
@@ -522,7 +590,7 @@ void NordendGUI::on_AV_vent_fuel_pressed() {
 }
 
 void NordendGUI::on_AV_pressurization_pressed() {
-    send_cmd(CMD_ID::AV_CMD_PRESSURIZE, (packetAV_downlink.engine_state.pressurize)?INACTIVE:ACTIVE, ui->AV_pressurization);
+    send_cmd(CMD_ID::AV_CMD_MAN_PRESSURE, (packetAV_downlink.engine_state.pressurize)?INACTIVE:ACTIVE, ui->AV_pressurization);
 }
 
 
@@ -640,6 +708,28 @@ void NordendGUI::on_reset_valves_pressed() {
     ui->st_descent->setStyleSheet("color: red;");
     ui->st_abort->setText("X");
     ui->st_abort->setStyleSheet("color: red;");
+}
+
+void NordendGUI::set_valve_light(QLabel *light, bool condition) {
+    light->setStyleSheet(((condition)?"image: url(:/assets/symbol_active.png);":"image: url(:/assets/symbol_inactive.png);"));
+}
+
+double NordendGUI::compute_downrange(double rocket_lat, double rocket_lon) {
+    // Hardcoded Portugal GS location
+    float gs_lat = 39.39482;
+    float gs_lon = -8.29242;
+    // haversineDistance
+    double earthRadius = 6371000.0;
+    gs_lat = gs_lat * M_PI / 180.0;
+    gs_lon = gs_lon * M_PI / 180.0;
+    rocket_lat = rocket_lat * M_PI / 180.0;
+    rocket_lon = rocket_lon * M_PI / 180.0;
+    double dlat = rocket_lat - gs_lat;
+    double dlon = rocket_lon - gs_lon;
+    double a = sin(dlat/2) * sin(dlat/2) + cos(gs_lat) * cos(rocket_lat) * sin(dlon/2) * sin(dlon/2);
+    double c = 2 * atan2(sqrt(a), sqrt(1-a));
+    double distance = earthRadius * c;
+    return distance;
 }
 
 

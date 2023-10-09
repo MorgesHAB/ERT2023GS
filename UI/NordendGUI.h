@@ -39,6 +39,7 @@ public slots:
     void on_disarm_cmd_pressed();
     void on_ignition_cmd_pressed();
     void on_disconnect_cmd_pressed();
+    void on_pressurization_cmd_pressed();
     void on_reset_valves_pressed();
     void on_debug_button_pressed();
     void on_tare_button_pressed();
@@ -77,10 +78,13 @@ public:
 private:
     void sendSerialPacket(uint8_t packetId, uint8_t *packet, uint32_t size);
     void set_valve_img(QPushButton * valve, int i, bool normally_open = false, bool horizontal_bar = false);
+    void set_valve_light(QLabel * light, bool condition);
     void update_AV_states(FLIGHTMODE state);
     void set_AV_state(QLabel* st_label);//, control_state_copy_t state);
 
     void send_cmd(uint8_t order_id, uint8_t order_value, QPushButton* button);
+
+    double compute_downrange(double rocket_lat, double rocket_lon);
 
 private:
     Ui::nordend *ui;
@@ -96,6 +100,8 @@ private:
     QTimer * qtimer; // for time since last rx packet
     time_t lastRxTime_AV;
     time_t lastRxTime_GSE;
+    time_t start_filling_time;
+    time_t disconnect_time;
 
     QLabel* last_state; // for state table color setting
 

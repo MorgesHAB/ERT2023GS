@@ -81,5 +81,7 @@
     <file>assets/rocket_icon.png</file>
     <file>assets/Prop_background_V1.svg</file>
     <file>assets/icone_launch.png</file>
+    <file>assets/symbol_active.png</file>
+    <file>assets/symbol_inactive.png</file>
   </qresource>
 </RCC>
