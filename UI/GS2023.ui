@@ -812,7 +812,7 @@ font: 9pt &quot;Verdana&quot;;
      </property>
      <property name="geometry">
       <rect>
-       <x>30</x>
+       <x>20</x>
        <y>40</y>
        <width>691</width>
        <height>471</height>
@@ -3070,6 +3070,42 @@ font: 9pt &quot;Verdana&quot;;
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;m&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="reset_traj_button">
+    <property name="geometry">
+     <rect>
+      <x>1010</x>
+      <y>820</y>
+      <width>141</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton{
+color: rgb(30, 30, 30);
+font: 9pt &quot;Verdana&quot;;
+border-radius: 10px;
+background: white;
+}
+QPushButton:hover {
+font: 700 9pt &quot;Verdana&quot;;
+}
+QPushButton:pressed {
+font: 700 9pt &quot;Verdana&quot;;
+color: white;
+background: transparent;
+border: 3px  solid white;
+}
+
+QPushButton:focus{
+border: none;
+}
+
+</string>
+    </property>
+    <property name="text">
+     <string>Reset 3D traj.csv</string>
+    </property>
+   </widget>
    <zorder>groupBox_3</zorder>
    <zorder>groupBox_2</zorder>
    <zorder>label_11</zorder>
@@ -3096,6 +3132,7 @@ font: 9pt &quot;Verdana&quot;;
    <zorder>label_12</zorder>
    <zorder>down_range</zorder>
    <zorder>m_unit_label_7</zorder>
+   <zorder>reset_traj_button</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

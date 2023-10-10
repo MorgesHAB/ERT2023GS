@@ -14,6 +14,7 @@
 #include <QGraphicsColorizeEffect>
 #include <cmath> // pow, alt(pressure)
 #include <QMessageBox>
+#include <iomanip>
 
 #include "../ERT_RF_Protocol_Interface/PacketDefinition.h"
 
@@ -119,28 +120,45 @@ void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_
             ui->chamber_pressure->setText(QString::number(packetAV_downlink.chamber_pressure, 'f', 2) + " bar");
             ui->chamber_pressure->setStyleSheet(((packetAV_downlink.chamber_pressure < 0)?QString(FORMAT)+"color: red;":QString(FORMAT)+"color:white"));
 
-            ui->AV_temp->setText(QString::number(packetAV_downlink.baro_temp));
+            // ui->AV_temp->setText(QString::number(packetAV_downlink.baro_temp));
 //            ui->AV_humidity->setText(QString::number(packetAV_downlink.humidity));
-            ui->AV_pressure->setText(QString::number(packetAV_downlink.baro_press));
-            float sea_level_pressure_hPa = ui->sea_level_pressure_edit->text().toFloat();
-            float altitude = 44330.0 * (1.0 - pow(packetAV_downlink.baro_press / sea_level_pressure_hPa, 0.1903));
-            ui->AV_altitude_baro->setText(QString::number(altitude));
+            // ui->AV_pressure->setText(QString::number(packetAV_downlink.baro_press));
+            // float sea_level_pressure_hPa = ui->sea_level_pressure_edit->text().toFloat();
+            // float altitude = 44330.0 * (1.0 - pow(packetAV_downlink.baro_press / sea_level_pressure_hPa, 0.1903));
+            // ui->AV_altitude_baro->setText(QString::number(altitude));
 
             // GPS data
-            ui->AV_latitude->setText(QString::number(packetAV_downlink.gnss_lat));
-            ui->AV_longitude->setText(QString::number(packetAV_downlink.gnss_lon));
+            ui->AV_latitude->setText(QString::number(packetAV_downlink.gnss_lat, 'f', 7));
+            ui->AV_longitude->setText(QString::number(packetAV_downlink.gnss_lon, 'f', 7));
             ui->altitude_lcd_gps->display(QString::number((int) packetAV_downlink.gnss_alt));
             if (packetAV_downlink.gnss_alt > altitude_max) altitude_max =packetAV_downlink.gnss_alt;
             ui->altitude_max_lcd_max->display(QString::number(altitude_max));
             // GPS reserve
-            ui->AV_latitude_r->setText(QString::number(packetAV_downlink.gnss_lat_r));
-            ui->AV_longitude_r->setText(QString::number(packetAV_downlink.gnss_lon_r));
+            ui->AV_latitude_r->setText(QString::number(packetAV_downlink.gnss_lat_r, 'f', 7));
+            ui->AV_longitude_r->setText(QString::number(packetAV_downlink.gnss_lon_r, 'f', 7));
             ui->altitude_lcd_gps_r->display(QString::number((int) packetAV_downlink.gnss_alt_r));
             if (packetAV_downlink.gnss_alt > altitude_max) altitude_max_r =packetAV_downlink.gnss_alt_r;
             ui->altitude_max_lcd_max_r->display(QString::number(altitude_max_r));
-//            ui->speed_vertical->setText(QString::number(packet.telemetry.verticalSpeed));
-//            ui->speed_horizontal->setText(QString::number(packet.telemetry.horizontalSpeed));
+
+            // Open the file for appending
+            std::ofstream file("/var/www/html/traj.csv", std::ios_base::app);
+            static float idiot = 0.0;
+            if (file.is_open()) {
+                // Write the received data to the file in the specified format
+                file << std::fixed << std::setprecision(7) << std::endl 
+                     << packetAV_downlink.gnss_lat << ","
+                     << packetAV_downlink.gnss_lon << ","
+                     << packetAV_downlink.gnss_alt + idiot;
+                file.close();
+                idiot += 1000.0;
+            } else {
+                std::cerr << "Error: Could not open file " << "/var/www/html/traj.csv" << std::endl;
+            }
+
+            //            ui->speed_vertical->setText(QString::number(packet.telemetry.verticalSpeed));
+            //            ui->speed_horizontal->setText(QString::number(packet.telemetry.horizontalSpeed));
             update_AV_states((FLIGHTMODE) packetAV_downlink.av_state);
+            std::cout << "xxxxxxxxxxxxxxxxxxxxxxxxAV_state: " << +packetAV_downlink.av_state << std::endl;
 
             //std::cout << "Servo fuel " << +packetAV_downlink.engine_state.servo_fuel << std::endl; 
             //std::cout << "Servo N2O " << +packetAV_downlink.engine_state.servo_N2O << std::endl; 
@@ -173,7 +191,7 @@ void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_
                 if (!start_filling) {
                     start_filling = true;
                     start_filling_time = std::time(nullptr);
-                    ui->GSE_fill_timer->setVisible(false);
+                    ui->GSE_fill_timer->setVisible(true);
                 }
             } else {
                 start_filling = false;
@@ -185,7 +203,7 @@ void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_
                 if (!start_disconnect) {
                     start_disconnect = true;
                     disconnect_time = std::time(nullptr);
-                    ui->disconnect_timer->setVisible(false);
+                    ui->disconnect_timer->setVisible(true);
                 }
             } else {
                 start_disconnect = false;
@@ -448,6 +466,10 @@ void NordendGUI::update_AV_states(FLIGHTMODE state) {
         case INITIALIZE_MODE:
             set_AV_state(ui->st_init);
             std::cout << "INITIALIZE_MODE: Wait for arming or calibration" << std::endl;
+            break;
+        case READYSTEADY_MODE:
+            set_AV_state(ui->st_ready_steady);
+            std::cout << "READYSTEADY_MODE: GPS ready, Wait for arming or calibration" << std::endl;
             break;
         case CALIBRATION_MODE:
             set_AV_state(ui->st_calibration);
@@ -731,6 +753,17 @@ double NordendGUI::compute_downrange(double rocket_lat, double rocket_lon) {
     return distance;
 }
 
-
+void NordendGUI::on_reset_traj_button_pressed() {
+        // Open the file for appending
+    std::ofstream file("/var/www/html/traj.csv", std::ios_base::trunc);
+    if (file.is_open()) {
+        // Write the received data to the file in the specified format
+        //file << "Latitude,Longitude,Altitude" << std::endl;
+        file.close();
+        std::cout << "File traj.csv reset!" << std::endl;
+    } else {
+        std::cerr << "Error: Could not open file " << "/var/www/html/traj.csv" << std::endl;
+    } 
+}
 
 

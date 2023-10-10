@@ -43,6 +43,7 @@ public slots:
     void on_reset_valves_pressed();
     void on_debug_button_pressed();
     void on_tare_button_pressed();
+    void on_reset_traj_button_pressed();
 
     // full manual cmd
     void on_cmd_active_pressurization_pressed();
