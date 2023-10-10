@@ -812,7 +812,7 @@ font: 9pt &quot;Verdana&quot;;
      </property>
      <property name="geometry">
       <rect>
-       <x>20</x>
+       <x>30</x>
        <y>40</y>
        <width>691</width>
        <height>471</height>
@@ -1170,7 +1170,7 @@ font: 9pt &quot;Verdana&quot;;
       <rect>
        <x>530</x>
        <y>70</y>
-       <width>121</width>
+       <width>131</width>
        <height>30</height>
       </rect>
      </property>

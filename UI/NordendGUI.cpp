@@ -57,7 +57,6 @@ NordendGUI::NordendGUI() :
 
 
     ui->down_range->display(QString::number((int) compute_downrange(39.38872, -8.28786)));
-
 }
 
 NordendGUI::~NordendGUI() {
@@ -112,12 +111,12 @@ void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_
             set_valve_light(ui->pressurize_light, packetAV_downlink.engine_state.pressurize);
 
             // Set telemetry data box
-            ui->N2O_pressure->setText(QString::number(packetAV_downlink.N2O_pressure, (char)103, 4) + " bar");
+            ui->N2O_pressure->setText(QString::number(packetAV_downlink.N2O_pressure, 'f', 2) + " bar");
             ui->N2O_pressure->setStyleSheet(((packetAV_downlink.N2O_pressure < 0)?QString(FORMAT)+"color: red;":QString(FORMAT)+"color:white"));
-            ui->N2O_temp->setText(QString::number(packetAV_downlink.tank_temp, (char)103, 4) + " °C");
-            ui->fuel_pressure->setText(QString::number(packetAV_downlink.fuel_pressure, (char)103, 4) + " bar");
+            ui->N2O_temp->setText(QString::number(packetAV_downlink.tank_temp, 'f', 2) + " °C");
+            ui->fuel_pressure->setText(QString::number(packetAV_downlink.fuel_pressure, 'f', 2) + " bar");
             ui->fuel_pressure->setStyleSheet(((packetAV_downlink.fuel_pressure < 0)?QString(FORMAT)+"color: red;":QString(FORMAT)+"color:white"));
-            ui->chamber_pressure->setText(QString::number(packetAV_downlink.chamber_pressure, (char)103, 4) + " bar");
+            ui->chamber_pressure->setText(QString::number(packetAV_downlink.chamber_pressure, 'f', 2) + " bar");
             ui->chamber_pressure->setStyleSheet(((packetAV_downlink.chamber_pressure < 0)?QString(FORMAT)+"color: red;":QString(FORMAT)+"color:white"));
 
             ui->AV_temp->setText(QString::number(packetAV_downlink.baro_temp));
@@ -193,15 +192,15 @@ void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_
                 ui->disconnect_timer->setVisible(false);
             }
 
-            ui->GSE_pressure->setText(QString::number(packetGSE_downlink.tankPressure, (char)103, 3) + " bar");
-            ui->GSE_temp->setText(QString::number(packetGSE_downlink.tankTemperature, (char)103, 4) + " °C");
-            ui->filling_pressure->setText(QString::number(packetGSE_downlink.fillingPressure, (char)103, 3) + " bar");
+            ui->GSE_pressure->setText(QString::number(packetGSE_downlink.tankPressure, 'f', 2) + " bar");
+            ui->GSE_temp->setText(QString::number(packetGSE_downlink.tankTemperature, 'f', 2) + " °C");
+            ui->filling_pressure->setText(QString::number(packetGSE_downlink.fillingPressure, 'f', 2) + " bar");
             ui->safe_config_label->setVisible(packetGSE_downlink.status.vent == INACTIVE && packetGSE_downlink.status.fillingN2O == INACTIVE && !packetAV_downlink.engine_state.pressurize && !packetAV_downlink.engine_state.vent_fuel && !packetAV_downlink.engine_state.vent_N2O && !packetAV_downlink.engine_state.servo_fuel && !packetAV_downlink.engine_state.servo_N2O);
             
             ui->load_cell->setText(QString::number(packetGSE_downlink.loadcellRaw));
             ui->load_cell_tare->setText(QString::number(packetGSE_downlink.loadcellRaw - tare_val));
             float gain_val = ui->load_cell_gain_edit->text().toFloat();
-            ui->load_cell_kg->setText(QString::number((packetGSE_downlink.loadcellRaw - tare_val) * gain_val)+" kg");
+            ui->load_cell_kg->setText(QString::number((packetGSE_downlink.loadcellRaw - tare_val) / gain_val / 1000.0, 'f', 2)+" kg"); // ld1: -42   ld2: 97
             break;
         }
         default:
