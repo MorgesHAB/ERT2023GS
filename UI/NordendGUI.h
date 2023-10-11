@@ -87,6 +87,11 @@ private:
 
     double compute_downrange(double rocket_lat, double rocket_lon);
 
+    void logAVTelemetryPacket(const av_downlink_t* packet);
+    void logGSETelemetryPacket(const PacketGSE_downlink *packet);
+
+    void showInfoMessage(QString message);
+
 private:
     Ui::nordend *ui;
 

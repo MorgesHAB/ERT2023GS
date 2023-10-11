@@ -56,7 +56,8 @@ NordendGUI::NordendGUI() :
 
     on_open_serial_pressed(); // open program by auto-detecting serial-port !
 
-
+    ui->GSE_fill_timer->setVisible(false);
+    ui->disconnect_timer->setVisible(false);
     ui->down_range->display(QString::number((int) compute_downrange(39.38872, -8.28786)));
 }
 
@@ -143,14 +144,16 @@ void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_
             // Open the file for appending
             std::ofstream file("/var/www/html/traj.csv", std::ios_base::app);
             static float idiot = 0.0;
+            static float idiot2 = 0.0;
             if (file.is_open()) {
                 // Write the received data to the file in the specified format
                 file << std::fixed << std::setprecision(7) << std::endl 
-                     << packetAV_downlink.gnss_lat << ","
-                     << packetAV_downlink.gnss_lon << ","
+                     << packetAV_downlink.gnss_lat + idiot2 << ","
+                     << packetAV_downlink.gnss_lon + idiot2 << ","
                      << packetAV_downlink.gnss_alt + idiot;
                 file.close();
                 idiot += 1000.0;
+                idiot += rand() % 10;
             } else {
                 std::cerr << "Error: Could not open file " << "/var/www/html/traj.csv" << std::endl;
             }
@@ -168,6 +171,8 @@ void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_
             // downrange
              //I have the rocket position: packetAV_downlink.gnss_lat packetAV_downlink.gnss_lon
             ui->down_range->display(QString::number((int) compute_downrange(packetAV_downlink.gnss_lat, packetAV_downlink.gnss_lon)));
+
+            logAVTelemetryPacket(&packetAV_downlink);
 
             break;
         }
@@ -219,6 +224,9 @@ void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_
             ui->load_cell_tare->setText(QString::number(packetGSE_downlink.loadcellRaw - tare_val));
             float gain_val = ui->load_cell_gain_edit->text().toFloat();
             ui->load_cell_kg->setText(QString::number((packetGSE_downlink.loadcellRaw - tare_val) / gain_val / 1000.0, 'f', 2)+" kg"); // ld1: -42   ld2: 97
+
+            logGSETelemetryPacket(&packetGSE_downlink);
+
             break;
         }
         default:
@@ -267,16 +275,23 @@ void NordendGUI::on_recover_cmd_pressed() {
 }
 
 void NordendGUI::on_ignition_cmd_pressed() {
-    QMessageBox::StandardButton reply = QMessageBox::question(this,"IGNITION","Ignition confirmation request", QMessageBox::Yes | QMessageBox::No);
-    if (reply == QMessageBox::Yes) {
-        av_uplink_t p;
-        p.prefix = ERT_PREFIX;
-        p.order_id = CMD_ID::AV_CMD_IGNITION;
-        p.order_value = IGNITION_CODE;
-        sendSerialPacket(CAPSULE_ID::GS_CMD, (uint8_t*) &p, av_uplink_size);
+    if ((FLIGHTMODE) packetAV_downlink.av_state == FLIGHTMODE::PRESSURED_MODE) {
+        QMessageBox::StandardButton reply = QMessageBox::question(this,"IGNITION","Ignition confirmation request", QMessageBox::Yes | QMessageBox::No);
+        if (reply == QMessageBox::Yes) {
+            av_uplink_t p;
+            p.prefix = ERT_PREFIX;
+            p.order_id = CMD_ID::AV_CMD_IGNITION;
+            p.order_value = IGNITION_CODE;
+            sendSerialPacket(CAPSULE_ID::GS_CMD, (uint8_t*) &p, av_uplink_size);
+        } else {
+            std::cout << "Disconnect cmd rejected" << std::endl;
+        }   
     } else {
-        std::cout << "Disconnect cmd rejected" << std::endl;
+        showInfoMessage("Ignition cmd rejected, AV not in PRESSURED_MODE");
     }
+
+
+
 }
 
 void NordendGUI::on_disconnect_cmd_pressed() {
@@ -293,10 +308,14 @@ void NordendGUI::on_disconnect_cmd_pressed() {
 }
 
 void NordendGUI::on_pressurization_cmd_pressed() {
-    av_uplink_t p;
-    p.prefix = ERT_PREFIX;
-    p.order_id = CMD_ID::AV_CMD_PRESSURIZE;
-    sendSerialPacket(CAPSULE_ID::GS_CMD, (uint8_t*) &p, av_uplink_size);
+    if ((FLIGHTMODE) packetAV_downlink.av_state == FLIGHTMODE::ARMED_MODE) {
+        av_uplink_t p;
+        p.prefix = ERT_PREFIX;
+        p.order_id = CMD_ID::AV_CMD_PRESSURIZE;
+        sendSerialPacket(CAPSULE_ID::GS_CMD, (uint8_t*) &p, av_uplink_size);
+    } else {
+        showInfoMessage("Pressurization cmd rejected, AV not in ARMED_MODE");
+    }
 }
 
 
@@ -767,3 +786,95 @@ void NordendGUI::on_reset_traj_button_pressed() {
 }
 
 
+void NordendGUI::logAVTelemetryPacket(const av_downlink_t* packet) {
+    // Get the current date and time for the filename
+    auto now = std::chrono::system_clock::now();
+    auto time_t_now = std::chrono::system_clock::to_time_t(now);
+
+    std::tm tm_info = *std::localtime(&time_t_now);
+
+    std::ostringstream filename_stream;
+    filename_stream << std::put_time(&tm_info, "%Y_%m_%d__%H-%M-%S.txt");
+    std::string filename = "AV_" + filename_stream.str();
+
+    // Open the file in append mode
+    static std::ofstream logFile(filename, std::ios_base::app);
+    if (!logFile.is_open()) {
+        std::cerr << "Error opening log file." << std::endl;
+        return;
+    }
+
+    // Check if the log file is empty, and if so, write the variable names as headers
+    if (logFile.tellp() == 0) {
+        logFile << "packet_nbr, timestamp, gnss_lon, gnss_lat, gnss_alt, gnss_lon_r, gnss_lat_r, gnss_alt_r, "
+                << "gnss_vertical_speed, N2O_pressure, tank_temp, fuel_pressure, chamber_pressure, av_state, "
+                << "engine_state.servo_N2O, engine_state.servo_fuel, engine_state.vent_N2O, engine_state.vent_fuel, "
+                << "engine_state.pressurize, engine_state.purge, engine_state.reserve, gnss_choice" << std::endl;
+    }
+
+    // Print the telemetry data to the file
+    logFile << std::fixed << std::setprecision(6)
+            << packet->packet_nbr << ", " << packet->timestamp << ", "
+            << packet->gnss_lon << ", " << packet->gnss_lat << ", " << packet->gnss_alt << ", "
+            << packet->gnss_lon_r << ", " << packet->gnss_lat_r << ", " << packet->gnss_alt_r << ", "
+            << packet->gnss_vertical_speed << ", " << packet->N2O_pressure << ", "
+            << packet->tank_temp << ", " << packet->fuel_pressure << ", " << packet->chamber_pressure << ", "
+            << +packet->av_state << ", " << +packet->engine_state.servo_N2O << ", "
+            << +packet->engine_state.servo_fuel << ", " << +packet->engine_state.vent_N2O << ", "
+            << +packet->engine_state.vent_fuel << ", " << +packet->engine_state.pressurize << ", "
+            << +packet->engine_state.purge << ", " << +packet->engine_state.reserve << ", "
+            << +packet->gnss_choice << std::endl;
+
+    // Close the file (automatic when logFile goes out of scope)
+}
+
+void NordendGUI::logGSETelemetryPacket(const PacketGSE_downlink* packet) {
+    // Get the current date and time for the filename
+    auto now = std::chrono::system_clock::now();
+    auto time_t_now = std::chrono::system_clock::to_time_t(now);
+
+    std::tm tm_info = *std::localtime(&time_t_now);
+
+    std::ostringstream filename_stream;
+    filename_stream << std::put_time(&tm_info, "%Y_%m_%d__%H-%M-%S_GSE.txt");
+    std::string filename = "GSE_" + filename_stream.str();
+
+    // Open the file in append mode
+    static std::ofstream logFile(filename, std::ios_base::app);
+    if (!logFile.is_open()) {
+        std::cerr << "Error opening GSE log file." << std::endl;
+        return;
+    }
+
+    // Check if the log file is empty, and if so, write the variable names as headers
+    if (logFile.tellp() == 0) {
+        logFile << "tankPressure, tankTemperature, fillingPressure, status_fillingN2O, status_vent, disconnectActive, loadcellRaw" << std::endl;
+    }
+
+    // Print the GSE telemetry data to the file
+    logFile << std::fixed << std::setprecision(6)
+            << packet->tankPressure << ", " << packet->tankTemperature << ", " << packet->fillingPressure << ", "
+            << +packet->status.fillingN2O << ", " << +packet->status.vent << ", "
+            << packet->disconnectActive << ", " << packet->loadcellRaw << std::endl;
+
+    // Close the file (automatic when logFile goes out of scope)
+}
+
+void NordendGUI::showInfoMessage(QString message) {
+    // Display an information bubble for 3 seconds
+    QMessageBox infoMessage;
+    infoMessage.setIcon(QMessageBox::Warning);
+    infoMessage.setWindowTitle("Information");
+    infoMessage.setText(message);
+    infoMessage.setStandardButtons(QMessageBox::Ok);
+
+    QTimer infoTimer;
+    infoTimer.setSingleShot(true);
+    infoTimer.start(3000); // Display the message for 3 seconds
+
+    QObject::connect(&infoTimer, &QTimer::timeout, [&infoMessage]() {
+        infoMessage.hide();
+    });
+
+    infoMessage.exec();
+}
