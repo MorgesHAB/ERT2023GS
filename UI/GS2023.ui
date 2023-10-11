@@ -18,7 +18,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="assets.qrc">
-    <normaloff>:/assets/krtek.png</normaloff>:/assets/krtek.png</iconset>
+    <normaloff>:/assets/Nordend_logo.png</normaloff>:/assets/Nordend_logo.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">background-color: rgb(30, 30, 30);
@@ -169,49 +169,42 @@ color: black;
      <string>Data AV</string>
     </property>
     <layout class="QGridLayout" name="gridLayout_8">
-     <item row="4" column="1">
+     <item row="5" column="1">
       <widget class="QLabel" name="AV_altitude_baro">
        <property name="text">
         <string/>
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QLabel" name="AV_humidity">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
+     <item row="2" column="0">
       <widget class="QLabel" name="humidity_label">
        <property name="text">
         <string>Humidity</string>
        </property>
       </widget>
      </item>
-     <item row="4" column="2">
-      <widget class="QLabel" name="m_unit_label_3">
+     <item row="3" column="0">
+      <widget class="QLabel" name="pressure_label">
        <property name="text">
-        <string>m</string>
+        <string>Pressure</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="2">
-      <widget class="QLabel" name="celcius_label">
+     <item row="2" column="2">
+      <widget class="QLabel" name="m_s_unit_label">
        <property name="text">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;o&lt;/span&gt;C&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <string>%</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
-      <widget class="QLabel" name="AV_temp">
+     <item row="6" column="2">
+      <widget class="QLabel" name="label_30">
        <property name="text">
-        <string/>
+        <string>hPa</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="0">
+     <item row="1" column="0">
       <widget class="QLabel" name="temperature_label">
        <property name="styleSheet">
         <string notr="true"/>
@@ -221,21 +214,38 @@ color: black;
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
+     <item row="6" column="1">
+      <widget class="QLineEdit" name="sea_level_pressure_edit">
+       <property name="styleSheet">
+        <string notr="true">border: 1px solid rgb(144, 144, 144);</string>
+       </property>
+       <property name="text">
+        <string>1013.25</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="label_29">
+       <property name="text">
+        <string>Sea level P.</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
       <widget class="QLabel" name="AV_pressure">
        <property name="text">
         <string/>
        </property>
       </widget>
      </item>
-     <item row="1" column="2">
-      <widget class="QLabel" name="m_s_unit_label">
+     <item row="5" column="2">
+      <widget class="QLabel" name="m_unit_label_3">
        <property name="text">
-        <string>%</string>
+        <string>m</string>
        </property>
       </widget>
      </item>
-     <item row="6" column="0" colspan="3">
+     <item row="7" column="0" colspan="3">
       <widget class="QGroupBox" name="avionics_box_3">
        <property name="title">
         <string>Miaou</string>
@@ -343,48 +353,64 @@ color: black;
        </layout>
       </widget>
      </item>
-     <item row="4" column="0">
+     <item row="1" column="2">
+      <widget class="QLabel" name="celcius_label">
+       <property name="text">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; vertical-align:super;&quot;&gt;o&lt;/span&gt;C&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLabel" name="AV_temp">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLabel" name="AV_humidity">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
       <widget class="QLabel" name="altitude_label_telemetry">
        <property name="text">
         <string>Altitude</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="2">
+     <item row="3" column="2">
       <widget class="QLabel" name="hpa_unit_label">
        <property name="text">
         <string>hPa</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="pressure_label">
+     <item row="0" column="0">
+      <widget class="QLabel" name="AV_timestamp_label">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Last packet's timestamp&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
        <property name="text">
-        <string>Pressure</string>
+        <string>Timestamp </string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
        </property>
       </widget>
      </item>
-     <item row="5" column="2">
-      <widget class="QLabel" name="label_30">
-       <property name="text">
-        <string>hPa</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="1">
-      <widget class="QLineEdit" name="sea_level_pressure_edit">
-       <property name="styleSheet">
-        <string notr="true">border: 1px solid rgb(144, 144, 144);</string>
+     <item row="0" column="1" colspan="2">
+      <widget class="QLabel" name="AV_timestamp">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Last packet's timestamp&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="text">
-        <string>1013.25</string>
+        <string>-</string>
        </property>
-      </widget>
-     </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="label_29">
-       <property name="text">
-        <string>Sea level P.</string>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
        </property>
       </widget>
      </item>
@@ -1144,7 +1170,7 @@ font: 9pt &quot;Verdana&quot;;
       </rect>
      </property>
      <property name="text">
-      <string>650</string>
+      <string>-42</string>
      </property>
     </widget>
     <widget class="QLabel" name="load_cell_label_2">
@@ -1598,53 +1624,10 @@ border: 3px  solid red;
      <string>GPS 1</string>
     </property>
     <layout class="QGridLayout" name="gridLayout_3">
-     <item row="3" column="1" colspan="3">
-      <widget class="QLabel" name="AV_longitude">
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="1" colspan="3">
-      <widget class="QLabel" name="speed_vertical">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
      <item row="1" column="0">
       <widget class="QLabel" name="altitude_label_gps">
        <property name="text">
         <string>Altitude</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="1" colspan="3">
-      <widget class="QLabel" name="AV_latitude">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="latitude_label">
-       <property name="text">
-        <string>Latitude</string>
        </property>
       </widget>
      </item>
@@ -1669,15 +1652,18 @@ border: 3px  solid red;
        </property>
       </widget>
      </item>
-     <item row="7" column="0">
-      <widget class="QLabel" name="label_XX_2">
+     <item row="3" column="1" colspan="3">
+      <widget class="QLabel" name="AV_longitude">
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
        <property name="text">
-        <string>Speed Horiz.</string>
+        <string/>
        </property>
       </widget>
      </item>
-     <item row="7" column="1" colspan="3">
-      <widget class="QLabel" name="speed_horizontal">
+     <item row="5" column="1" colspan="3">
+      <widget class="QLabel" name="AV_latitude">
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -1686,6 +1672,33 @@ border: 3px  solid red;
        </property>
        <property name="text">
         <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1" colspan="3">
+      <widget class="QLabel" name="speed_vertical">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="latitude_label">
+       <property name="text">
+        <string>Latitude</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="3">
+      <widget class="QLabel" name="m_unit_label">
+       <property name="text">
+        <string>m</string>
        </property>
       </widget>
      </item>
@@ -1715,13 +1728,6 @@ border: 3px  solid red;
        </property>
        <property name="intValue" stdset="0">
         <number>0</number>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="3">
-      <widget class="QLabel" name="m_unit_label">
-       <property name="text">
-        <string>m</string>
        </property>
       </widget>
      </item>
@@ -2211,42 +2217,6 @@ border: 3px  solid red;
       </widget>
      </item>
     </layout>
-   </widget>
-   <widget class="QPushButton" name="debug_button">
-    <property name="geometry">
-     <rect>
-      <x>860</x>
-      <y>780</y>
-      <width>91</width>
-      <height>30</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton{
-color: rgb(30, 30, 30);
-font: 9pt &quot;Verdana&quot;;
-border-radius: 10px;
-background: white;
-}
-QPushButton:hover {
-font: 700 9pt &quot;Verdana&quot;;
-}
-QPushButton:pressed {
-font: 700 9pt &quot;Verdana&quot;;
-color: white;
-background: transparent;
-border: 3px  solid white;
-}
-
-QPushButton:focus{
-border: none;
-}
-
-</string>
-    </property>
-    <property name="text">
-     <string>DEBUG</string>
-    </property>
    </widget>
    <widget class="QGroupBox" name="groupBox_4">
     <property name="geometry">
@@ -2796,63 +2766,6 @@ font: 9pt &quot;Verdana&quot;;
      <string>GSE</string>
     </property>
    </widget>
-   <widget class="QLabel" name="AV_timestamp">
-    <property name="geometry">
-     <rect>
-      <x>990</x>
-      <y>20</y>
-      <width>121</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Last packet's timestamp&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-    <property name="text">
-     <string>2:32</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="sensor_crash_time">
-    <property name="geometry">
-     <rect>
-      <x>1020</x>
-      <y>770</y>
-      <width>121</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Last packet's timestamp&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-    <property name="text">
-     <string>no</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="AV_timestamp_3">
-    <property name="geometry">
-     <rect>
-      <x>1020</x>
-      <y>740</y>
-      <width>121</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Last packet's timestamp&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-    <property name="text">
-     <string>Sensor crash time:</string>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-    </property>
-   </widget>
    <widget class="QGroupBox" name="gps_box_2">
     <property name="geometry">
      <rect>
@@ -2869,49 +2782,6 @@ font: 9pt &quot;Verdana&quot;;
      <string>GPS 2</string>
     </property>
     <layout class="QGridLayout" name="gridLayout_4">
-     <item row="3" column="1" colspan="3">
-      <widget class="QLabel" name="AV_longitude_r">
-       <property name="styleSheet">
-        <string notr="true"/>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="1" colspan="3">
-      <widget class="QLabel" name="speed_vertical_r">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="altitude_label_gps_2">
-       <property name="text">
-        <string>Altitude</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="1" colspan="3">
-      <widget class="QLabel" name="AV_latitude_r">
-       <property name="minimumSize">
-        <size>
-         <width>0</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
      <item row="5" column="0">
       <widget class="QLabel" name="latitude_label_2">
        <property name="text">
@@ -2926,29 +2796,8 @@ font: 9pt &quot;Verdana&quot;;
        </property>
       </widget>
      </item>
-     <item row="6" column="0">
-      <widget class="QLabel" name="label_XX_3">
-       <property name="text">
-        <string>Speed Vert.</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="longitude_label_2">
-       <property name="text">
-        <string>Longitude</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="0">
-      <widget class="QLabel" name="label_XX_4">
-       <property name="text">
-        <string>Speed Horiz.</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="1" colspan="3">
-      <widget class="QLabel" name="speed_horizontal_r">
+     <item row="6" column="1" colspan="3">
+      <widget class="QLabel" name="speed_vertical_r">
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -2956,7 +2805,30 @@ font: 9pt &quot;Verdana&quot;;
         </size>
        </property>
        <property name="text">
-        <string/>
+        <string>disable</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="altitude_label_gps_2">
+       <property name="text">
+        <string>Altitude</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1" colspan="2">
+      <widget class="QLCDNumber" name="altitude_max_lcd_max_r">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="digitCount">
+        <number>7</number>
+       </property>
+       <property name="segmentStyle">
+        <enum>QLCDNumber::Flat</enum>
        </property>
       </widget>
      </item>
@@ -2989,6 +2861,13 @@ font: 9pt &quot;Verdana&quot;;
        </property>
       </widget>
      </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="longitude_label_2">
+       <property name="text">
+        <string>Longitude</string>
+       </property>
+      </widget>
+     </item>
      <item row="2" column="3">
       <widget class="QLabel" name="m_unit_label_6">
        <property name="text">
@@ -2996,16 +2875,33 @@ font: 9pt &quot;Verdana&quot;;
        </property>
       </widget>
      </item>
-     <item row="2" column="1" colspan="2">
-      <widget class="QLCDNumber" name="altitude_max_lcd_max_r">
-       <property name="enabled">
-        <bool>true</bool>
+     <item row="6" column="0">
+      <widget class="QLabel" name="label_XX_3">
+       <property name="text">
+        <string>Speed Vert.</string>
        </property>
-       <property name="digitCount">
-        <number>7</number>
+      </widget>
+     </item>
+     <item row="5" column="1" colspan="3">
+      <widget class="QLabel" name="AV_latitude_r">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
        </property>
-       <property name="segmentStyle">
-        <enum>QLCDNumber::Flat</enum>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1" colspan="3">
+      <widget class="QLabel" name="AV_longitude_r">
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="text">
+        <string/>
        </property>
       </widget>
      </item>
@@ -3073,8 +2969,8 @@ font: 9pt &quot;Verdana&quot;;
    <widget class="QPushButton" name="reset_traj_button">
     <property name="geometry">
      <rect>
-      <x>1010</x>
-      <y>820</y>
+      <x>850</x>
+      <y>750</y>
       <width>141</width>
       <height>30</height>
      </rect>
@@ -3106,6 +3002,22 @@ border: none;
      <string>Reset 3D traj.csv</string>
     </property>
    </widget>
+   <widget class="QLabel" name="label_14">
+    <property name="geometry">
+     <rect>
+      <x>1020</x>
+      <y>730</y>
+      <width>161</width>
+      <height>141</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">image: url(:/assets/Nordend_logo.png);</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
    <zorder>groupBox_3</zorder>
    <zorder>groupBox_2</zorder>
    <zorder>label_11</zorder>
@@ -3120,19 +3032,16 @@ border: none;
    <zorder>time_since_last_Rx_AV</zorder>
    <zorder>gps_box</zorder>
    <zorder>av_states_box</zorder>
-   <zorder>debug_button</zorder>
    <zorder>groupBox_4</zorder>
    <zorder>time_since_last_Rx_GSE</zorder>
    <zorder>last_refresh_label_2</zorder>
    <zorder>last_refresh_label_3</zorder>
-   <zorder>AV_timestamp</zorder>
-   <zorder>sensor_crash_time</zorder>
-   <zorder>AV_timestamp_3</zorder>
    <zorder>gps_box_2</zorder>
    <zorder>label_12</zorder>
    <zorder>down_range</zorder>
    <zorder>m_unit_label_7</zorder>
    <zorder>reset_traj_button</zorder>
+   <zorder>label_14</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">

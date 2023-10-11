@@ -90,16 +90,6 @@ void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_
             t = packetAV_downlink.timestamp;
             ui->AV_timestamp->setText(QString::number(packetAV_downlink.timestamp));
 
-            // sensor debug
-            static bool first_time = true;
-            if (packetAV_downlink.N2O_pressure < 0 && first_time) {
-                time_t t = std::time(nullptr);
-                struct tm *tt = gmtime(&t);
-                char buf[32];
-                std::strftime(buf, 32, "%T", tt);
-                ui->sensor_crash_time->setText(buf);
-            }
-
             // Set the valves states
             set_valve_img(ui->AV_servo_N2O, packetAV_downlink.engine_state.servo_N2O+10);
             set_valve_img(ui->AV_servo_fuel, packetAV_downlink.engine_state.servo_fuel+10);
@@ -134,6 +124,7 @@ void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_
             ui->altitude_lcd_gps->display(QString::number((int) packetAV_downlink.gnss_alt));
             if (packetAV_downlink.gnss_alt > altitude_max) altitude_max =packetAV_downlink.gnss_alt;
             ui->altitude_max_lcd_max->display(QString::number(altitude_max));
+            ui->speed_vertical->setText(QString::number(packetAV_downlink.gnss_vertical_speed, 'f', 2));
             // GPS reserve
             ui->AV_latitude_r->setText(QString::number(packetAV_downlink.gnss_lat_r, 'f', 7));
             ui->AV_longitude_r->setText(QString::number(packetAV_downlink.gnss_lon_r, 'f', 7));
@@ -161,7 +152,7 @@ void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_
             //            ui->speed_vertical->setText(QString::number(packet.telemetry.verticalSpeed));
             //            ui->speed_horizontal->setText(QString::number(packet.telemetry.horizontalSpeed));
             update_AV_states((FLIGHTMODE) packetAV_downlink.av_state);
-            std::cout << "xxxxxxxxxxxxxxxxxxxxxxxxAV_state: " << +packetAV_downlink.av_state << std::endl;
+            // std::cout << "xxxxxxxxxxxxxxxxxxxxxxxxAV_state: " << +packetAV_downlink.av_state << std::endl;
 
             //std::cout << "Servo fuel " << +packetAV_downlink.engine_state.servo_fuel << std::endl; 
             //std::cout << "Servo N2O " << +packetAV_downlink.engine_state.servo_N2O << std::endl; 
@@ -170,7 +161,9 @@ void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_
 
             // downrange
              //I have the rocket position: packetAV_downlink.gnss_lat packetAV_downlink.gnss_lon
-            ui->down_range->display(QString::number((int) compute_downrange(packetAV_downlink.gnss_lat, packetAV_downlink.gnss_lon)));
+            int downrange = (int) compute_downrange(packetAV_downlink.gnss_lat, packetAV_downlink.gnss_lon);
+            ui->down_range->display(QString::number(downrange));
+            ui->down_range->setStyleSheet(((downrange < 700)?"color: red;":"color:white"));
 
             logAVTelemetryPacket(&packetAV_downlink);
 

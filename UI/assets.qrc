@@ -83,5 +83,6 @@
     <file>assets/icone_launch.png</file>
     <file>assets/symbol_active.png</file>
     <file>assets/symbol_inactive.png</file>
+    <file>assets/Nordend_logo.png</file>
   </qresource>
 </RCC>
