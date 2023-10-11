@@ -89,6 +89,7 @@ void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_
             if (packetAV_downlink.timestamp < t) ui->AV_timestamp->setStyleSheet("color: red;");
             t = packetAV_downlink.timestamp;
             ui->AV_timestamp->setText(QString::number(packetAV_downlink.timestamp));
+            ui->AV_packet_nbr->setText(QString::number(packetAV_downlink.packet_nbr));
 
             // Set the valves states
             set_valve_img(ui->AV_servo_N2O, packetAV_downlink.engine_state.servo_N2O+10);
@@ -143,8 +144,8 @@ void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_
                      << packetAV_downlink.gnss_lon + idiot2 << ","
                      << packetAV_downlink.gnss_alt + idiot;
                 file.close();
-                idiot += 1000.0;
-                idiot += rand() % 10;
+                idiot += 0.0;
+                idiot += 0; //rand() % 10;
             } else {
                 std::cerr << "Error: Could not open file " << "/var/www/html/traj.csv" << std::endl;
             }
@@ -211,7 +212,7 @@ void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_
             ui->GSE_pressure->setText(QString::number(packetGSE_downlink.tankPressure, 'f', 2) + " bar");
             ui->GSE_temp->setText(QString::number(packetGSE_downlink.tankTemperature, 'f', 2) + " °C");
             ui->filling_pressure->setText(QString::number(packetGSE_downlink.fillingPressure, 'f', 2) + " bar");
-            ui->safe_config_label->setVisible(packetGSE_downlink.status.vent == INACTIVE && packetGSE_downlink.status.fillingN2O == INACTIVE && !packetAV_downlink.engine_state.pressurize && !packetAV_downlink.engine_state.vent_fuel && !packetAV_downlink.engine_state.vent_N2O && !packetAV_downlink.engine_state.servo_fuel && !packetAV_downlink.engine_state.servo_N2O);
+            ui->safe_config_label->setVisible(packetGSE_downlink.status.vent == INACTIVE && packetGSE_downlink.status.fillingN2O == INACTIVE && (((FLIGHTMODE)packetAV_downlink.av_state == FLIGHTMODE::DESCENT_MODE)?packetAV_downlink.engine_state.pressurize:!packetAV_downlink.engine_state.pressurize) && !packetAV_downlink.engine_state.vent_fuel && !packetAV_downlink.engine_state.vent_N2O && !packetAV_downlink.engine_state.servo_fuel && !packetAV_downlink.engine_state.servo_N2O);
             
             ui->load_cell->setText(QString::number(packetGSE_downlink.loadcellRaw));
             ui->load_cell_tare->setText(QString::number(packetGSE_downlink.loadcellRaw - tare_val));
