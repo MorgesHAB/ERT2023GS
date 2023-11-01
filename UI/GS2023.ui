@@ -1196,7 +1196,7 @@ font: 9pt &quot;Verdana&quot;;
       </rect>
      </property>
      <property name="text">
-      <string>-42</string>
+      <string>91</string>
      </property>
     </widget>
     <widget class="QLabel" name="load_cell_label_2">

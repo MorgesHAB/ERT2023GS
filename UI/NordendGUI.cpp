@@ -137,23 +137,26 @@ void NordendGUI::handleSerialRxPacket(uint8_t packetId, uint8_t *dataIn, uint32_
             std::ofstream file("/var/www/html/traj.csv", std::ios_base::app);
             static float idiot = 0.0;
             static float idiot2 = 0.0;
-            if (file.is_open()) {
-                // Write the received data to the file in the specified format
-                file << std::fixed << std::setprecision(7) << std::endl 
-                     << packetAV_downlink.gnss_lat + idiot2 << ","
-                     << packetAV_downlink.gnss_lon + idiot2 << ","
-                     << packetAV_downlink.gnss_alt + idiot;
-                file.close();
-                idiot += 0.0;
-                idiot += 0; //rand() % 10;
-            } else {
-                std::cerr << "Error: Could not open file " << "/var/www/html/traj.csv" << std::endl;
+            if (packetAV_downlink.gnss_alt > 200.0) {
+                if (file.is_open()) {
+                        // Write the received data to the file in the specified format
+                        file << std::fixed << std::setprecision(7) << std::endl 
+                            << packetAV_downlink.gnss_lat + idiot2 << ","
+                            << packetAV_downlink.gnss_lon + idiot2 << ","
+                            << packetAV_downlink.gnss_alt + idiot;
+                        file.close();
+                        idiot += 0.0;
+                        idiot += 0; //rand() % 10;
+                    } else {
+                        std::cerr << "Error: Could not open file " << "/var/www/html/traj.csv" << std::endl;
+                }
             }
+  
 
             //            ui->speed_vertical->setText(QString::number(packet.telemetry.verticalSpeed));
             //            ui->speed_horizontal->setText(QString::number(packet.telemetry.horizontalSpeed));
             update_AV_states((FLIGHTMODE) packetAV_downlink.av_state);
-            // std::cout << "xxxxxxxxxxxxxxxxxxxxxxxxAV_state: " << +packetAV_downlink.av_state << std::endl;
+            std::cout << "xxxxxxxxxxxxxxxxxxxxxxxxAV_state: " << +packetAV_downlink.av_state << std::endl;
 
             //std::cout << "Servo fuel " << +packetAV_downlink.engine_state.servo_fuel << std::endl; 
             //std::cout << "Servo N2O " << +packetAV_downlink.engine_state.servo_N2O << std::endl; 
@@ -742,6 +745,18 @@ void NordendGUI::on_reset_valves_pressed() {
     ui->st_descent->setStyleSheet("color: red;");
     ui->st_abort->setText("X");
     ui->st_abort->setStyleSheet("color: red;");
+
+
+    // GPS
+    ui->altitude_lcd_gps->display(QString::number(0));
+    ui->AV_latitude->setText(0);
+    ui->AV_longitude->setText(0);
+    ui->speed_vertical->setText(0);
+
+    ui->altitude_lcd_gps_r->display(QString::number(0));
+    ui->AV_latitude_r->setText(0);
+    ui->AV_longitude_r->setText(0);
+
 }
 
 void NordendGUI::set_valve_light(QLabel *light, bool condition) {
